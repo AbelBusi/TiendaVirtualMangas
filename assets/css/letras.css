@@ -1,0 +1,15 @@
+.textHeaderShadow {
+    text-shadow: 2px 2px 40px #000;
+}
+
+.textHeader {
+
+    font-weight: bold;
+    color: #fff;
+
+}
+
+.logo {
+    font-weight: bold;
+    color: #efb810;
+}
