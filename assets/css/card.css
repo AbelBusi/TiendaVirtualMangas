@@ -1,12 +1,30 @@
 .containerCard {
     background: #ffffff;
+    text-shadow: 0 5px 10px #0004;
+
 }
 
-.espacioContainer{
+.espacioContainer {
     padding-top: 4%;
 }
 
-.imageCard{
-    width: 600px;
-    height: 600px;
+.imageCard {
+    height: 245px;
+    object-fit: cover;
+    max-width: 100%;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
+}
+
+.sombraDivCard {
+    margin: 25px;
+    height: 400px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2%;
+    box-shadow: 4px 4px 12px #000;
+
 }
