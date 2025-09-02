@@ -22,6 +22,35 @@
     font-size: 55px;
     font-weight: bold;
     font-family: Poppins;
+    opacity: 0;
+    /* empieza invisible */
+    transform: translateY(50px);
+    /* desde abajo */
+    transition: all 0.8s ease-out;
 
+
+}
+
+.tituloHeader {
+
+    justify-content: flex-end;
+
+}
+
+/* Cuando se agregue la clase .animate se activa la animación */
+.textTitle.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/*Seeparadores */
+
+.card-link{
+    
+    border-radius: 20%;
+    padding: 6px 6px 6px 6px;
+    background-color: #000;
+    color: #fff;
 
 }

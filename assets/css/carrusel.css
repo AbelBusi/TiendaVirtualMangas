@@ -3,38 +3,8 @@
 body {
     font-family: Poppins;
     font-size: 12px;
-    background-color: #000;
+    background-color: #fff;
 }
-
-/* HEADER GENERAL */
-header {
-    max-width: 100%;
-    position: relative;
-    z-index: 100;
-}
-
-a{
-    font-family: Poppins;
-}
-
-/* Hover moderno */
-header a.nav-link:hover {
-    background: #efb810;
-    color: #111;
-    transform: translateY(-2px); /* pequeño movimiento hacia arriba */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
-/* Logo imagen */
-.navbar-brand img {
-    transition: transform 0.3s ease;
-}
-
-.navbar-brand img:hover {
-    transform: scale(1.1);
-}
-
-
 /* slider section  */
 
 .slider {

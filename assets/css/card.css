@@ -1,7 +1,6 @@
 .containerCard {
     background: #ffffff;
-    text-shadow: 0 5px 10px #0004;
-
+    margin-bottom: 10%;
 }
 
 .espacioContainer {
@@ -14,17 +13,62 @@
     max-width: 100%;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
-
 }
 
 .sombraDivCard {
-    margin: 25px;
-    height: 400px;
-    width: 300px;
-    display: flex;
+    margin-top: 6%;
     justify-content: center;
     align-items: center;
-    margin-left: 2%;
-    box-shadow: 4px 4px 12px #000;
+}
 
+.cardIndividual {
+    margin: auto;
+    height: 450px;
+    width: auto;
+    position: relative;
+    border-radius: 6%;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease-out;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+}
+
+.cardIndividual.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cardIndividual:hover .imageCard {
+    transform: scale(1.1);
+}
+
+.pEntrar {
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 0.8rem;
+}
+
+.botonCard {
+    flex: 0; 
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+.card-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #efb810;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.card-link:hover {
+    background-color: #000;
+    color: #ffffff;
 }
