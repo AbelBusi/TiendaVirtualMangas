@@ -52,5 +52,30 @@
     padding: 6px 6px 6px 6px;
     background-color: #000;
     color: #fff;
+    
 
+}
+
+.card-linkA {
+    border-radius: 6%;
+    padding: 6px 12px;
+    background-color: #efb810;
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    justify-content: center; 
+    align-items: center;    
+    text-align: center;
+}
+
+.card-linkA:hover{
+    background-color: #000;
+    color: #fff;
+}
+
+
+
+.textoLinkCard{
+    color: #fff;
+    text-decoration: none;
 }

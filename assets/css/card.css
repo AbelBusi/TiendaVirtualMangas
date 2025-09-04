@@ -28,6 +28,7 @@
     position: relative;
     border-radius: 6%;
     opacity: 0;
+    border-color: #000;
     transform: translateY(50px);
     transition: all 0.8s ease-out;
 
@@ -58,6 +59,7 @@
 }
 
 .card-link {
+    height: 50px;
     display: inline-block;
     padding: 0.5rem 1rem;
     background-color: #efb810;
@@ -71,4 +73,10 @@
 .card-link:hover {
     background-color: #000;
     color: #ffffff;
+}
+
+.cardStore{
+    height: 420px;
+    width: 300px;
+    object-fit: cover;
 }

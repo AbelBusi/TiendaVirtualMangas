@@ -20,9 +20,60 @@
     <link rel="stylesheet" href="../assets/css/letras.css">
     <link rel="stylesheet" href="../assets/css/card.css">
     <link rel="stylesheet" href="../assets/css/apiContainer.css">
+    <link rel="stylesheet" href="../assets/css/libroDetalle.css">
+    <link rel="stylesheet" href="../assets/css/botones.css">
 </head>
 
+
+
+
 <body>
+
+    <!-- Carrito de Compras -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 id="offcanvasRightLabel" class="fw-bold">🛒 Carrito de Compras</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+
+        <div class="offcanvas-body d-flex flex-column">
+
+            <!-- Producto -->
+            <div class="card mb-3 shadow-sm border-0 rounded-3">
+                <div class="row g-0 align-items-center">
+                    <div class="col-4">
+                        <img src="../assets/media/images/mangas/Haruka_17_09.jpg" class="img-fluid rounded-start"
+                            alt="Portada libro">
+                    </div>
+                    <div class="col-8">
+                        <div class="card-body p-2">
+                            <h6 class="card-title fw-semibold mb-1">Doraemon Vol. 1</h6>
+                            <p class="text-muted small mb-2">Precio: <span class="fw-bold text-dark">S/ 25.00</span></p>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text cantidadCaja">Cantidad</span>
+                                <input type="number" class="form-control cantidad" value="1" min="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div class="mt-auto border-top pt-3">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="fw-semibold">Total:</span>
+                    <span class="fw-bold fs-5 textoPrecio" id="totalCarrito">S/ 25.00</span>
+                </div>
+                <div class="d-grid">
+                    <button class="btn carrito">
+                        <i class="fa fa-credit-card me-2"></i> Generar compra
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark">
@@ -59,207 +110,49 @@
                         <li class="nav-item mx-2">
                             <a class="nav-link textHeader textHeaderShadow " href="#">Contactarnos</a>
                         </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link textHeader textHeaderShadow " href="#">INICIAR SESION</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-
     <section class="py-5">
-
-        <div class="container-fluid py-4">
-
-            <!-- 🔹 Buscador -->
-            <div class="row">
-                <div class="col-md-5 mx-auto">
-                    <div class="input-group">
-                        <input class="form-control border-end-0 border" type="search" placeholder="Buscar..."
-                            id="example-search-input">
-                        <button class="btn btn-outline-secondary bg-white border-start-0" type="button">
-                            <i class="fa fa-search"></i>
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6">
+                    <img class="card-img-top mb-5 mb-md-0" src="../assets/media/images/mangas/Doraemon_Plus_04.jpg"
+                        alt="..." />
+                </div>
+                <div class="col-md-6">
+                    <div class="small mb-1">SKU: BST-498</div>
+                    <h1 class="display-5 fw-bolder">Shop item template</h1>
+                    <div class="fs-5 mb-5">
+                        <span class="text-decoration-line-through">$45.00</span>
+                        <span>$40.00</span>
+                    </div>
+                    <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem
+                        quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis
+                        delectus ipsam minima ea iste laborum vero?</p>
+                    <div class="d-flex">
+                        <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
+                            style="max-width: 3rem" />
+                        <button class="btn btn-outline-dark flex-shrink-0 carrito" type="button"
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <i class="bi-cart-fill me-1"></i>
+                            Add to cart
                         </button>
                     </div>
                 </div>
             </div>
-
-            <!-- 🔹 Botón mostrar/ocultar filtros -->
-            <div class="text-center mt-4">
-                <button class="btn btn-outline-primary btn-lg px-4" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#filtrosCollapse" aria-expanded="false" aria-controls="filtrosCollapse">
-                    <i class="fa fa-sliders me-2"></i> Mostrar / Ocultar Filtros
-                </button>
-            </div>
-
-            <!-- 🔹 Contenedor de filtros con collapse -->
-            <div class="collapse mt-4" id="filtrosCollapse">
-                <div class="row">
-                    <div class="col-md-10 mx-auto">
-                        <div class="p-4 border rounded shadow-sm bg-light">
-
-                            <h4 class="fw-bold mb-4 text-center">Filtros Avanzados</h4>
-
-                            <div class="row g-4">
-                                <!-- Categoría -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Categoría</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Shonen</option>
-                                        <option>Shojo</option>
-                                        <option>Seinen</option>
-                                        <option>Josei</option>
-                                        <option>Isekai</option>
-                                        <option>Terror</option>
-                                        <option>Comedia</option>
-                                        <option>Drama</option>
-                                        <option>Acción</option>
-                                        <option>Romance</option>
-                                        <option>Aventura</option>
-                                        <option>Deportes</option>
-                                        <option>Slice of Life</option>
-                                    </select>
-                                </div>
-
-                                <!-- Precio -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Precio</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Menos de $10</option>
-                                        <option>$10 - $20</option>
-                                        <option>$20 - $50</option>
-                                        <option>$50 - $100</option>
-                                        <option>Más de $100</option>
-                                    </select>
-                                </div>
-
-                                <!-- Valoración -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Valoración</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>⭐⭐⭐⭐⭐</option>
-                                        <option>⭐⭐⭐⭐</option>
-                                        <option>⭐⭐⭐</option>
-                                        <option>⭐⭐</option>
-                                        <option>⭐</option>
-                                    </select>
-                                </div>
-
-                                <!-- Estado -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Estado</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Disponible</option>
-                                        <option>Agotado</option>
-                                        <option>Próximamente</option>
-                                        <option>En preventa</option>
-                                    </select>
-                                </div>
-
-                                <!-- Idioma -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Idioma</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Español</option>
-                                        <option>Inglés</option>
-                                        <option>Japonés</option>
-                                        <option>Francés</option>
-                                        <option>Alemán</option>
-                                        <option>Coreano</option>
-                                    </select>
-                                </div>
-
-                                <!-- Año -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Año de publicación</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>2025</option>
-                                        <option>2024</option>
-                                        <option>2023</option>
-                                        <option>2020 - 2022</option>
-                                        <option>2010 - 2019</option>
-                                        <option>Antes del 2010</option>
-                                    </select>
-                                </div>
-
-                                <!-- Editorial -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Editorial</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Shueisha</option>
-                                        <option>Kodansha</option>
-                                        <option>Shogakukan</option>
-                                        <option>Kadokawa</option>
-                                        <option>Square Enix</option>
-                                        <option>Norma Editorial</option>
-                                        <option>Ivrea</option>
-                                        <option>Planeta Cómic</option>
-                                    </select>
-                                </div>
-
-                                <!-- Formato -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Formato</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Tomo simple</option>
-                                        <option>Tomo doble</option>
-                                        <option>Edición coleccionista</option>
-                                        <option>Box Set</option>
-                                        <option>Digital</option>
-                                    </select>
-                                </div>
-
-                                <!-- Extras -->
-                                <div class="col-12">
-                                    <label class="form-label fw-bold">Extras</label>
-                                    <div class="d-flex flex-wrap gap-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="filtro-ofertas">
-                                            <label class="form-check-label" for="filtro-ofertas">Ofertas</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="filtro-novedades">
-                                            <label class="form-check-label" for="filtro-novedades">Novedades</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="filtro-populares">
-                                            <label class="form-check-label" for="filtro-populares">Más populares</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="filtro-limitadas">
-                                            <label class="form-check-label" for="filtro-limitadas">Ediciones
-                                                limitadas</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="filtro-digital">
-                                            <label class="form-check-label" for="filtro-digital">Disponible en
-                                                digital</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Botón grande para aplicar -->
-                                <div class="col-12 mt-4">
-                                    <button class="btn btn-primary btn-lg w-100 py-3 fw-bold">
-                                        <i class="fa fa-filter me-2"></i> Aplicar Filtros
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-        <h1 class="text-center textTitle">Mangas mas vendidos</h1>
+    </section>
+    <!-- Related items section-->
+    <section class="py-5 bg-light container-fluid">
+
+        <h1 class="text-center textTitle">Mangas relacionados</h1>
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 container-fluid">
 
@@ -276,8 +169,9 @@
                         <button class="card-link">
                             <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
                         </button>
-                        <a class="card-linkA" href="../store/libro.html"><i class="fa fa-circle-info me-1"></i> Agregar
-                            al carrito</a>
+                        <button class="card-link">
+                            <i class="fa fa-circle-info me-1"></i> Información
+                        </button>
                     </div>
                 </div>
             </div>
@@ -289,14 +183,15 @@
                         alt="Majin Tantei Nogami Neuro 09">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Majin Tantei Nogami Neuro 09</h5>
-                        <span class="fw-bold text-success">$18.00</span>
+                        <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
                         <button class="card-link">
                             <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
                         </button>
-                        <a class="card-linkA" href="../store/libro.html"><i class="fa fa-circle-info me-1"></i> Agregar
-                            al carrito</a>
+                        <button class="card-link">
+                            <i class="fa fa-circle-info me-1"></i> Información
+                        </button>
                     </div>
                 </div>
             </div>
@@ -307,14 +202,15 @@
                     <img src="../assets/media/images/mangas/028 [THX].jpg" class="imageCard" alt="Manga 028">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Manga 028</h5>
-                        <span class="fw-bold text-success">$12.00</span>
+                        <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
                         <button class="card-link">
                             <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
                         </button>
-                        <a class="card-linkA" href="../store/libro.html"><i class="fa fa-circle-info me-1"></i> Agregar
-                            al carrito</a>
+                        <button class="card-link">
+                            <i class="fa fa-circle-info me-1"></i> Información
+                        </button>
                     </div>
                 </div>
             </div>
@@ -326,95 +222,22 @@
                         class="imageCard" alt="Teizuki Yuurei Tsuki 01">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Teizuki Yuurei Tsuki 01</h5>
-                        <span class="fw-bold text-success">$20.00</span>
+                        <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
                         <button class="card-link">
                             <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
                         </button>
-                        <a class="card-linkA" href="../store/libro.html"><i class="fa fa-circle-info me-1"></i> Agregar
-                            al carrito</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 5 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/Elfen Lied - 08a [THANKS].jpg" class="imageCard"
-                        alt="Elfen Lied 08a">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Elfen Lied 08a</h5>
-                        <span class="fw-bold text-success">$22.00</span>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
                         <button class="card-link">
-                            <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
+                            <i class="fa fa-circle-info me-1"></i> Información
                         </button>
-                        <a class="card-linkA" href="../store/libro.html"><i class="fa fa-circle-info me-1"></i> Agregar
-                            al carrito</a>
                     </div>
-                </div>
-            </div>
-
-            <!-- MANGA 6 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/Elfen Lied - 01.jpg" class="imageCard" alt="Elfen Lied 01">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Elfen Lied 01</h5>
-                        <span class="fw-bold text-success">$19.00</span>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link">
-                            <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
-                        </button>
-                        <a class="card-linkA" href="../store/libro.html"><i class="fa fa-circle-info me-1"></i> Agregar
-                            al carrito</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 7 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/HXH 02.jpg" class="imageCard" alt="Hunter x Hunter 02">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Hunter x Hunter 02</h5>
-                        <span class="fw-bold text-success">$17.00</span>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link">
-                            <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
-                        </button>
-                        <a class="card-linkA" href="../store/libro.html"><i class="fa fa-circle-info me-1"></i> Agregar
-                            al carrito</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 8 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/Haruka_17_15.jpg" class="imageCard" alt="Haruka 17 15">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Haruka 17 15</h5>
-                        <span class="fw-bold text-success">$14.00</span>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link">
-                            <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
-                        </button>
-                        <a class="card-linkA" href="../store/libro.html"><i class="fa fa-circle-info me-1"></i> Agregar
-                            al carrito</a>
-                    </div>
-
                 </div>
             </div>
 
         </div>
-
     </section>
+
 
     <footer class="footer">
 
@@ -581,6 +404,10 @@
 
     </footer>
 
+
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
@@ -590,7 +417,10 @@
         crossorigin="anonymous"></script>
 
 
+    <script src="../assets/js/slider.js"></script>
+    <script src="../assets/js/apiPrueba.js"></script>
     <script src="../assets/js/movimiento.js"></script>
+    <script src="../assets/js/carrito.js"></script>
 
 
 </body>
