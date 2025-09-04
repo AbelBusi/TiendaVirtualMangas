@@ -1,30 +1,141 @@
-.padre {
-
-    justify-content: center;
+/* Tarjetas generales */
+.anime-card {
+    background: #fff;
+    border-left: 6px solid #efb810;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    min-height: 350px;
+    /* suficiente para todas */
     display: flex;
-    height: 50%;
-    width: 50%;
-    /* cubre todo el div */
-    background-position: center;
-    margin-bottom: 4%;
-    border-radius: 5%;
-    box-shadow: 4px 4px 4px #000
-    
-
-
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
 }
 
-.container-centerApi {
-
-    display: grid;
-    justify-items: center;
-    margin-bottom: 2%;
-    padding-bottom: 2%;
-
+/* Hover efecto */
+.anime-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.texto{
+/* Imagenes normales (Manga y Anime Popular) */
+.anime-card img:not(.large-img) {
+    max-height: 200px;
+    width: auto;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 15px 0;
+}
 
-    color: #000;
+/* Imagenes grandes para Personaje Random e Imagen Random */
+.large-img {
+    height: 100px;
+    width: 100%;
+    /* se ajusta al ancho del div */
+    object-fit: cover;
+    /* recorta sin deformar */
+    border-radius: 12px;
+    margin: 15px 0;
+}
 
+/* Imagen circular del personaje grande */
+#char-img {
+    border-radius: 50%;
+    width: 400px;
+    height: 70%;
+    object-fit: cover;
+    display: block;
+    margin: 20px auto;
+    border: 3px solid #ddd;
+}
+
+/* Títulos */
+.anime-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.anime-card h5 {
+    font-weight: 500;
+    color: #111;
+    margin-top: 10px;
+}
+
+.fst-italic {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.4rem;
+}
+
+/* Categorías manga */
+.categorias-manga {
+    background: #efb810;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 6px 6px 0px #111;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.categorias-manga h4 {
+    font-family: 'Poppins';
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 20px;
+}
+
+.categorias-manga .badge {
+    font-size: 1rem;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 0px #111;
+}
+
+.categorias-manga .badge:hover {
+    transform: scale(1.1) rotate(-2deg);
+    box-shadow: 4px 4px 0px #111;
+    filter: brightness(1.1);
+}
+
+/* Botón recargar */
+.btn-generat {
+    background: linear-gradient(90deg, #efb810, #efb810);
+    color: #fff;
+    font-weight: 600;
+    padding: 14px 35px;
+    font-size: 1.05rem;
+    border-radius: 50px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-generat:hover {
+    transform: scale(1.05);
+}
+
+/* Contenedor principal */
+.padre {
+    padding: 30px 15px;
+    background: #fff;
+}
+
+/* Títulos principales */
+.textTitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 15px;
+}
+
+/* Subtítulos */
+.lead {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 35px;
 }

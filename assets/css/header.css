@@ -11,13 +11,28 @@ a {
 }
 
 /* Hover moderno */
-header a.nav-link:hover {
-    background: #efb810;
-    color: #111;
-    transform: translateY(-2px);
+header a.nav-link {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
 
-    /* pequeño movimiento hacia arriba */
+header a.nav-link:hover {
+    background: #fff3c4;
+    color: #111 !important;
+    transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Activo */
+header a.nav-link.active {
+    background: #000;
+    color: #fff !important;
+    font-weight: bold;
+    border-radius: 8px;
 }
 
 /* Logo imagen */

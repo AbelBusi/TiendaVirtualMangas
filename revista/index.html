@@ -14,20 +14,26 @@
 
     <link rel="shortcut icon" href="../assets/media/images/iconos/iconoOnePieceCHAD.png" />
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
+
     <link rel="stylesheet" href="../assets/css/carrusel.css">
     <link rel="stylesheet" href="../assets/css/header.css">
     <link rel="stylesheet" href="../assets/css/footer.css">
     <link rel="stylesheet" href="../assets/css/letras.css">
     <link rel="stylesheet" href="../assets/css/card.css">
     <link rel="stylesheet" href="../assets/css/apiContainer.css">
-    <link rel="stylesheet" href="../assets/css/libroDetalle.css">
+    <link rel="stylesheet" href="../assets/css/mangas.css">
     <link rel="stylesheet" href="../assets/css/botones.css">
-    <link rel="stylesheet" href="../assets/css/login.css">
+
+
 </head>
 
-
 <style>
-    .shop {
+    .espac {
+        margin-top: 4%;
         margin-bottom: 4%;
     }
 </style>
@@ -53,12 +59,12 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
                     <ul class="navbar-nav mb-2 mb-lg-0 text-center">
                         <li class="nav-item mx-2">
-                            <a class="nav-link active textHeader textHeaderShadow" href="../store/index.html">
+                            <a class="nav-link  textHeader textHeaderShadow" href="../store/index.html">
                                 <i class="fas fa-book"></i> Mangas
                             </a>
                         </li>
                         <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="../revista/index.html">
+                            <a class="nav-link active textHeader textHeaderShadow" href="index.html">
                                 <i class="fas fa-newspaper"></i> Revistas
                             </a>
                         </li>
@@ -88,137 +94,154 @@
         </nav>
     </header>
 
-
-    <main class="shop">
-        <div class="container">
-            <!-- Encabezado -->
-            <div class="checkout-header text-center py-5">
-                <img class="d-block mx-auto mb-3 rounded-circle shadow"
-                    src="../assets/media/images/iconos/40-404243_render-hunter-x-hunter-hunter-x-hunter-render.png"
-                    alt="Checkout" width="90" height="90">
-                <h1 class="fw-bold">Finaliza tu compra</h1>
-                <p class="text-muted">Completa tus datos para recibir tus mangas favoritos</p>
+    <main class="container espac">
+        <!-- Hero -->
+        <div class="p-5 mb-4 rounded text-dark bg-warning bg-opacity-25 shadow-sm">
+            <div class="col-lg-6 px-0">
+                <h1 class="display-4 fst-italic text-dark">Explorando el mundo del anime</h1>
+                <p class="lead my-3">Descubre historias, personajes y aventuras que han marcado generaciones en el mundo
+                    del anime y manga.</p>
+                <p class="lead mb-0"><a href="#" class="fw-bold text-dark text-decoration-underline">Seguir
+                        leyendo...</a></p>
             </div>
+        </div>
 
-            <div class="row g-4">
-                <!-- Carrito -->
-                <div class="col-md-4 order-2">
-                    <div class="card p-3 shadow-sm rounded-4">
-                        <h4 class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="text-dark">Tu carrito</span>
-                            <span class="badge bg-danger rounded-pill">3</span>
-                        </h4>
-
-                        <ul class="list-group mb-3 rounded-3 overflow-hidden">
-                            <li class="list-group-item d-flex justify-content-between">
-                                <div>
-                                    <h6 class="my-0 fw-semibold">Naruto Vol.1</h6>
-                                    <small class="text-muted">Edición Shonen Jump</small>
-                                </div>
-                                <span>$12</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <div>
-                                    <h6 class="my-0 fw-semibold">One Piece Vol.2</h6>
-                                    <small class="text-muted">Saga East Blue</small>
-                                </div>
-                                <span>$8</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <div>
-                                    <h6 class="my-0 fw-semibold">Death Note Vol.3</h6>
-                                    <small class="text-muted">Black Edition</small>
-                                </div>
-                                <span>$5</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between bg-light">
-                                <div class="text-success">
-                                    <h6 class="my-0">Código aplicado</h6>
-                                    <small>OTAKU2024</small>
-                                </div>
-                                <span class="text-success">- $5</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between fw-bold">
-                                <span>Total</span>
-                                <span>$20</span>
-                            </li>
-                        </ul>
-
-                        <form class="input-group">
-                            <input type="text" class="form-control rounded-start-pill" placeholder="Código promo">
-                            <button type="submit" class="btn btn-dark rounded-end-pill carrito">Aplicar</button>
-                        </form>
+        <!-- Tarjetas destacadas -->
+        <div class="row mb-4 g-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 rounded-3 overflow-hidden h-100 bg-light">
+                    <div class="row g-0">
+                        <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
+                            <strong class="text-warning mb-2">Shonen</strong>
+                            <h3 class="mb-2">Doraemon Plus</h3>
+                            <div class="text-muted mb-2">Mar 10</div>
+                            <p>Nobita y Doraemon enfrentan divertidos problemas diarios con inventos futuristas.</p>
+                            <a href="#" class="fw-semibold text-warning text-decoration-none">Seguir leyendo &rarr;</a>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-center">
+                            <img src="../assets/media/images/mangas/Doraemon_Plus_04.jpg" class="img-fluid rounded-end"
+                                alt="Doraemon">
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Formulario -->
-                <div class="col-md-8 order-1">
-                    <div class="card p-4 shadow-sm rounded-4">
-                        <h4 class="mb-4 fw-bold">Datos de facturación</h4>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Nombre</label>
-                                <input type="text" class="form-control" placeholder="Ej: Luffy">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Apellido</label>
-                                <input type="text" class="form-control" placeholder="Ej: Monkey D.">
-                            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 rounded-3 overflow-hidden h-100 bg-light">
+                    <div class="row g-0">
+                        <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
+                            <strong class="text-warning mb-2">Misterio</strong>
+                            <h3 class="mb-2">Teizuki Yuurei</h3>
+                            <div class="text-muted mb-2">Feb 28</div>
+                            <p>Misterios de fantasmas y espíritus en un mundo donde lo sobrenatural convive con humanos.
+                            </p>
+                            <a href="#" class="fw-semibold text-warning text-decoration-none">Seguir leyendo &rarr;</a>
                         </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" placeholder="you@example.com">
+                        <div class="col-md-4 d-flex align-items-center">
+                            <img src="../assets/media/images/mangas/2K Teizuki Yuurei Tsuki - 01 [NOT FULL].jpg"
+                                class="img-fluid rounded-end" alt="Teizuki Yuurei">
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Dirección</label>
-                            <input type="text" class="form-control" placeholder="Av. Otaku 123">
-                        </div>
+        <!-- Últimas entradas -->
+        <div class="row g-5">
+            <div class="col-md-8">
+                <h3 class="pb-3 mb-4 fst-italic border-bottom text-warning">Últimas entradas</h3>
 
-                        <hr class="my-4">
+                <article class="blog-post mb-5">
+                    <h2 class="display-5 mb-1 text-dark">Majin Tantei Nogami Neuro</h2>
+                    <p class="blog-post-meta text-muted">Enero 15, 2024 por <a href="#"
+                            class="text-warning text-decoration-none">Autor Anime</a></p>
+                    <p>Un detective con poderes sobrenaturales resuelve casos extraños mientras disfruta de deliciosos
+                        misterios.</p>
+                    <hr>
+                    <p>Neuro combina ingenio y humor, mostrando un mundo donde lo imposible se vuelve cotidiano.</p>
+                </article>
 
-                        <h4 class="mb-3 fw-bold">Método de pago</h4>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="pago" checked>
-                            <label class="form-check-label">Tarjeta de crédito</label>
-                        </div>
-                        <div class="form-check mb-4">
-                            <input class="form-check-input" type="radio" name="pago">
-                            <label class="form-check-label">PayPal</label>
-                        </div>
+                <article class="blog-post mb-5">
+                    <h2 class="display-5 mb-1 text-dark">Elfen Lied</h2>
+                    <p class="blog-post-meta text-muted">Diciembre 10, 2023 por <a href="#"
+                            class="text-warning text-decoration-none">Autor Manga</a></p>
+                    <p>Historia dramática y emotiva que explora los dilemas éticos y humanos de los seres especiales
+                        llamados Diclonius.</p>
+                    <blockquote class="blockquote bg-warning bg-opacity-10 p-3 rounded">
+                        <p>"Entre violencia y ternura, se revelan los secretos más profundos de la humanidad."</p>
+                    </blockquote>
+                    <p>Elfen Lied combina acción y tragedia con un mensaje profundo sobre la aceptación y la empatía.
+                    </p>
+                </article>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Nombre en tarjeta</label>
-                                <input type="text" class="form-control" placeholder="Ej: Monkey D. Luffy">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Número de tarjeta</label>
-                                <input type="text" class="form-control" placeholder="1234 5678 9012 3456">
-                            </div>
-                        </div>
+                <article class="blog-post mb-5">
+                    <h2 class="display-5 mb-1 text-dark">Hunter x Hunter</h2>
+                    <p class="blog-post-meta text-muted">Enero 20, 2024 por <a href="#"
+                            class="text-warning text-decoration-none">Fan Anime</a></p>
+                    <p>Gon Freecss emprende un viaje para convertirse en cazador y descubrir el paradero de su padre.
+                    </p>
+                    <ul>
+                        <li>Acción intensa y estrategia en cada enfrentamiento.</li>
+                        <li>Personajes memorables y desarrollo profundo.</li>
+                        <li>Mundos imaginativos y sorprendentes.</li>
+                    </ul>
+                </article>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Expira</label>
-                                <input type="text" class="form-control" placeholder="MM/AA">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">CVV</label>
-                                <input type="text" class="form-control" placeholder="123">
-                            </div>
-                        </div>
+                <nav class="blog-pagination mb-5" aria-label="Pagination">
+                    <a class="btn btn-outline-warning rounded-pill me-2" href="#">Anteriores</a>
+                    <a class="btn btn-outline-secondary rounded-pill disabled" aria-disabled="true">Nuevos</a>
+                </nav>
+            </div>
 
-                        <button class="btn btn-primary btn-lg w-100 mt-3 rounded-pill carrito" type="submit">
-                            <i class="fas fa-shopping-cart me-2"></i> Finalizar compra
-                        </button>
+            <!-- Sidebar -->
+            <div class="col-md-4">
+                <div class="position-sticky" style="top: 2rem;">
+                    <div class="p-4 mb-3 bg-warning bg-opacity-10 rounded">
+                        <h4 class="fst-italic text-dark">Acerca de</h4>
+                        <p class="mb-0">Explora reseñas de mangas, curiosidades de anime y recomendaciones para los fans
+                            más apasionados.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="fst-italic text-warning">Entradas recientes</h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
+                                    <img src="../assets/media/images/mangas/Elfen Lied - 08a [THANKS].jpg"
+                                        class="rounded" height="96" width="100" alt="Elfen Lied">
+                                    <div>
+                                        <h6 class="mb-0 text-dark">Elfen Lied Vol. 8</h6>
+                                        <small class="text-muted">Feb 5, 2024</small>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
+                                    <img src="../assets/media/images/mangas/HXH 02.jpg" class="rounded" height="96"
+                                        width="100" alt="HXH">
+                                    <div>
+                                        <h6 class="mb-0 text-dark">Hunter x Hunter Vol. 2</h6>
+                                        <small class="text-muted">Ene 20, 2024</small>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
+                                    <img src="../assets/media/images/mangas/Haruka_17_01.jpg" class="rounded"
+                                        height="96" width="100" alt="Haruka">
+                                    <div>
+                                        <h6 class="mb-0 text-dark">Haruka Vol. 1</h6>
+                                        <small class="text-muted">Ene 10, 2024</small>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
 
     <footer class="footer">
 
@@ -282,8 +305,7 @@
                                 <div class="col-xs-12 col-lg-4">
                                     <div class="widget p-3 p-md-4 p-xxl-5">
                                         <h4 class="widget-title mb-4">Horarios</h4>
-                                        <p class="mb-4">Atendemos con la mejor energía para los fanáticos del manga
-                                            y
+                                        <p class="mb-4">Atendemos con la mejor energía para los fanáticos del manga y
                                             anime.</p>
                                         <div>
                                             <div class="row mb-1">
@@ -394,11 +416,49 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
 
-    <script src="../assets/js/slider.js"></script>
-    <script src="../assets/js/apiPrueba.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tablaMangas').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/2.0.8/i18n/es-ES.json"
+                },
+                "responsive": true
+            });
+        });
+    </script>
+
+    <script>
+        // Seleccionamos todos los botones de agregar al carrito
+        const cartButtons = document.querySelectorAll(".card-link[data-bs-target='#offcanvasRight']");
+
+        cartButtons.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault(); // Evita abrir el offcanvas inmediatamente
+
+                // Mostrar alerta con SweetAlert2
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Producto agregado!',
+                    text: 'Se ha agregado al carrito correctamente.',
+                    confirmButtonText: 'Ver carrito'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Abrir offcanvas manualmente
+                        const offcanvasEl = document.querySelector(btn.dataset.bsTarget);
+                        const bsOffcanvas = new bootstrap.Offcanvas(offcanvasEl);
+                        bsOffcanvas.show();
+                    }
+                });
+            });
+        });
+
+    </script>
     <script src="../assets/js/movimiento.js"></script>
-    <script src="../assets/js/carrito.js"></script>
 
 
 </body>

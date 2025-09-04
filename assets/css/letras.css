@@ -59,7 +59,7 @@
 .card-linkA {
     border-radius: 6%;
     padding: 6px 12px;
-    background-color: #efb810;
+    background-color: #111;
     color: #fff;
     text-decoration: none;
     display: flex;
@@ -69,7 +69,7 @@
 }
 
 .card-linkA:hover{
-    background-color: #000;
+    background-color: blue;
     color: #fff;
 }
 
