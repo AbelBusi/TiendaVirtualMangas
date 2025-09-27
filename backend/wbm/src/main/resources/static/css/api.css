@@ -1,0 +1,51 @@
+
+.text-gradient {
+      background: #efb810;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .anime-card {
+      transition: transform 0.3s ease;
+      border-radius: 1rem;
+    }
+    .anime-card:hover {
+      transform: translateY(-6px) scale(1.02);
+    }
+
+    /* Estilo polaroid */
+    .polaroid {
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ddd;
+      box-shadow: 5px 5px 15px rgba(0,0,0,0.15);
+      transform: rotate(-2deg);
+    }
+    .polaroid-card:hover .polaroid {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    /* Estilo poster */
+    .poster-card img {
+      border-radius: 20px;
+      transition: transform 0.4s ease;
+    }
+    .poster-card:hover img {
+      transform: scale(1.08);
+    }
+
+    /* Botón mágico */
+    .btn-gradient {
+      background: linear-gradient(90deg, #efb810, #ff6f61);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      transition: 0.3s ease;
+    }
+    .btn-gradient:hover {
+      background: linear-gradient(90deg, #ff6f61, #efb810);
+      transform: scale(1.1);
+    }
+
+

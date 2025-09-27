@@ -17,6 +17,7 @@ public class WbmApplication {
 
 	}
 
+
 	@Bean
 	public CommandLineRunner verificarConexion(DataSource dataSource) {
 		return args -> {

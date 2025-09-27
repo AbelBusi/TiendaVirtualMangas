@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset='utf-8'>
@@ -12,21 +12,22 @@
     <!-- Font Awesome 6 (CDN) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-    <link rel="shortcut icon" href="../assets/media/images/iconos/iconoOnePieceCHAD.png" />
+    <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
 
-    <link rel="stylesheet" href="../assets/css/carrusel.css">
-    <link rel="stylesheet" href="../assets/css/header.css">
-    <link rel="stylesheet" href="../assets/css/footer.css">
-    <link rel="stylesheet" href="../assets/css/letras.css">
-    <link rel="stylesheet" href="../assets/css/card.css">
-    <link rel="stylesheet" href="../assets/css/apiContainer.css">
-    <link rel="stylesheet" href="../assets/css/mangas.css">
-    <link rel="stylesheet" href="../assets/css/botones.css">
+    <link rel="stylesheet" th:href="@{/css/carrusel.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/letras.css}">
+    <link rel="stylesheet" th:href="@{/css/card.css}">
+    <link rel="stylesheet" th:href="@{/css/apiContainer.css}">
+    <link rel="stylesheet" th:href="@{/css/mangas.css}">
+    <link rel="stylesheet" th:href="@{/css/botones.css}">
+
 
 
 </head>
@@ -46,7 +47,7 @@
             <div class="card mb-3 shadow-sm border-0 rounded-3">
                 <div class="row g-0 align-items-center">
                     <div class="col-4">
-                        <img src="../assets/media/images/mangas/Haruka_17_09.jpg" class="img-fluid rounded-start"
+                        <img th:src="@{/media/images/mangas/Haruka_17_09.jpg}" class="img-fluid rounded-start"
                             alt="Portada libro">
                     </div>
                     <div class="col-8">
@@ -78,59 +79,7 @@
     </div>
 
 
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container-fluid">
-                <!-- Logo como imagen -->
-                <a class="navbar-brand d-flex align-items-center" href="../index.html">
-                    <img src="../assets/media/images/iconos/iconoOnePieceCHAD.png" alt="Logo" class="logo me-2">
-                    <span class="fw-bold textHeaderShadow tituloHeader">WEbStorm</span>
-                </a>
-
-                <!-- Botón hamburguesa -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Menú colapsable -->
-                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-                    <ul class="navbar-nav mb-2 mb-lg-0 text-center">
-                        <li class="nav-item mx-2">
-                            <a class="nav-link active textHeader textHeaderShadow" href="../store/index.html">
-                                <i class="fas fa-book"></i> Mangas
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="../revista/index.html">
-                                <i class="fas fa-newspaper"></i> Revistas
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="#">
-                                <i class="fas fa-comic"></i> Historietas
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="#">
-                                <i class="fas fa-concierge-bell"></i> Servicios
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="../contactanos/index.html">
-                                <i class="fas fa-envelope"></i> Contactarnos
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="../iniciarSesion/index.html">
-                                <i class="fas fa-user"></i> Iniciar Sesión
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <div th:replace="components/header :: mainHeader"></div>
 
 
     <section class="py-5">
@@ -393,14 +342,14 @@
             <!-- MANGA 1 -->
             <div class="col sombraDivCard">
                 <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/Doraemon_Plus_04.jpg" class="imageCard"
+                    <img th:src="@{/media/images/mangas/Doraemon_Plus_04.jpg}" class="imageCard"
                         alt="Doraemon Plus 04">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Doraemon Plus 04</h5>
                         <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link" type="button" type="button" data-bs-target="#offcanvasRight"
+                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
                             carrito</button>
                         <a class="card-linkA" href="../store/libro.html"><i
@@ -412,14 +361,14 @@
             <!-- MANGA 2 -->
             <div class="col sombraDivCard">
                 <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/Majin_Tantei_Nogami_Neuro_09.jpg" class="imageCard"
+                    <img th:src="@{/media/images/mangas/Majin_Tantei_Nogami_Neuro_09.jpg}" class="imageCard"
                         alt="Majin Tantei Nogami Neuro 09">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Majin Tantei Nogami Neuro 09</h5>
                         <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link" type="button" type="button" data-bs-target="#offcanvasRight"
+                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
                             carrito</button>
                         <a class="card-linkA" href="../store/libro.html"><i
@@ -431,13 +380,13 @@
             <!-- MANGA 3 -->
             <div class="col sombraDivCard">
                 <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/028 [THX].jpg" class="imageCard" alt="Manga 028">
+                    <img th:src="@{/media/images/mangas/028_.jpg}" class="imageCard" alt="Manga 028">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Manga 028</h5>
                         <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link" type="button" type="button" data-bs-target="#offcanvasRight"
+                        <button class="card-link" type="button" data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
                             carrito</button>
                         <a class="card-linkA" href="../store/libro.html"><i
@@ -449,14 +398,14 @@
             <!-- MANGA 4 -->
             <div class="col sombraDivCard">
                 <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/2K Teizuki Yuurei Tsuki - 01 [NOT FULL].jpg"
+                    <img th:src="@{/media/images/mangas/2K_Teizuki_Yuurei_Tsuki_01.jpg}"
                         class="imageCard" alt="Teizuki Yuurei Tsuki 01">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Teizuki Yuurei Tsuki 01</h5>
                         <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link" type="button" type="button" data-bs-target="#offcanvasRight"
+                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
                             carrito</button>
                         <a class="card-linkA" href="../store/libro.html"><i
@@ -468,14 +417,14 @@
             <!-- MANGA 5 -->
             <div class="col sombraDivCard">
                 <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/Elfen Lied - 08a [THANKS].jpg" class="imageCard"
+                    <img th:src="@{/media/images/mangas/Elfen_Lied_08a_.jpg}" class="imageCard"
                         alt="Elfen Lied 08a">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Elfen Lied 08a</h5>
                         <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link" type="button" type="button" data-bs-target="#offcanvasRight"
+                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
                             carrito</button>
                         <a class="card-linkA" href="../store/libro.html"><i
@@ -487,13 +436,13 @@
             <!-- MANGA 6 -->
             <div class="col sombraDivCard">
                 <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/Elfen Lied - 01.jpg" class="imageCard" alt="Elfen Lied 01">
+                    <img th:src="@{/media/images/mangas/Elfen Lied - 01.jpg}" class="imageCard" alt="Elfen Lied 01">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Elfen Lied 01</h5>
                         <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link" type="button" type="button" data-bs-target="#offcanvasRight"
+                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
                             carrito</button>
                         <a class="card-linkA" href="../store/libro.html"><i
@@ -505,13 +454,13 @@
             <!-- MANGA 7 -->
             <div class="col sombraDivCard">
                 <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/HXH 02.jpg" class="imageCard" alt="Hunter x Hunter 02">
+                    <img th:src="@{/media/images/mangas/HXH 02.jpg}" class="imageCard" alt="Hunter x Hunter 02">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Hunter x Hunter 02</h5>
                         <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link" type="button" type="button" data-bs-target="#offcanvasRight"
+                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
                             carrito</button>
                         <a class="card-linkA" href="../store/libro.html"><i
@@ -523,13 +472,13 @@
             <!-- MANGA 8 -->
             <div class="col sombraDivCard">
                 <div class="card cardIndividual">
-                    <img src="../assets/media/images/mangas/Haruka_17_15.jpg" class="imageCard" alt="Haruka 17 15">
+                    <img th:src="@{/media/images/mangas/Haruka_17_15.jpg}" class="imageCard" alt="Haruka 17 15">
                     <div class="card-body pEntrar text-center">
                         <h5 class="card-title">Haruka 17 15</h5>
                         <h2 class="fw-bold">$15.00</h2>
                     </div>
                     <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link" type="button" type="button" data-bs-target="#offcanvasRight"
+                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
                             carrito</button>
                         <a class="card-linkA" href="../store/libro.html"><i
@@ -560,7 +509,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><img src="../assets/media/images/mangas/028 [THX].jpg" alt="One Piece" class="img-fluid"
+                        <td><img th:src="@{/media/images/mangas/028_.jpg}" alt="One Piece" class="img-fluid"
                                 style="width: 50px;"></td>
                         <td>One Piece</td>
                         <td>Eiichiro Oda</td>
@@ -570,7 +519,7 @@
                         <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
                     </tr>
                     <tr>
-                        <td><img src="../assets/media/images/mangas/Doraemon_Plus_04.jpg" alt="Demon Slayer"
+                        <td><img th:src="@{/media/images/mangas/Doraemon_Plus_04.jpg}" alt="Demon Slayer"
                                 class="img-fluid" style="width: 50px;"></td>
                         <td>Demon Slayer: Kimetsu no Yaiba</td>
                         <td>Koyoharu Gotouge</td>
@@ -580,7 +529,7 @@
                         <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
                     </tr>
                     <tr>
-                        <td><img src="../assets/media/images/mangas/Elfen Lied - 01.jpg" alt="Jujutsu Kaisen"
+                        <td><img th:src="@{/media/images/mangas/Elfen Lied - 01.jpg}" alt="Jujutsu Kaisen"
                                 class="img-fluid" style="width: 50px;"></td>
                         <td>Jujutsu Kaisen</td>
                         <td>Gege Akutami</td>
@@ -590,7 +539,7 @@
                         <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
                     </tr>
                     <tr>
-                        <td><img src="../assets/media/images/mangas/Elfen Lied - 08a [THANKS].jpg" alt="Spy x Family"
+                        <td><img th:src="@{/media/images/mangas/Elfen_Lied_08a_.jpg}" alt="Spy x Family"
                                 class="img-fluid" style="width: 50px;"></td>
                         <td>Spy x Family</td>
                         <td>Tatsuya Endo</td>
@@ -600,7 +549,7 @@
                         <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
                     </tr>
                     <tr>
-                        <td><img src="../assets/media/images/mangas/Majin_Tantei_Nogami_Neuro_09.jpg" alt="Chainsaw Man"
+                        <td><img th:src="@{/media/images/mangas/Majin_Tantei_Nogami_Neuro_09.jpg}" alt="Chainsaw Man"
                                 class="img-fluid" style="width: 50px;"></td>
                         <td>Chainsaw Man</td>
                         <td>Tatsuki Fujimoto</td>
@@ -610,7 +559,7 @@
                         <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
                     </tr>
                     <tr>
-                        <td><img src="../assets/media/images/mangas/Elfen Lied - 11.jpg" alt="My Hero Academia"
+                        <td><img th:src="@{/media/images/mangas/Elfen Lied - 11.jpg}" alt="My Hero Academia"
                                 class="img-fluid" style="width: 50px;"></td>
                         <td>My Hero Academia</td>
                         <td>Kohei Horikoshi</td>
@@ -620,7 +569,7 @@
                         <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
                     </tr>
                     <tr>
-                        <td><img src="../assets/media/images/mangas/Haruka_17_15.jpg" alt="Dragon Ball Super"
+                        <td><img th:src="@{/media/images/mangas/Haruka_17_15.jpg}" alt="Dragon Ball Super"
                                 class="img-fluid" style="width: 50px;"></td>
                         <td>Dragon Ball Super</td>
                         <td>Akira Toriyama, Toyotarou</td>
@@ -630,7 +579,7 @@
                         <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
                     </tr>
                     <tr>
-                        <td><img src="../assets/media/images/mangas/Haruka_17_01.jpg" alt="Solo Leveling"
+                        <td><img th:src="@{/media/images/mangas/Haruka_17_01.jpg}" alt="Solo Leveling"
                                 class="img-fluid" style="width: 50px;"></td>
                         <td>Solo Leveling (Novela)</td>
                         <td>Chugong</td>
@@ -640,7 +589,7 @@
                         <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
                     </tr>
                     <tr>
-                        <td><img src="../assets/media/images/mangas/Elfen Lied - 05a [THANKS].jpg" alt="Attack on Titan"
+                        <td><img th:src="@{/media/images/mangas/Elfen_Lied_05a.jpg}" alt="Attack on Titan"
                                 class="img-fluid" style="width: 50px;"></td>
                         <td>Attack on Titan</td>
                         <td>Hajime Isayama</td>
@@ -650,7 +599,7 @@
                         <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
                     </tr>
                     <tr>
-                        <td><img src="../assets/media/images/mangas/Doraemon_Plus_04.jpg" alt="Spy x Family"
+                        <td><img th:src="@{/media/images/mangas/Doraemon_Plus_04.jpg}" alt="Spy x Family"
                                 class="img-fluid" style="width: 50px;"></td>
                         <td>Spy x Family Vol. 2</td>
                         <td>Tatsuya Endo</td>
@@ -774,7 +723,7 @@
                                 <!-- Logo -->
                                 <div class="col-xs-12 col-sm-6 col-lg-4 order-0 order-lg-0">
                                     <div class="footer-logo-wrapper text-center text-sm-start">
-                                        <img src="../assets/media/images/iconos/iconoOnePieceCHAD.png" height="80px"
+                                        <img th:src="@{/media/images/iconos/iconoOnePieceCHAD.png}" height="80px"
                                             alt="Logo Manga Store" class="logo me-2">
                                     </div>
                                 </div>
@@ -879,7 +828,7 @@
         });
 
     </script>
-    <script src="../assets/js/movimiento.js"></script>
+    <script th:src="@{/js/movimiento.js}"></script>
 
 
 </body>
