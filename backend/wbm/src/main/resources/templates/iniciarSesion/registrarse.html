@@ -1,24 +1,26 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Registro - Ecommerce</title>
+    <title>WEbStorm</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/letras.css}">
+
     <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
 </head>
 
 <body class="img js-fullheight fade-in"
-      th:style="'background-image: url(' + @{/media/images/iconos/demoRegister.png} + ')'">
+      th:style="'background-image: url(' + @{/media/images/iconos/dororo.png} + ')'">
 
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center mb-5">
-                <h2 class="heading-section">Crear cuenta</h2>
+                <h2 class="heading-section logo">Registrarme</h2>
                 <a th:href="@{/inicio}" class="px-2 py-2 ml-md-1 rounded" style="color: #ffff">
                     <i class="fa-solid fa-house"></i> Regresar
                 </a>
@@ -28,17 +30,16 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
                 <div class="login-wrap p-4">
-                    <h3 class="mb-4 text-center">Completa tus datos</h3>
                     <form th:action="@{/registrar}" method="post" class="signin-form">
 
                         <!-- Datos de Persona -->
-                        <h5 class="text-center mb-3">Datos Personales</h5>
+                        <h5 class="text-center mb-3 logo">Datos Personales</h5>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <input type="text" name="dni" class="form-control" placeholder="DNI..." required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="number" name="edad" class="form-control" placeholder="Edad..." required>
+                                <input type="date" name="edad" class="form-control" placeholder="Edad..." required>
                             </div>
                         </div>
 
@@ -67,7 +68,7 @@
                         </div>
 
                         <!-- Datos de Usuario -->
-                        <h5 class="text-center mt-4 mb-3">Datos de Usuario</h5>
+                        <h5 class="text-center mt-4 mb-3 logo">Datos de Usuario</h5>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <input type="text" name="usuario" class="form-control" placeholder="Nombre de usuario..." required>
@@ -81,6 +82,9 @@
                             <div class="col-md-12 mb-3 position-relative">
                                 <input id="password-field" type="password" name="password" class="form-control" placeholder="Clave..." required>
                                 <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="col-md-12 mb-3 position-relative">
+                                <input id="password-field2" type="password" name="password" class="form-control" placeholder="Verificar clave..." required>
                             </div>
                         </div>
 

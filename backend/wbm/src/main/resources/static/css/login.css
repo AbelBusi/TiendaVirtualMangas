@@ -8174,7 +8174,8 @@ h1, h2, h3, h4, h5,
   background: #fbceb5 !important; }
 
 .ftco-section {
-    min-height: 100vh; /* ocupa al menos el alto de la pantalla */
+    min-height: 100vh;
+    padding-top:2%; /* ocupa al menos el alto de la pantalla */
    }
 
 
