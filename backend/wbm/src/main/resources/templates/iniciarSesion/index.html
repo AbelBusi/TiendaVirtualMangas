@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
-  	<title>Login 10</title>
+	  <title>WEbStorm</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -11,7 +11,10 @@
 	
 	<link rel="stylesheet" th:href="@{/css/login.css}">
 
-	</head>
+	  <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+
+
+  </head>
   <body class="img js-fullheight"
 		th:style="'background-image: url(' + @{/media/images/iconos/nichijou.jpg} + ')'">
 
@@ -21,13 +24,17 @@
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
 					<h2 class="heading-section">Iniciar Sesion</h2>
+					<a th:href="@{/inicio}" class="px-2 py-2 ml-md-1 rounded" style="color: #ffff" ><i class="fa-solid fa-house"></i> Regresar</a>
+
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
 		      	<h3 class="mb-4 text-center">¿Tienes cuenta?</h3>
-		      	<form action="#" class="signin-form">
+						<a href="#" class="px-2 py-2 ml-md-1 rounded text-center" style="color: #ffff" target="_blank"><i class="fa-solid fa-right-to-bracket"></i> Registrarme</a>
+
+						<form action="#" class="signin-form">
 		      		<div class="form-group">
 		      			<input type="text" class="form-control" placeholder="Correo..." required>
 		      		</div>
