@@ -15,7 +15,8 @@
 
 
   </head>
-  <body class="img js-fullheight"
+
+  <body class="img js-fullheight fade-in"
 		th:style="'background-image: url(' + @{/media/images/iconos/nichijou.jpg} + ')'">
 
 
@@ -32,7 +33,7 @@
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
 		      	<h3 class="mb-4 text-center">¿Tienes cuenta?</h3>
-						<a href="#" class="px-2 py-2 ml-md-1 rounded text-center" style="color: #ffff" target="_blank"><i class="fa-solid fa-right-to-bracket"></i> Registrarme</a>
+						<a th:href="@{/ingresar/registrarme}" class="px-2 py-2 ml-md-1 rounded text-center" style="color: #ffff" ><i class="fa-solid fa-right-to-bracket"></i> Registrarme</a>
 
 						<form action="#" class="signin-form">
 		      		<div class="form-group">
@@ -71,6 +72,27 @@
   <script th:src="@{/js/popper.js}"></script>
   <script th:src="@{/assets/js/bootstrap.min.js}"></script>
   <script th:src="@{/js/main.js}"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll("a");
+
+    links.forEach(link => {
+      link.addEventListener("click", e => {
+        const target = link.getAttribute("target");
+        // Ignorar si es externo o abre en otra pestaña
+        if (target === "_blank" || link.href.startsWith("http")) return;
+
+        e.preventDefault();
+        document.body.classList.remove("fade-in");
+        document.body.classList.add("fade-out");
+
+        setTimeout(() => {
+          window.location = link.href;
+        }, 600); // el tiempo de la animación
+      });
+    });
+  });
+</script>
 
 	</body>
 </html>

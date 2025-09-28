@@ -8174,7 +8174,9 @@ h1, h2, h3, h4, h5,
   background: #fbceb5 !important; }
 
 .ftco-section {
-  padding: 7em 0; }
+    min-height: 100vh; /* ocupa al menos el alto de la pantalla */
+   }
+
 
 .ftco-no-pt {
   padding-top: 0; }
@@ -8346,3 +8348,30 @@ textarea.form-control {
         border: 1px solid transparent;
         background: #fbceb5;
         color: #fff; }
+
+
+.fade-in {
+  animation: slashIn 0.7s ease forwards;
+}
+
+.fade-out {
+  animation: slashOut 0.7s ease forwards;
+}
+
+@keyframes slashIn {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@keyframes slashOut {
+  0% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+  }
+}

@@ -13,4 +13,9 @@ public class loginController {
         return "/iniciarSesion/index";
     }
 
+    @GetMapping("/registrarme")
+    public String register(){
+        return "/iniciarSesion/registrarse";
+    }
+
 }
