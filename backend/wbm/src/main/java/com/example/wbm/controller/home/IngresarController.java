@@ -1,4 +1,4 @@
-package com.example.wbm.ccontroller.home;
+package com.example.wbm.controller.home;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

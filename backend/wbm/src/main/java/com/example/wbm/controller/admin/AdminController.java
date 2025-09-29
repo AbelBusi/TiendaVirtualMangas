@@ -1,12 +1,7 @@
-package com.example.wbm.ccontroller.admin;
+package com.example.wbm.controller.admin;
 
-import com.example.wbm.model.entity.Libro;
-import com.example.wbm.model.entity.TipoLibro;
-import com.example.wbm.repository.LibroRepository;
-import com.example.wbm.repository.TipoLibroRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
