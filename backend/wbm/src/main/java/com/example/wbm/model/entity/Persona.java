@@ -14,6 +14,7 @@ import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +25,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class Persona {
 
     @Id
@@ -58,6 +60,7 @@ public class Persona {
     @Column(name = "estado",nullable = false)
     private int estado;
 
+    @ToString.Exclude
     @OneToOne(mappedBy = "persona",fetch = FetchType.LAZY)
     private Usuario usuario;
 

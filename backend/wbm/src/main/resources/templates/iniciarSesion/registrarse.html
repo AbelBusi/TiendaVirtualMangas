@@ -30,40 +30,40 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
                 <div class="login-wrap p-4">
-                    <form th:action="@{/registrar}" method="post" class="signin-form">
+                    <form th:action="@{/guardarPersona}" method="post" th:object="${persona}" class="signin-form">
 
                         <!-- Datos de Persona -->
                         <h5 class="text-center mb-3 logo">Datos Personales</h5>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <input type="text" name="dni" class="form-control" placeholder="DNI..." required>
+                                <input type="text" name="dni" class="form-control" th:field="*{dni}" placeholder="DNI..." required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="date" name="edad" class="form-control" placeholder="Edad..." required>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <input type="text" name="nombrePersona" class="form-control" placeholder="Nombre..." required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <input type="text" name="apellidos" class="form-control" placeholder="Apellidos..." required>
+                                <input type="date" name="edad" class="form-control" th:field="*{edad}" placeholder="Edad..." required>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <input type="text" name="direccion" class="form-control" placeholder="Dirección...">
+                                <input type="text" name="nombrePersona" class="form-control" th:field="*{nombre}" placeholder="Nombre..." required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" name="telefono" class="form-control" placeholder="Teléfono...">
+                                <input type="text" name="apellidos" th:field="*{apellidos}" class="form-control" placeholder="Apellidos..." required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <input type="text" name="direccion" th:field="*{direccion}" class="form-control" placeholder="Dirección...">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <input type="text" name="telefono" th:field="*{telefono}" class="form-control" placeholder="Teléfono...">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <input type="text" name="pais" class="form-control" placeholder="País...">
+                                <input type="text" name="pais" th:field="*{pais}" class="form-control" placeholder="País...">
                             </div>
                         </div>
 
@@ -71,7 +71,7 @@
                         <h5 class="text-center mt-4 mb-3 logo">Datos de Usuario</h5>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <input type="text" name="usuario" class="form-control" placeholder="Nombre de usuario..." required>
+                                <input type="text" name="usuario" th:field="*{pais}" class="form-control" placeholder="Nombre de usuario..." required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <input type="email" name="correo" class="form-control" placeholder="Correo electrónico..." required>

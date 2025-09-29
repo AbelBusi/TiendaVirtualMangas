@@ -2,6 +2,7 @@ package com.example.wbm.implementation;
 
 import com.example.wbm.model.dto.PersonaDTO;
 import com.example.wbm.model.entity.Persona;
+import com.example.wbm.model.mapStructure.PersonaMapper;
 import com.example.wbm.repository.IPersonaRepository;
 import com.example.wbm.services.IPersonaServicio;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class PersonaServicioImpl implements IPersonaServicio {
 
     private IPersonaRepository personaRepository;
+    private PersonaMapper personaMapper;
 
     @Override
     public Persona leerPersona() {
@@ -21,8 +23,8 @@ public class PersonaServicioImpl implements IPersonaServicio {
     @Override
     public Persona crearPersona(PersonaDTO personaDTO) {
 
-        Persona persona =
+        Persona persona = personaMapper.toEntity(personaDTO);
 
-        return null;
+        return personaRepository.save(persona);
     }
 }

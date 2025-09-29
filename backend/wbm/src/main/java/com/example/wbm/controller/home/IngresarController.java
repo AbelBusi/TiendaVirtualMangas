@@ -2,10 +2,15 @@ package com.example.wbm.controller.home;
 
 import com.example.wbm.implementation.PersonaServicioImpl;
 import com.example.wbm.implementation.UsuarioServicioImpl;
+import com.example.wbm.model.dto.FormIngresarDTO;
+import com.example.wbm.model.dto.PersonaDTO;
+import com.example.wbm.model.dto.UsuarioDTO;
 import com.example.wbm.model.entity.Persona;
 import com.example.wbm.model.mapStructure.PersonaMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,23 +27,28 @@ public class IngresarController {
     private UsuarioServicioImpl usuarioServicio;
     private PersonaMapper personaMapper;
 
+    //Se usara el Logger para poder darle un seguimiento y debug
+    private final Logger logger = LoggerFactory.getLogger(IngresarController.class);
+
     @GetMapping("")
     public String login(){
         return "/iniciarSesion/index";
     }
 
     @GetMapping("/registrarme")
-    public String register(){
+    public String register(Model formPersonaUsuario, FormIngresarDTO ingresarDTO){
+
+        formPersonaUsuario.addAttribute("ingresarPersonaUsuario",ingresarDTO);
+
         return "/iniciarSesion/registrarse";
     }
 
     @PostMapping("/guardarPersona")
-    public String guardarPersona(@Valid @ModelAttribute Persona persona, Model model){
+    public String guardarPersona(@Valid @ModelAttribute(name = "ingresarPersonaUsuario") FormIngresarDTO ingresarDTO){
 
+        personaServicio.crearPersona(ingresarDTO.getPersonaDTO());
 
+        return "redirect:/ingresar";
 
-        return "";
     }
-
-
 }
