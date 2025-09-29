@@ -1,16 +1,16 @@
-package com.example.wbm.ccontroller.store;
+package com.example.wbm.ccontroller.home;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/tienda")
-public class StoreController {
+@RequestMapping("/inicio")
+public class InicioController {
 
     @GetMapping("")
-    public String inicio(){
-        return "/store/index";
+    public String home (){
+        return "index";
     }
 
 
