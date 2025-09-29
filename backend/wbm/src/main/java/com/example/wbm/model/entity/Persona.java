@@ -46,7 +46,7 @@ public class Persona {
     @Column(name = "direccion",length = 45,nullable = false)
     private String direccion;
 
-    @Column(name = "telefono",length = 9,nullable = false)
+    @Column(name = "telefono",length = 20,nullable = false)
     private String telefono;
 
     @Column(name = "pais",length = 45,nullable = false)
