@@ -10,14 +10,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Builder;
+import lombok.ToString;
 
-import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class PersonaDTO {
 
     @NotBlank(message = "Se debe ingresar un dni existente.")
@@ -33,7 +38,8 @@ public class PersonaDTO {
     private String apellidos;
 
     @NotNull(message = "Se debe ingresar la edad de la persona.")
-    private LocalDateTime edad;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate edad;
 
     @NotBlank(message = "Se debe ingresar la direccion de la persona.")
     @Size(min = 1,max = 45,message = "La direccion de la persona no debe ser mayor a 45 ni menor a 0.")
@@ -47,7 +53,6 @@ public class PersonaDTO {
     @Size(min = 1,max = 45,message = "El pais de la persona no debe ser mayor a 45 ni menor a 0.")
     private String pais;
 
-    private LocalDateTime fecha_creacion;
 
     @NotNull(message = "Se debe ingresar el estado de la persona con relacion al sistema.")
     private Integer estado;

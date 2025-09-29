@@ -3,9 +3,6 @@ package com.example.wbm.controller.home;
 import com.example.wbm.implementation.PersonaServicioImpl;
 import com.example.wbm.implementation.UsuarioServicioImpl;
 import com.example.wbm.model.dto.FormIngresarDTO;
-import com.example.wbm.model.dto.PersonaDTO;
-import com.example.wbm.model.dto.UsuarioDTO;
-import com.example.wbm.model.entity.Persona;
 import com.example.wbm.model.mapStructure.PersonaMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +33,7 @@ public class IngresarController {
     }
 
     @GetMapping("/registrarme")
-    public String register(Model formPersonaUsuario, FormIngresarDTO ingresarDTO){
+    public String register(Model formPersonaUsuario,@Valid FormIngresarDTO ingresarDTO){
 
         formPersonaUsuario.addAttribute("ingresarPersonaUsuario",ingresarDTO);
 
@@ -46,8 +43,8 @@ public class IngresarController {
     @PostMapping("/guardarPersona")
     public String guardarPersona(@Valid @ModelAttribute(name = "ingresarPersonaUsuario") FormIngresarDTO ingresarDTO){
 
-        personaServicio.crearPersona(ingresarDTO.getPersonaDTO());
-
+        //personaServicio.crearPersona(ingresarDTO.getPersonaDTO());
+        logger.info("Persona: {}",ingresarDTO);
         return "redirect:/ingresar";
 
     }
