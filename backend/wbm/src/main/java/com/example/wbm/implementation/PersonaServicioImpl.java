@@ -8,12 +8,14 @@ import com.example.wbm.services.IPersonaServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PersonaServicioImpl implements IPersonaServicio {
 
-    private IPersonaRepository personaRepository;
-    private PersonaMapper personaMapper;
+    private final IPersonaRepository personaRepository;
+    private final PersonaMapper personaMapper;
 
     @Override
     public Persona leerPersona() {
@@ -26,5 +28,17 @@ public class PersonaServicioImpl implements IPersonaServicio {
         Persona persona = personaMapper.toEntity(personaDTO);
 
         return personaRepository.save(persona);
+    }
+
+    @Override
+    public boolean PersonaExistente(String dni) {
+
+        Optional<Persona> personaOptional = personaRepository.findByDni(dni);
+
+        if(personaOptional.isPresent()){
+            return true;
+        }
+
+        return false;
     }
 }

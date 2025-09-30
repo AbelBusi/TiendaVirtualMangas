@@ -15,7 +15,9 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -43,7 +45,7 @@ public class Persona {
     private String apellidos;
 
     @Column(name = "edad",nullable = false)
-    private LocalDateTime edad;
+    private LocalDate edad;
 
     @Column(name = "direccion",length = 45,nullable = false)
     private String direccion;
@@ -54,6 +56,7 @@ public class Persona {
     @Column(name = "pais",length = 45,nullable = false)
     private String pais;
 
+    @CreationTimestamp
     @Column(name = "fecha_creacion",nullable = false)
     private LocalDateTime fecha_creacion;
 

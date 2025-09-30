@@ -1,6 +1,7 @@
 package com.example.wbm.controller.home;
 
 import com.example.wbm.implementation.PersonaServicioImpl;
+import com.example.wbm.implementation.RegistrarUsuarioServicioImpl;
 import com.example.wbm.implementation.UsuarioServicioImpl;
 import com.example.wbm.model.dto.FormIngresarDTO;
 import com.example.wbm.model.mapStructure.PersonaMapper;
@@ -20,9 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class IngresarController {
 
-    private PersonaServicioImpl personaServicio;
-    private UsuarioServicioImpl usuarioServicio;
-    private PersonaMapper personaMapper;
+    private final PersonaServicioImpl personaServicio;
+    private final UsuarioServicioImpl usuarioServicio;
+    private final RegistrarUsuarioServicioImpl registrarUsuarioServicio;
+    private final PersonaMapper personaMapper;
 
     //Se usara el Logger para poder darle un seguimiento y debug
     private final Logger logger = LoggerFactory.getLogger(IngresarController.class);
@@ -33,7 +35,7 @@ public class IngresarController {
     }
 
     @GetMapping("/registrarme")
-    public String register(Model formPersonaUsuario,@Valid FormIngresarDTO ingresarDTO){
+    public String register(Model formPersonaUsuario,FormIngresarDTO ingresarDTO){
 
         formPersonaUsuario.addAttribute("ingresarPersonaUsuario",ingresarDTO);
 
@@ -43,8 +45,8 @@ public class IngresarController {
     @PostMapping("/guardarPersona")
     public String guardarPersona(@Valid @ModelAttribute(name = "ingresarPersonaUsuario") FormIngresarDTO ingresarDTO){
 
-        //personaServicio.crearPersona(ingresarDTO.getPersonaDTO());
-        logger.info("Persona: {}",ingresarDTO);
+        registrarUsuarioServicio.guardarUsuario(ingresarDTO);
+
         return "redirect:/ingresar";
 
     }

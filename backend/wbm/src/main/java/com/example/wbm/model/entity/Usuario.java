@@ -15,6 +15,7 @@ import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -45,6 +46,7 @@ public class Usuario {
     @Column(name = "password",nullable = false,unique = true,length = 45)
     private String password;
 
+    @CreationTimestamp
     @Column(name = "fecha_creacion",nullable = false)
     private LocalDateTime fechaCreacion;
 

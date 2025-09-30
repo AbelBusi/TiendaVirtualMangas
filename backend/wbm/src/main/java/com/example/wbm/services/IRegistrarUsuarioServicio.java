@@ -1,9 +1,10 @@
 package com.example.wbm.services;
 
 import com.example.wbm.model.dto.FormIngresarDTO;
+import com.example.wbm.model.dto.FormIngresarResponseDTO;
 
 public interface IRegistrarUsuarioServicio {
 
-    void guardarUsuario(FormIngresarDTO formIngresarDTO);
+    FormIngresarResponseDTO guardarUsuario(FormIngresarDTO formIngresarDTO);
 
 }

@@ -7,6 +7,8 @@ public interface IUsuarioServicio {
 
     Usuario leerUsuario();
 
-    Usuario crearUsuario(UsuarioDTO personaDTO);
+    Usuario crearUsuario(UsuarioDTO usuarioDTO);
+
+    boolean UsuarioExistente(String correo);
 
 }
