@@ -19,5 +19,10 @@ public class AdminController {
         return "/administrador/table";
     }
 
+    @GetMapping("/roles")
+    public String roless (){
+        return "/administrador/admin-roles";
+    }
+
 }
 
