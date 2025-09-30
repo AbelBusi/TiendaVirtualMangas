@@ -1,0 +1,77 @@
+/* ========================
+   Tabla ultra moderna
+======================== */
+.table-transparent {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+}
+
+.table-transparent th {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer; /* Para que se note que se puede ordenar */
+    transition: background 0.3s;
+}
+
+.table-transparent th:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.table-transparent td {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    vertical-align: middle;
+    transition: background 0.3s;
+}
+
+/* Hover moderno en filas */
+.table-transparent tbody tr:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* ========================
+   Botones DataTable
+======================== */
+.dt-buttons .btn {
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    margin: 0 0.3rem 0.5rem 0;
+    color: #fff;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.dt-buttons .btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+}
+
+/* Excel → verde degradado */
+.dt-buttons .buttons-excel {
+    background: linear-gradient(135deg, #28a745, #5dd067);
+}
+
+/* PDF → rojo degradado */
+.dt-buttons .buttons-pdf {
+    background: linear-gradient(135deg, #dc3545, #ff6b6b);
+}
+
+/* Print → azul degradado */
+.dt-buttons .buttons-print {
+    background: linear-gradient(135deg, #0d6efd, #5dade2);
+}
+
+/* Iconos dentro de los botones */
+.dt-buttons .btn i {
+    margin-right: 6px;
+}
+
