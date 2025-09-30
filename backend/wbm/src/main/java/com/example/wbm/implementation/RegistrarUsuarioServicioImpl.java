@@ -39,8 +39,10 @@ public class RegistrarUsuarioServicioImpl implements IRegistrarUsuarioServicio {
             return new FormIngresarResponseDTO("El correo de la pesona ya existe",false);
         }
 
+        persona.setEstado(1);
         personaRepository.save(persona);
         usuario.setPersona(persona);
+        usuario.setEstado(1);
         usuarioRepository.save(usuario);
 
         return new FormIngresarResponseDTO("La persona fue creada con exito y su respectivo usuario tambien fue agregado de forma correcta",true);
