@@ -1,6 +1,9 @@
 /* ========================
    Tabla ultra moderna
 ======================== */
+body{
+background-repeat: no-repeat;
+}
 .table-transparent {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(8px);
