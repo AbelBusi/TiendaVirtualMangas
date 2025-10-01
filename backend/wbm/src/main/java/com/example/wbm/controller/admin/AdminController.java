@@ -1,11 +1,7 @@
 package com.example.wbm.controller.admin;
 
-import com.example.wbm.implementation.PersonaServicioImpl;
-import com.example.wbm.implementation.RolServicioImpl;
-import com.example.wbm.implementation.UsuarioServicioImpl;
-import com.example.wbm.model.dto.CDPersonaDTO;
-import com.example.wbm.model.dto.CDUsuarioDTO;
-import com.example.wbm.model.dto.RolDTO;
+import com.example.wbm.implementation.*;
+import com.example.wbm.model.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,6 +18,8 @@ public class AdminController {
     private final RolServicioImpl rolServicio;
     private final PersonaServicioImpl personaServicio;
     private final UsuarioServicioImpl usuarioServicio;
+    private final PerfilServicioImpl perfilServicio;
+    private final PermisoServicioImpl permisoServicio;
 
     @GetMapping("")
     public String home (){
@@ -163,4 +161,51 @@ public class AdminController {
         return "redirect:/administrador/personas";
     }
 
+    @GetMapping("/perfiles")
+    public String perfiles(Model model) {
+        // 1. DTO para el modal "Agregar Perfil" (th:object="${agregarPerfil}")
+        CDPerfilDTO agregarPerfil = new CDPerfilDTO();
+        model.addAttribute("agregarPerfil", agregarPerfil);
+
+        // 2. Lista de perfiles para la tabla (th:each="perfil : ${perfiles}")
+        List<CDPerfilDTO> perfiles = perfilServicio.leerPerfiles();
+        model.addAttribute("perfiles", perfiles);
+
+        // 3. Listas para los <select> de Usuario y Rol
+        // Nota: El HTML usa estas listas tanto en el modal de Agregar como en el de Editar (aunque este último está deshabilitado)
+        List<CDUsuarioDTO> usuariosDisponibles = usuarioServicio.leerUsuarios();
+        model.addAttribute("usuariosDisponibles", usuariosDisponibles);
+
+        List<RolDTO> rolesDisponibles = rolServicio.leerRoles();
+        model.addAttribute("rolesDisponibles", rolesDisponibles);
+
+        List<PermisoDTO> permisosDisponibles = permisoServicio.leerPermisos(); // Asume este método y DTO existen
+        model.addAttribute("permisosDisponibles", permisosDisponibles);
+
+        // Ya no se necesitan los parámetros @RequestParam(value = "idPerfilEditar", ...)
+        // porque el modal de edición/vista se llena con JS (data-* attributes).
+
+        return "/administrador/admin-perfiles"; // Vista correcta
+    }
+
+    @PostMapping("/perfiles/guardar")
+    public String guardarPerfil(@Valid @ModelAttribute("agregarPerfil") CDPerfilDTO perfilDTO) {
+        perfilDTO.setEstado(1);
+        perfilServicio.crearPerfil(perfilDTO);
+        return "redirect:/administrador/perfiles";
+    }
+
+    @PostMapping("/perfiles/editar")
+    public String editarPerfil(@ModelAttribute("editarPerfil") CDPerfilDTO perfilDTO) {
+        // El formulario de edición del HTML solo envía: idPerfil, estado (hidden), idUsuario, idRol.
+        // El Service debe ser capaz de manejar esta edición parcial.
+        perfilServicio.editarPerfil(perfilDTO);
+        return "redirect:/administrador/perfiles";
+    }
+
+    @PostMapping("/perfiles/cambiarEstado")
+    public String cambiarEstadoPerfil(@RequestParam("idPerfil") Integer idPerfil) {
+        perfilServicio.cambiarEstadoPerfil(idPerfil);
+        return "redirect:/administrador/perfiles";
+    }
 }

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfiles - Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/app.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/css/bodyTransparent.css}">
+    <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
+<div id="app">
+    <div th:replace="~{components/header :: siderAdmin}"></div>
+
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <div class="page-heading">
+            <div class="page-title">
+                <h3>PERFILES</h3>
+            </div>
+
+            <div class="d-flex justify-content-end mb-3">
+                <button type="button" class="botone" data-bs-toggle="modal" data-bs-target="#agregarPerfilModal">
+                    <i class="fas fa-plus"></i> Agregar Perfil
+                </button>
+            </div>
+
+            <div class="modal fade" id="agregarPerfilModal" tabindex="-1" aria-labelledby="agregarPerfilLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal-anime">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold" id="agregarPerfilLabel">Agregar Perfil</h5>
+                            <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:object="${agregarPerfil}" th:action="@{/administrador/perfiles/guardar}" method="post">
+                                <input type="hidden" th:field="*{estado}" th:value="1"/>
+                                <div class="mb-3">
+                                    <label class="form-label">Usuario</label>
+                                    <select id="selectUsuario" class="form-select input-anime" th:field="*{idUsuario}" required>
+                                        <option value="" disabled selected>Seleccione un usuario</option>
+                                        <option th:each="usuario : ${usuariosDisponibles}"
+                                                th:value="${usuario.idUsuario}"
+                                                th:text="'ID: ' + ${usuario.idUsuario} + ', Nombre: ' + ${usuario.nombre} + ', Correo: ' + ${usuario.correo}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Rol</label>
+                                    <select id="selectRol" class="form-select input-anime" th:field="*{idRol}" required>
+                                        <option value="" disabled selected>Seleccione un rol</option>
+                                        <option th:each="rol : ${rolesDisponibles}"
+                                                th:value="${rol.idRol}"
+                                                th:text="'ID: ' + ${rol.idRol} + ', Nombre: ' + ${rol.nombre}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Permiso</label>
+                                    <select id="selectPermiso" class="form-select input-anime" th:field="*{idPermiso}" required>
+                                        <option value="" disabled selected>Seleccione un permiso</option>
+                                        <option th:each="permiso : ${permisosDisponibles}"
+                                                th:value="${permiso.idPermiso}"
+                                                th:text="'ID: ' + ${permiso.idPermiso} + ', Nombre: ' + ${permiso.nombre} + ', Descripción: ' + ${permiso.descripcion}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-anime w-100 fw-bold">Agregar Perfil</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalPerfil" tabindex="-1" aria-labelledby="modalPerfilLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal-anime">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold" id="modalPerfilLabel"></h5>
+                            <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formEditarPerfil" th:action="@{/administrador/perfiles/editar}" method="post" style="display:none;">
+                                <input type="hidden" id="editIdPerfil" name="idPerfil">
+                                <input type="hidden" id="editEstadoPerfil" name="estado">
+                                <div class="mb-3">
+                                    <label class="form-label">Usuario</label>
+                                    <select class="form-select input-anime" id="editUsuario" name="idUsuario" disabled>
+                                        <option th:each="usuario : ${usuariosDisponibles}"
+                                                th:value="${usuario.idUsuario}"
+                                                th:text="'ID: ' + ${usuario.idUsuario} + ', Nombre: ' + ${usuario.nombre} + ', Correo: ' + ${usuario.correo}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Rol</label>
+                                    <select class="form-select input-anime" id="editRol" name="idRol" disabled>
+                                        <option th:each="rol : ${rolesDisponibles}"
+                                                th:value="${rol.idRol}"
+                                                th:text="'ID: ' + ${rol.idRol} + ', Nombre: ' + ${rol.nombre}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Permiso</label>
+                                    <select class="form-select input-anime" id="editPermiso" name="idPermiso" disabled>
+                                        <option th:each="permiso : ${permisosDisponibles}"
+                                                th:value="${permiso.idPermiso}"
+                                                th:text="'ID: ' + ${permiso.idPermiso} + ', Nombre: ' + ${permiso.nombre}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-anime w-100 fw-bold">Guardar Cambios</button>
+                            </form>
+
+                            <div id="vistaPerfil" style="display:none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section mt-3">
+                <div class="row" id="table-head">
+                    <div class="col-12">
+                        <div class="card bg-transparent border-0">
+                            <div class="card-header bg-transparent border-0">
+                                <h4 class="card-title text-white text-center">Lista de Perfiles</h4>
+                            </div>
+                            <div class="card-content">
+                                <div class="table-responsive">
+                                    <table id="perfilesTable" class="table table-transparent table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Usuario</th>
+                                            <th>Rol</th>
+                                            <th>Permiso</th> <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="perfil : ${perfiles}">
+                                            <td th:text="${perfil.idPerfil}"></td>
+                                            <td th:text="${perfil.nombreUsuario}"></td>
+                                            <td th:text="${perfil.nombreRol}"></td>
+                                            <td th:text="${perfil.nombrePermiso}"></td> <td th:text="${perfil.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary btn-editar-perfil"
+                                                        th:attr="data-id=${perfil.idPerfil},
+                                                                 data-usuario=${perfil.idUsuario},
+                                                                 data-rol=${perfil.idRol},
+                                                                 data-permiso=${perfil.idPermiso},
+                                                                 data-estado=${perfil.estado}">
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </button>
+
+                                                <form th:action="@{/administrador/perfiles/cambiarEstado}" method="post" style="display:inline">
+                                                    <input type="hidden" name="idPerfil" th:value="${perfil.idPerfil}">
+                                                    <button type="submit" class="btn btn-sm btn-warning btn-action" title="Cambiar Estado">
+                                                        <i class="fas fa-exchange-alt"></i>
+                                                    </button>
+                                                </form>
+
+                                                <button class="btn btn-sm btn-action btn-success btn-ver-detalle" data-detalle="permiso"
+                                                        th:attr="data-nombre=${perfil.nombrePermiso},
+                                                                 data-descripcion=${perfil.descripcionPermiso},
+                                                                 data-estado=${perfil.estadoPermiso}"
+                                                        title="Ver Permiso">
+                                                    <i class="fas fa-key"></i>
+                                                </button>
+
+                                                <button class="btn btn-sm btn-action btn-info btn-ver-detalle" data-detalle="usuario"
+                                                        th:attr="data-id=${perfil.idUsuario},
+                                                                 data-nombre=${perfil.nombreUsuario},
+                                                                 data-correo=${perfil.correoUsuario},
+                                                                 data-persona=${perfil.nombrePersona + ' ' + perfil.apellidos}"
+                                                        title="Ver Usuario">
+                                                    <i class="fas fa-user"></i>
+                                                </button>
+
+                                                <button class="btn btn-sm btn-action btn-secondary btn-ver-detalle" data-detalle="rol"
+                                                        th:attr="data-nombre=${perfil.nombreRol},
+                                                                 data-descripcion=${perfil.descripcionRol},
+                                                                 data-estado=${perfil.estadoRol}"
+                                                        title="Ver Rol">
+                                                    <i class="fas fa-shield-alt"></i>
+                                                </button>
+
+                                                <button class="btn btn-sm btn-light btn-ver-perfil-general"
+                                                        th:attr="data-usuario=${perfil.nombreUsuario},
+                                                                 data-rol=${perfil.nombreRol},
+                                                                 data-permiso=${perfil.nombrePermiso},
+                                                                 data-desc-permiso=${perfil.descripcionPermiso},
+                                                                 data-estado=${perfil.estado}">
+                                                    <i class="fas fa-layer-group"></i> Ver Perfil
+                                                </button>
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<script>
+$('#perfilesTable').DataTable({
+    dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
+    buttons: [
+        { extend: 'excelHtml5', className: 'btn btn-success', text: '<i class="fas fa-file-excel"></i> Excel', exportOptions: { columns: ':visible' }, titleAttr: 'Exportar a Excel' },
+        { extend: 'pdfHtml5', className: 'btn btn-danger', text: '<i class="fas fa-file-pdf"></i> PDF', exportOptions: { columns: ':visible' }, titleAttr: 'Exportar a PDF' },
+        { extend: 'print', className: 'btn btn-primary', text: '<i class="fas fa-print"></i> Imprimir', exportOptions: { columns: ':visible' }, titleAttr: 'Imprimir' }
+    ],
+    order: [ [1, 'asc'] ],
+    language: {
+        search: "Buscar:",
+        lengthMenu: "Mostrar _MENU_ registros",
+        info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+        paginate: { previous: "⬅", next: "➡" }
+    }
+});
+
+$(document).ready(function() {
+    // Select2 Initialization (Añadido 'selectPermiso')
+    $('#selectUsuario').select2({ dropdownParent: $('#agregarPerfilModal'), placeholder: "Seleccione un usuario", width: '100%' });
+    $('#selectRol').select2({ dropdownParent: $('#agregarPerfilModal'), placeholder: "Seleccione un rol", width: '100%' });
+    $('#selectPermiso').select2({ dropdownParent: $('#agregarPerfilModal'), placeholder: "Seleccione un permiso", width: '100%' }); // NUEVO
+
+    $('#modalPerfil').on('shown.bs.modal', function () { $(document).off('focusin.modal'); });
+
+    // Botón Editar Perfil (Añadido data-permiso para precargar el select)
+    $(document).on('click', '.btn-editar-perfil', function() {
+        $('#modalPerfilLabel').text('Editar Perfil');
+        $('#formEditarPerfil').show();
+        $('#vistaPerfil').hide();
+
+        $('#editIdPerfil').val($(this).data('id'));
+        $('#editUsuario').val($(this).data('usuario'));
+        $('#editRol').val($(this).data('rol'));
+        $('#editPermiso').val($(this).data('permiso')); // NUEVO
+        $('#editEstadoPerfil').val($(this).data('estado'));
+
+        const modalPerfilBS = new bootstrap.Modal(document.getElementById('modalPerfil'));
+        modalPerfilBS.show();
+    });
+
+    // Botón Ver Perfil General (Reutiliza la lógica anterior)
+    $(document).on('click', '.btn-ver-perfil-general', function() {
+        $('#modalPerfilLabel').text('Vista General del Perfil');
+        $('#formEditarPerfil').hide();
+        $('#vistaPerfil').show();
+
+        const usuario = $(this).data('usuario');
+        const rol = $(this).data('rol');
+        const permiso = $(this).data('permiso');
+        const descPermiso = $(this).data('descPermiso');
+        const estado = $(this).data('estado') == 1 ? 'Activo' : 'Inactivo';
+
+        let htmlContent = `
+            <div class="mb-3"><strong>Usuario:</strong> ${usuario}</div>
+            <div class="mb-3"><strong>Rol:</strong> ${rol}</div>
+            <div class="mb-3"><strong>Permiso:</strong> ${permiso}</div>
+            <div class="mb-3"><strong>Descripción Permiso:</strong> ${descPermiso}</div>
+            <div class="mb-3"><strong>Estado Perfil:</strong> ${estado}</div>
+        `;
+        $('#vistaPerfil').html(htmlContent);
+
+        const modalPerfilBS = new bootstrap.Modal(document.getElementById('modalPerfil'));
+        modalPerfilBS.show();
+    });
+
+    // Botón Ver Detalle (Maneja Permiso, Usuario, y Rol por separado)
+    $(document).on('click', '.btn-ver-detalle', function() {
+        const detalle = $(this).data('detalle');
+        $('#formEditarPerfil').hide();
+        $('#vistaPerfil').show();
+        let htmlContent = '';
+
+        if (detalle === 'permiso') {
+            $('#modalPerfilLabel').text('Detalle del Permiso');
+            const nombre = $(this).data('nombre');
+            const descripcion = $(this).data('descripcion');
+            const estado = $(this).data('estado') == 1 ? 'Activo' : 'Inactivo';
+
+            htmlContent = `
+                <div class="mb-3"><strong>Nombre:</strong> ${nombre}</div>
+                <div class="mb-3"><strong>Descripción:</strong> ${descripcion}</div>
+                <div class="mb-3"><strong>Estado:</strong> ${estado}</div>
+            `;
+
+        } else if (detalle === 'usuario') {
+            $('#modalPerfilLabel').text('Detalle del Usuario');
+            const id = $(this).data('id');
+            const nombre = $(this).data('nombre');
+            const correo = $(this).data('correo');
+            const persona = $(this).data('persona');
+
+            htmlContent = `
+                <div class="mb-3"><strong>ID Usuario:</strong> ${id}</div>
+                <div class="mb-3"><strong>Nombre Usuario:</strong> ${nombre}</div>
+                <div class="mb-3"><strong>Correo:</strong> ${correo}</div>
+                <div class="mb-3"><strong>Persona Asociada:</strong> ${persona}</div>
+            `;
+
+        } else if (detalle === 'rol') {
+            $('#modalPerfilLabel').text('Detalle del Rol');
+            const nombre = $(this).data('nombre');
+            const descripcion = $(this).data('descripcion');
+            const estado = $(this).data('estado') == 1 ? 'Activo' : 'Inactivo';
+
+            htmlContent = `
+                <div class="mb-3"><strong>Nombre:</strong> ${nombre}</div>
+                <div class="mb-3"><strong>Descripción:</strong> ${descripcion}</div>
+                <div class="mb-3"><strong>Estado:</strong> ${estado}</div>
+            `;
+        }
+
+        $('#vistaPerfil').html(htmlContent);
+
+        const modalPerfilBS = new bootstrap.Modal(document.getElementById('modalPerfil'));
+        modalPerfilBS.show();
+    });
+});
+</script>
+</body>
+</html>
