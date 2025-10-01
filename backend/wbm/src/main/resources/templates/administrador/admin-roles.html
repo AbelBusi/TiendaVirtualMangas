@@ -114,7 +114,7 @@ body {
                                     <input type="text" class="form-control input-anime" th:field="*{descripcion}" id="editarDescripcion" required>
                                 </div>
 
-                                <input type="hidden" th:field="*{estado}" th:value="1">
+                                <input type="hidden" th:field="*{estado}">
 
                                 <button type="submit" class="btn btn-anime w-100 fw-bold">Guardar Cambios</button>
                             </form>
@@ -164,9 +164,16 @@ body {
                                                 <button class="btn btn-sm btn-warning btn-action">
                                                     <i class="fas fa-edit"></i> Editar
                                                 </button>
-                                                <button class="btn btn-sm btn-info btn-action">
-                                                    <i class="fas fa-eye"></i> Cambiar Estado
-                                                </button>
+
+                                                <!-- Formulario para cambiar estado -->
+                                                <form th:action="@{/administrador/roles/cambiarEstado}" method="post" style="display:inline">
+                                                    <input type="hidden" name="idRol" th:value="${rol.idRol}">
+                                                    <button type="submit" class="btn btn-sm btn-info btn-action">
+                                                        <i class="fas fa-eye"></i>
+                                                        <span th:text="${rol.estado == 1 ? 'Inactivar' : 'Activar'}"></span>
+                                                    </button>
+                                                </form>
+
                                                 <button class="btn btn-sm btn-danger btn-action">
                                                     <i class="fas fa-trash"></i> Eliminar
                                                 </button>
@@ -263,12 +270,14 @@ document.addEventListener("DOMContentLoaded", function() {
             const id = row.dataset.id;
             const nombre = row.children[1].textContent.trim();
             const descripcion = row.children[2].textContent.trim();
+            const estado = row.children[3].textContent.trim() === 'Activo' ? 1 : 0;
+
 
             // Llenamos los inputs del modal con Thymeleaf
             document.querySelector('#editarRolModal input[name="idRol"]').value = id;
             document.querySelector('#editarRolModal input[name="nombre"]').value = nombre;
             document.querySelector('#editarRolModal input[name="descripcion"]').value = descripcion;
-            document.querySelector('#editarRolModal input[name="estado"]').value = 1;
+            document.querySelector('#editarRolModal input[name="estado"]').value = estado;
 
             const editarModal = new bootstrap.Modal(document.getElementById('editarRolModal'));
             editarModal.show();

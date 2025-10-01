@@ -79,4 +79,26 @@ public class RolServicioImpl implements IRolServicio {
 
         return false;
     }
+
+    @Transactional
+    @Override
+    public FormResponseSuccessDTO cambiarEStadoRol(Integer idRol) {
+        Optional<Rol> rolOpt = rolRepository.findById(idRol);
+
+        if (!rolOpt.isPresent()) {
+            return new FormResponseSuccessDTO("No se puede cambiar el estado del rol. ERROR", false);
+        }
+
+        Rol rol = rolOpt.get();
+        if (rol.getEstado() == 1) {
+            rol.setEstado(0);
+            rolRepository.save(rol);
+            return new FormResponseSuccessDTO("El estado del rol pasó a Inactivo", true);
+        } else {
+            rol.setEstado(1);
+            rolRepository.save(rol);
+            return new FormResponseSuccessDTO("El estado del rol pasó a Activo", true);
+        }
+    }
+
 }

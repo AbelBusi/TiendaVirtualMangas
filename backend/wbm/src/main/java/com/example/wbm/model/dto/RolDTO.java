@@ -30,7 +30,6 @@ public class RolDTO {
     @Size(min = 2, max = 400, message = "La descripcion debe tener entre 2 y 400 caracteres.")
     private String descripcion;
 
-    @NotNull(message = "Se debe ingresar el estado del rol con relacion al sistema.")
     private Integer estado;
 
 }

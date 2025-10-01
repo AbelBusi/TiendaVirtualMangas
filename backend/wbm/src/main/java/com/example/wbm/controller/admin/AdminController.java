@@ -39,7 +39,6 @@ public class AdminController {
         model.addAttribute("roles", roles);
 
         RolDTO rolEditar =RolDTO.builder()
-                .estado(1)
                 .build();
         model.addAttribute("editarRol",rolEditar);
 
@@ -60,6 +59,12 @@ public class AdminController {
 
         rolServicio.editarRol(rolDTO);
 
+        return "redirect:/administrador/roles";
+    }
+
+    @PostMapping("/roles/cambiarEstado")
+    public String cambiarEstadoRol(@RequestParam("idRol") Integer idRol) {
+        rolServicio.cambiarEStadoRol(idRol);
         return "redirect:/administrador/roles";
     }
 
