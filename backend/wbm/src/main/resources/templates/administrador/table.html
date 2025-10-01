@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
@@ -13,25 +14,14 @@
     <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
     <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
     <link rel="stylesheet" th:href="@{/css/bodyTransparent.css}">
-    <!-- Agregar en el <head> -->
+    <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
 
-
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
-<style>
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh; /* ocupa mínimo toda la pantalla, pero crece con el contenido */
-    background-size: cover;   /* se adapta al tamaño de la pantalla */
-    background-position: center; /* centrada */
-    background-repeat: no-repeat;
-    color: #fff;
-}
-
-
-</style>
 
 <body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
 <div id="app">
@@ -46,22 +36,17 @@ body {
 
         <div class="page-heading">
             <div class="page-title">
-                <div class="row">
-                    <div class="col-12 col-md-6 order-md-1 order-last">
-                        <h3>USUARIOS</h3>
-                    </div>
-                    <div class="col-12 col-md-6 order-md-2 order-first">
-                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
+                <h3>USUARIOS</h3>
             </div>
 
-            <!-- Modal para agregar usuario -->
+            <!-- Botón de Agregar Usuario -->
+            <div class="d-flex justify-content-end mb-3">
+                <button type="button" class="botone" data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
+                    <i class="fas fa-plus"></i> Agregar Usuario
+                </button>
+            </div>
+
+            <!-- Modal Agregar Usuario -->
             <div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="agregarUsuarioLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content modal-anime">
@@ -70,26 +55,87 @@ body {
                             <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/usuarios/agregar}" method="post">
+                            <form th:object="${agregarUsuario}" th:action="@{/administrador/usuarios/guardar}" method="post">
+                                <input type="hidden" th:field="*{estado}" th:value="1"/>
                                 <div class="mb-3">
-                                    <label for="nombre" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control input-anime" id="nombre" name="nombre" required>
+                                    <label class="form-label">Persona</label>
+                                    <select id="selectPersona" class="form-select input-anime" th:field="*{idPersona}" required>
+                                        <option value="" disabled selected>Seleccione una persona</option>
+                                        <option th:each="persona : ${personasDisponibles}" th:value="${persona.idPersona}"
+                                                th:text="${persona.idPersona + ' - ' + persona.nombre + ' ' + persona.apellidos + ' (' + persona.dni + ')'}">
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="correo" class="form-label">Correo</label>
-                                    <input type="email" class="form-control input-anime" id="correo" name="correo" required>
+                                    <label class="form-label">Nombre de usuario</label>
+                                    <input type="text" class="form-control input-anime" th:field="*{nombre}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control input-anime" id="password" name="password" required>
+                                    <label class="form-label">Correo</label>
+                                    <input type="email" class="form-control input-anime" th:field="*{correo}" required>
                                 </div>
-                                <button type="submit" class="btn btn-anime w-100 fw-bold">Agregar</button>
+                                <div class="mb-3">
+                                    <label class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control input-anime" th:field="*{password}" required>
+                                </div>
+                                <button type="submit" class="btn btn-anime w-100 fw-bold">Agregar Usuario</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Modal Único (Editar y Ver) -->
+            <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal-anime">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold" id="modalUsuarioLabel"></h5>
+                            <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Formulario editar -->
+                            <form id="formEditar" th:action="@{/administrador/usuarios/editar}" method="post" style="display:none;">
+                                <input type="hidden" id="editIdUsuario" name="idUsuario">
+                                <input type="hidden" id="editEstado" name="estado">
+                                <div class="mb-3">
+                                    <label class="form-label">Persona</label>
+                                    <select class="form-select input-anime" id="editPersona" name="idPersona" disabled>
+                                        <option th:each="persona : ${personasDisponibles}" th:value="${persona.idPersona}"
+                                                th:text="${persona.idPersona + ' - ' + persona.nombre + ' ' + persona.apellidos + ' (' + persona.dni + ')'}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre de usuario</label>
+                                    <input type="text" class="form-control input-anime" id="editNombre" name="nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Correo</label>
+                                    <input type="email" class="form-control input-anime" id="editCorreo" name="correo" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control input-anime" id="editPassword" name="password" readonly placeholder="No editable">
+                                </div>
+                                <button type="submit" class="btn btn-anime w-100 fw-bold">Guardar Cambios</button>
+                            </form>
+
+                            <!-- Vista de usuario -->
+                            <div id="vistaUsuario" style="display:none;">
+                                <div class="mb-3"><strong>DNI:</strong> <span id="viewDni"></span></div>
+                                <div class="mb-3"><strong>Nombre:</strong> <span id="viewNombre"></span></div>
+                                <div class="mb-3"><strong>Apellidos:</strong> <span id="viewApellidos"></span></div>
+                                <div class="mb-3"><strong>Edad:</strong> <span id="viewEdad"></span></div>
+                                <div class="mb-3"><strong>Dirección:</strong> <span id="viewDireccion"></span></div>
+                                <div class="mb-3"><strong>Teléfono:</strong> <span id="viewTelefono"></span></div>
+                                <div class="mb-3"><strong>País:</strong> <span id="viewPais"></span></div>
+                                <div class="mb-3"><strong>Estado:</strong> <span id="viewEstado"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Tabla de usuarios -->
             <section class="section mt-3">
@@ -97,51 +143,50 @@ body {
                     <div class="col-12">
                         <div class="card bg-transparent border-0">
                             <div class="card-header bg-transparent border-0">
-                                <h4 class="card-title text-white text-center">Lista de usuarios</h4>
+                                <h4 class="card-title text-white text-center">Lista de Usuarios</h4>
                             </div>
-
-                            <!-- Botón de agregar usuario arriba de la tabla -->
-                            <div class="d-flex justify-content-end mb-3">
-                                <button type="button" class="botone" data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
-                                    <i class="fas fa-plus"></i> Agregar Usuario
-                                </button>
-                            </div>
-
-
-                            <!-- Tabla de usuarios mejorada -->
                             <div class="card-content">
                                 <div class="table-responsive">
                                     <table id="usuariosTable" class="table table-transparent table-striped">
                                         <thead>
                                         <tr>
-                                            <th>NOMBRE</th>
-                                            <th>CORREO</th>
-                                            <th>FECHA DE CREACIÓN</th>
-                                            <th>ESTADO</th>
-                                            <th>ACCIONES</th>
+                                            <th>ID</th>
+                                            <th>Usuario</th>
+                                            <th>Correo</th>
+                                            <th>Estado</th>
+                                            <th>Persona vinculada</th>
+                                            <th>Acciones</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>Michael Right</td>
-                                            <td>michael@email.com</td>
-                                            <td>01/01/2025</td>
-                                            <td>Activo</td>
+                                        <tr th:each="usuario : ${usuarios}">
+                                            <td th:text="${usuario.idUsuario}"></td>
+                                            <td th:text="${usuario.nombre}"></td>
+                                            <td th:text="${usuario.correo}"></td>
+                                            <td th:text="${usuario.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+                                            <td th:text="${usuario.nombrePersona + ' ' + usuario.apellidos}"></td>
                                             <td>
-                                                <button class="btn btn-sm btn-warning btn-action"><i class="fas fa-edit"></i> Editar</button>
-                                                <button class="btn btn-sm btn-info btn-action"><i class="fas fa-eye"></i> Ver</button>
-                                                <button class="btn btn-sm btn-danger btn-action"><i class="fas fa-trash"></i> Eliminar</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Morgan Vanblum</td>
-                                            <td>morgan@email.com</td>
-                                            <td>03/02/2025</td>
-                                            <td>Activo</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-warning btn-action"><i class="fas fa-edit"></i> Editar</button>
-                                                <button class="btn btn-sm btn-info btn-action"><i class="fas fa-eye"></i> Ver</button>
-                                                <button class="btn btn-sm btn-danger btn-action"><i class="fas fa-trash"></i> Eliminar</button>
+                                                <!-- Editar -->
+                                                <button class="btn btn-sm btn-primary btn-editar"
+                                                        data-bs-toggle="modal" data-bs-target="#modalUsuario"
+                                                        th:attr="data-id=${usuario.idUsuario},data-nombre=${usuario.nombre},data-correo=${usuario.correo},data-persona=${usuario.idPersona},data-estado=${usuario.estado}">
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </button>
+
+                                                <!-- Cambiar Estado -->
+                                                <form th:action="@{/administrador/usuarios/cambiarEstado}" method="post" style="display:inline">
+                                                    <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
+                                                    <button type="submit" class="btn btn-sm btn-warning btn-action">
+                                                        <i class="fas fa-exchange-alt"></i>
+                                                    </button>
+                                                </form>
+
+                                                <!-- Ver Persona -->
+                                                <button class="btn btn-sm btn-info btn-ver"
+                                                        data-bs-toggle="modal" data-bs-target="#modalUsuario"
+                                                        th:attr="data-dni=${usuario.dni},data-nombre=${usuario.nombrePersona},data-apellidos=${usuario.apellidos},data-edad=${usuario.edad},data-direccion=${usuario.direccion},data-telefono=${usuario.telefono},data-pais=${usuario.pais},data-estado=${usuario.estado}">
+                                                    <i class="fas fa-eye"></i> Ver
+                                                </button>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -153,19 +198,7 @@ body {
                 </div>
             </section>
 
-
         </div>
-
-        <footer>
-            <div class="footer clearfix mb-0 text-muted">
-                <div class="float-start">
-                    <p>2021 &copy; Mazer</p>
-                </div>
-                <div class="float-end">
-                    <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a></p>
-                </div>
-            </div>
-        </footer>
     </div>
 </div>
 
@@ -173,59 +206,49 @@ body {
 <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/assets/js/main.js}"></script>
 
-
-<!-- Scripts DataTables -->
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
-<!-- Extensiones para exportar -->
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('#usuariosTable').DataTable({
-            dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    text: '<i class="fas fa-file-excel"></i> Excel',
-                    className: 'btn buttons-excel'
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: '<i class="fas fa-file-pdf"></i> PDF',
-                    className: 'btn buttons-pdf'
-                },
-                {
-                    extend: 'print',
-                    text: '<i class="fas fa-print"></i> Imprimir',
-                    className: 'btn buttons-print'
-                }
-            ],
-order: [ [2, "desc"] ],
-            language: {
-                search: "Buscar:",
-                lengthMenu: "Mostrar _MENU_ registros",
-                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                paginate: {
-                    previous: "⬅",
-                    next: "➡"
-                }
-            }
-        });
+$(document).ready(function() {
+    $('#selectPersona').select2({
+        dropdownParent: $('#agregarUsuarioModal'),
+        placeholder: "Seleccione una persona",
+        width: '100%'
     });
+
+    // Botón Editar
+    $('.btn-editar').on('click', function() {
+        $('#modalUsuarioLabel').text('Editar Usuario');
+        $('#formEditar').show();
+        $('#vistaUsuario').hide();
+
+        $('#editIdUsuario').val($(this).data('id'));
+        $('#editNombre').val($(this).data('nombre'));
+        $('#editCorreo').val($(this).data('correo'));
+        $('#editPersona').val($(this).data('persona'));
+        $('#editEstado').val($(this).data('estado'));
+    });
+
+    // Botón Ver
+    $('.btn-ver').on('click', function() {
+        $('#modalUsuarioLabel').text('Ver Persona');
+        $('#formEditar').hide();
+        $('#vistaUsuario').show();
+
+        $('#viewDni').text($(this).data('dni'));
+        $('#viewNombre').text($(this).data('nombre'));
+        $('#viewApellidos').text($(this).data('apellidos'));
+        $('#viewEdad').text($(this).data('edad'));
+        $('#viewDireccion').text($(this).data('direccion'));
+        $('#viewTelefono').text($(this).data('telefono'));
+        $('#viewPais').text($(this).data('pais'));
+        $('#viewEstado').text($(this).data('estado') == 1 ? 'Activo' : 'Inactivo');
+    });
+});
 </script>
 
-
 </body>
-
 </html>
-

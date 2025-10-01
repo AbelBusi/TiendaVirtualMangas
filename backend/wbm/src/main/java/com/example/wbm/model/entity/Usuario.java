@@ -43,7 +43,7 @@ public class Usuario {
     @Column(name = "correo",nullable = false,unique = true,length = 45)
     private String correo;
 
-    @Column(name = "password",nullable = false,unique = true,length = 45)
+    @Column(name = "password",nullable = false,length = 45)
     private String password;
 
     @CreationTimestamp

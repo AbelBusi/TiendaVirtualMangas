@@ -2,7 +2,9 @@ package com.example.wbm.controller.admin;
 
 import com.example.wbm.implementation.PersonaServicioImpl;
 import com.example.wbm.implementation.RolServicioImpl;
+import com.example.wbm.implementation.UsuarioServicioImpl;
 import com.example.wbm.model.dto.CDPersonaDTO;
+import com.example.wbm.model.dto.CDUsuarioDTO;
 import com.example.wbm.model.dto.RolDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class AdminController {
 
     private final RolServicioImpl rolServicio;
     private final PersonaServicioImpl personaServicio;
+    private final UsuarioServicioImpl usuarioServicio;
 
     @GetMapping("")
     public String home (){
@@ -26,9 +29,64 @@ public class AdminController {
     }
 
     @GetMapping("/usuarios")
-    public String usuarios (){
+    public String usuarios(
+            Model model,
+            @RequestParam(value = "idUsuarioEditar", required = false) Integer idUsuarioEditar,
+            @RequestParam(value = "idUsuarioVer", required = false) Integer idUsuarioVer
+    ) {
+        // Modal para agregar usuario
+        CDUsuarioDTO agregarUsuario = new CDUsuarioDTO();
+        model.addAttribute("agregarUsuario", agregarUsuario);
+
+        // Modal para editar usuario
+        CDUsuarioDTO editarUsuario = null;
+        if (idUsuarioEditar != null) {
+            editarUsuario = usuarioServicio.leerUsuarioPorId(idUsuarioEditar);
+        } else {
+            editarUsuario = new CDUsuarioDTO();
+        }
+        model.addAttribute("editarUsuario", editarUsuario);
+
+        // Modal para ver persona vinculada
+        CDUsuarioDTO verUsuario = null;
+        if (idUsuarioVer != null) {
+            verUsuario = usuarioServicio.leerUsuarioPorId(idUsuarioVer);
+        } else {
+            verUsuario = new CDUsuarioDTO();
+        }
+        model.addAttribute("verUsuario", verUsuario);
+
+        // Lista de usuarios
+        List<CDUsuarioDTO> usuarios = usuarioServicio.leerUsuarios();
+        model.addAttribute("usuarios", usuarios);
+
+        // Lista de personas disponibles
+        List<CDPersonaDTO> personasDisponibles = personaServicio.leerPersonasSinUsuario();
+        model.addAttribute("personasDisponibles", personasDisponibles);
+
         return "/administrador/table";
     }
+
+    @PostMapping("/usuarios/guardar")
+    public String guardarUsuario(@Valid @ModelAttribute("agregarUsuario") CDUsuarioDTO usuarioDTO) {
+        usuarioDTO.setEstado(1);
+        usuarioServicio.crear(usuarioDTO);
+        return "redirect:/administrador/usuarios";
+    }
+
+    @PostMapping("/usuarios/editar")
+    public String editarUsuario(@ModelAttribute("editarUsuario") CDUsuarioDTO usuarioDTO) {
+        usuarioServicio.editarUsuario(usuarioDTO);
+        return "redirect:/administrador/usuarios";
+    }
+
+    @PostMapping("/usuarios/cambiarEstado")
+    public String cambiarEstadoUsuario(@RequestParam("idUsuario") Integer idUsuario) {
+        usuarioServicio.cambiarEstadoUsuario(idUsuario);
+        return "redirect:/administrador/usuarios";
+    }
+
+
 
     @GetMapping("/roles")
     public String roless(Model model) {
@@ -105,8 +163,4 @@ public class AdminController {
         return "redirect:/administrador/personas";
     }
 
-
-
-
 }
-

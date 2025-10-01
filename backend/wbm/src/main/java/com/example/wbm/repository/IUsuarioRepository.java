@@ -11,4 +11,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario,Integer> {
 
     Optional<Usuario> findByCorreo(String correo);
 
+    boolean existsByPersona_IdPersona(Integer idPersona);
+
+
 }

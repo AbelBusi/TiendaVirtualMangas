@@ -7,6 +7,7 @@ import com.example.wbm.model.entity.Persona;
 import com.example.wbm.model.entity.Rol;
 import com.example.wbm.model.mapStructure.PersonaMapper;
 import com.example.wbm.repository.IPersonaRepository;
+import com.example.wbm.repository.IUsuarioRepository;
 import com.example.wbm.services.IPersonaServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class PersonaServicioImpl implements IPersonaServicio {
 
     private final IPersonaRepository personaRepository;
     private final PersonaMapper personaMapper;
+    private final IUsuarioRepository usuarioRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -107,5 +109,14 @@ public class PersonaServicioImpl implements IPersonaServicio {
             return new FormResponseSuccessDTO("El estado de la persona pasó a Activo", true);
         }
     }
+
+    @Transactional(readOnly = true)
+    public List<CDPersonaDTO> leerPersonasSinUsuario() {
+        return personaRepository.findAll().stream()
+                .map(personaMapper::toDtoPersona)
+                .filter(p -> !usuarioRepository.existsByPersona_IdPersona(p.getIdPersona()))
+                .toList();
+    }
+
 
 }
