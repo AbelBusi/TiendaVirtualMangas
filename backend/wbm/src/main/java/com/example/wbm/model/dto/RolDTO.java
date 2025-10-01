@@ -20,6 +20,8 @@ import lombok.ToString;
 @ToString
 public class RolDTO {
 
+    private Integer idRol;
+
     @NotBlank(message = "Debes ingresar un rol de usuario y no algo vacío.")
     @Size(min = 2, max = 45, message = "El rol debe tener entre 8 y 45 caracteres.")
     private String nombre;
@@ -27,7 +29,6 @@ public class RolDTO {
     @NotBlank(message = "Debes ingresar una descripcion y no algo vacío.")
     @Size(min = 2, max = 400, message = "La descripcion debe tener entre 2 y 400 caracteres.")
     private String descripcion;
-
 
     @NotNull(message = "Se debe ingresar el estado del rol con relacion al sistema.")
     private Integer estado;

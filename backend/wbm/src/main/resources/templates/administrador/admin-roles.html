@@ -63,7 +63,7 @@ body {
                 </div>
             </div>
 
-            <!-- Modal para agregar usuario -->
+            <!-- Modal para agregar un rol -->
             <div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="agregarUsuarioLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content modal-anime">
@@ -72,19 +72,19 @@ body {
                             <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/usuarios/agregar}" method="post">
+                            <form th:action="@{/administrador/roles/guardarRoles}" th:object="${guardarRol}" method="post">
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control input-anime" id="nombre" name="nombre" required>
+                                    <input type="text" class="form-control input-anime" th:field="*{nombre}" id="nombre" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="correo" class="form-label">Correo</label>
-                                    <input type="email" class="form-control input-anime" id="correo" name="correo" required>
+                                    <label for="descripcion" class="form-label">Descripcion</label>
+                                    <input type="text" class="form-control input-anime" th:field="*{descripcion}" id="descripcion" required>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control input-anime" id="password" name="password" required>
-                                </div>
+
+                                <!-- Estado oculto siempre en 1 -->
+                                <input type="hidden" th:field="*{estado}" th:value="1">
+
                                 <button type="submit" class="btn btn-anime w-100 fw-bold">Agregar</button>
                             </form>
                         </div>
@@ -92,7 +92,36 @@ body {
                 </div>
             </div>
 
+            <!--Modal para editar un rol -->
+            <div class="modal fade" id="editarRolModal" tabindex="-1" aria-labelledby="editarRolLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal-anime">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold" id="editarRolLabel">Editar Rol</h5>
+                            <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/administrador/roles/editarRoles}" th:object="${editarRol}" method="post">
+                                <input type="hidden" th:field="*{idRol}">
 
+                                <div class="mb-3">
+                                    <label for="editarNombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control input-anime" th:field="*{nombre}" id="editarNombre" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editarDescripcion" class="form-label">Descripcion</label>
+                                    <input type="text" class="form-control input-anime" th:field="*{descripcion}" id="editarDescripcion" required>
+                                </div>
+
+                                <input type="hidden" th:field="*{estado}" th:value="1">
+
+                                <button type="submit" class="btn btn-anime w-100 fw-bold">Guardar Cambios</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Tabla de usuarios -->
             <section class="section mt-3">
                 <div class="row" id="table-head">
@@ -116,6 +145,7 @@ body {
                                     <table id="usuariosTable" class="table table-transparent table-striped">
                                         <thead>
                                         <tr>
+                                            <th>ID ROL</th>
                                             <th>NOMBRE</th>
                                             <th>DESCRIPCION</th>
                                             <th>ESTADO</th>
@@ -123,24 +153,23 @@ body {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>Michael Right</td>
-                                            <td>michael@email.com</td>
-                                            <td>Activo</td>
+                                        <tr th:each="rol : ${roles}" th:data-id="${rol.idRol}">
+                                            <td th:text="${rol.idRol}">ID</td>
+                                            <td th:text="${rol.nombre}">Nombre aquí</td>
+                                            <td th:text="${rol.descripcion}">Descripción aquí</td>
                                             <td>
-                                                <button class="btn btn-sm btn-warning btn-action"><i class="fas fa-edit"></i> Editar</button>
-                                                <button class="btn btn-sm btn-info btn-action"><i class="fas fa-eye"></i> Ver</button>
-                                                <button class="btn btn-sm btn-danger btn-action"><i class="fas fa-trash"></i> Eliminar</button>
+                                                <span th:text="${rol.estado == 1 ? 'Activo' : 'Inactivo'}"></span>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Morgan Vanblum</td>
-                                            <td>morgan@email.com</td>
-                                            <td>Activo</td>
                                             <td>
-                                                <button class="btn btn-sm btn-warning btn-action"><i class="fas fa-edit"></i> Editar</button>
-                                                <button class="btn btn-sm btn-info btn-action"><i class="fas fa-eye"></i> Ver</button>
-                                                <button class="btn btn-sm btn-danger btn-action"><i class="fas fa-trash"></i> Eliminar</button>
+                                                <button class="btn btn-sm btn-warning btn-action">
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </button>
+                                                <button class="btn btn-sm btn-info btn-action">
+                                                    <i class="fas fa-eye"></i> Cambiar Estado
+                                                </button>
+                                                <button class="btn btn-sm btn-danger btn-action">
+                                                    <i class="fas fa-trash"></i> Eliminar
+                                                </button>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -221,6 +250,33 @@ order: [ [2, "desc"] ],
             }
         });
     });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const editarBtns = document.querySelectorAll('#usuariosTable .btn-warning');
+
+    editarBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const row = this.closest('tr');
+
+            const id = row.dataset.id;
+            const nombre = row.children[1].textContent.trim();
+            const descripcion = row.children[2].textContent.trim();
+
+            // Llenamos los inputs del modal con Thymeleaf
+            document.querySelector('#editarRolModal input[name="idRol"]').value = id;
+            document.querySelector('#editarRolModal input[name="nombre"]').value = nombre;
+            document.querySelector('#editarRolModal input[name="descripcion"]').value = descripcion;
+            document.querySelector('#editarRolModal input[name="estado"]').value = 1;
+
+            const editarModal = new bootstrap.Modal(document.getElementById('editarRolModal'));
+            editarModal.show();
+        });
+    });
+});
+
+
 </script>
 
 

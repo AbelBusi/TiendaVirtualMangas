@@ -1,0 +1,24 @@
+<!-- templates/fragments/roles-fragment.html -->
+<div th:fragment="tabla-roles">
+    <table class="table table-transparent table-striped">
+        <thead>
+        <tr>
+            <th>NOMBRE</th>
+            <th>DESCRIPCION</th>
+            <th>ESTADO</th>
+            <th>ACCIONES</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rol : ${roles}">
+            <td th:text="${rol.nombre}"></td>
+            <td th:text="${rol.descripcion}"></td>
+            <td th:text="${rol.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+            <td>
+                <button class="btn btn-sm btn-warning">Editar</button>
+                <button class="btn btn-sm btn-danger">Eliminar</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
