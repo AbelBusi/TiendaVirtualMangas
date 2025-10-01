@@ -23,6 +23,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
+
 <body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
 <div id="app">
     <div th:replace="~{components/header :: siderAdmin}"></div>
@@ -168,7 +169,6 @@
                                             <td>
                                                 <!-- Editar -->
                                                 <button class="btn btn-sm btn-primary btn-editar"
-                                                        data-bs-toggle="modal" data-bs-target="#modalUsuario"
                                                         th:attr="data-id=${usuario.idUsuario},data-nombre=${usuario.nombre},data-correo=${usuario.correo},data-persona=${usuario.idPersona},data-estado=${usuario.estado}">
                                                     <i class="fas fa-edit"></i> Editar
                                                 </button>
@@ -182,8 +182,8 @@
                                                 </form>
 
                                                 <!-- Ver Persona -->
+
                                                 <button class="btn btn-sm btn-info btn-ver"
-                                                        data-bs-toggle="modal" data-bs-target="#modalUsuario"
                                                         th:attr="data-dni=${usuario.dni},data-nombre=${usuario.nombrePersona},data-apellidos=${usuario.apellidos},data-edad=${usuario.edad},data-direccion=${usuario.direccion},data-telefono=${usuario.telefono},data-pais=${usuario.pais},data-estado=${usuario.estado}">
                                                     <i class="fas fa-eye"></i> Ver
                                                 </button>
@@ -203,24 +203,76 @@
 </div>
 
 <script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
-<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/assets/js/main.js}"></script>
 
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+
+<script>
+$('#usuariosTable').DataTable({
+    dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
+    buttons: [
+        { extend: 'excelHtml5', className: 'btn btn-success', text: '<i class="fas fa-file-excel"></i> Excel',
+          exportOptions: { columns: ':visible' },
+          titleAttr: 'Exportar a Excel'
+        },
+        { extend: 'pdfHtml5', className: 'btn btn-danger', text: '<i class="fas fa-file-pdf"></i> PDF',
+          exportOptions: { columns: ':visible' },
+          titleAttr: 'Exportar a PDF'
+        },
+        { extend: 'print', className: 'btn btn-primary', text: '<i class="fas fa-print"></i> Imprimir',
+          exportOptions: { columns: ':visible' },
+          titleAttr: 'Imprimir'
+        }
+    ],
+    order: [ [1, 'asc'] ],
+    language: {
+        search: "Buscar:",
+        lengthMenu: "Mostrar _MENU_ registros",
+        info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+        paginate: { previous: "⬅", next: "➡" }
+    }
+});
+
+</script>
 
 <script>
 $(document).ready(function() {
+    // Inicialización de Select2 (funciona correctamente)
     $('#selectPersona').select2({
         dropdownParent: $('#agregarUsuarioModal'),
         placeholder: "Seleccione una persona",
         width: '100%'
     });
 
-    // Botón Editar
-    $('.btn-editar').on('click', function() {
+    // 1. ELIMINAMOS la línea 'const modalUsuarioBS = new bootstrap.Modal...' de aquí.
+
+    // 2. DESACTIVAMOS enforceFocus CUANDO EL MODAL SE MUESTRE
+    // Esto resuelve el conflicto de tamaño con DataTables. Mantenemos el evento ONCE.
+    $('#modalUsuario').on('shown.bs.modal', function () {
+        $(document).off('focusin.modal');
+    });
+
+    // 3. USAMOS DELEGACIÓN DE EVENTOS PARA BOTONES DENTRO DE DATATABLES
+    // Ahora inicializamos el modal DENTRO del clic.
+
+    // Delegación para Botón Editar
+    $(document).on('click', '.btn-editar', function() {
+        // Lógica de llenado de datos
         $('#modalUsuarioLabel').text('Editar Usuario');
         $('#formEditar').show();
         $('#vistaUsuario').hide();
@@ -230,10 +282,15 @@ $(document).ready(function() {
         $('#editCorreo').val($(this).data('correo'));
         $('#editPersona').val($(this).data('persona'));
         $('#editEstado').val($(this).data('estado'));
+
+        // *** CAMBIO CRUCIAL: Inicializamos y abrimos el modal aquí ***
+        const modalUsuarioBS = new bootstrap.Modal(document.getElementById('modalUsuario'));
+        modalUsuarioBS.show();
     });
 
-    // Botón Ver
-    $('.btn-ver').on('click', function() {
+    // Delegación para Botón Ver
+    $(document).on('click', '.btn-ver', function() {
+        // Lógica de llenado de datos
         $('#modalUsuarioLabel').text('Ver Persona');
         $('#formEditar').hide();
         $('#vistaUsuario').show();
@@ -246,9 +303,11 @@ $(document).ready(function() {
         $('#viewTelefono').text($(this).data('telefono'));
         $('#viewPais').text($(this).data('pais'));
         $('#viewEstado').text($(this).data('estado') == 1 ? 'Activo' : 'Inactivo');
+
+        // *** CAMBIO CRUCIAL: Inicializamos y abrimos el modal aquí ***
+        const modalUsuarioBS = new bootstrap.Modal(document.getElementById('modalUsuario'));
+        modalUsuarioBS.show();
     });
 });
-</script>
-
-</body>
+</script></body>
 </html>
