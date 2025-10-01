@@ -195,10 +195,12 @@ public class AdminController {
         return "redirect:/administrador/perfiles";
     }
 
+// Archivo: TuController.java (Método corregido)
+
     @PostMapping("/perfiles/editar")
-    public String editarPerfil(@ModelAttribute("editarPerfil") CDPerfilDTO perfilDTO) {
-        // El formulario de edición del HTML solo envía: idPerfil, estado (hidden), idUsuario, idRol.
-        // El Service debe ser capaz de manejar esta edición parcial.
+    public String editarPerfil(@ModelAttribute CDPerfilDTO perfilDTO) {
+        // ^^^ CAMBIO CLAVE: Quitamos ("editarPerfil"). Spring ahora mapeará los campos directamente.
+
         perfilServicio.editarPerfil(perfilDTO);
         return "redirect:/administrador/perfiles";
     }

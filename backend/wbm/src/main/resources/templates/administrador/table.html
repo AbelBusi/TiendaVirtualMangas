@@ -14,6 +14,8 @@
     <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
     <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
     <link rel="stylesheet" th:href="@{/css/bodyTransparent.css}">
+    <link rel="stylesheet" th:href="@{/css/botonesAdmin.css}">
+
     <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
@@ -182,7 +184,7 @@
                                                 <form th:action="@{/administrador/usuarios/cambiarEstado}" method="post" style="display:inline">
                                                     <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
                                                     <button type="submit" class="btn btn-sm btn-warning btn-action">
-                                                        <i class="fas fa-exchange-alt"></i>
+                                                        <i class="fas fa-exchange-alt"></i> Cambiar Estado
                                                     </button>
                                                 </form>
 

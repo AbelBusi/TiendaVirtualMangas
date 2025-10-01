@@ -3,8 +3,12 @@ package com.example.wbm.implementation;
 import com.example.wbm.model.dto.CDPerfilDTO;
 import com.example.wbm.model.dto.FormResponseSuccessDTO;
 import com.example.wbm.model.entity.Perfil;
+import com.example.wbm.model.entity.Permiso;
+import com.example.wbm.model.entity.Rol;
 import com.example.wbm.model.mapStructure.IPerfilMapper;
 import com.example.wbm.repository.IPerfilRepository;
+import com.example.wbm.repository.IPermisoRepository;
+import com.example.wbm.repository.IRolRepository;
 import com.example.wbm.services.IPerfilServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,8 @@ public class PerfilServicioImpl implements IPerfilServicio {
 
     private final IPerfilRepository perfilRepository;
     private final IPerfilMapper perfilMapper;
+    private final IRolRepository rolRepository;
+    private final IPermisoRepository permisoRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -50,8 +56,26 @@ public class PerfilServicioImpl implements IPerfilServicio {
         }
 
         Perfil perfil = perfilOpt.get();
-        // Solo modificamos campos necesarios
+
+        // 1. BUSCAR Y ASIGNAR NUEVO ROL
+        Optional<Rol> rolOpt = rolRepository.findById(cdPerfilDTO.getIdRol());
+        if (rolOpt.isEmpty()) {
+            return new FormResponseSuccessDTO("Rol ID " + cdPerfilDTO.getIdRol() + " no encontrado", false);
+        }
+        perfil.setRol(rolOpt.get()); // <-- CLAVE: Asignar la nueva entidad Rol
+
+        // 2. BUSCAR Y ASIGNAR NUEVO PERMISO
+        Optional<Permiso> permisoOpt = permisoRepository.findById(cdPerfilDTO.getIdPermiso());
+        if (permisoOpt.isEmpty()) {
+            return new FormResponseSuccessDTO("Permiso ID " + cdPerfilDTO.getIdPermiso() + " no encontrado", false);
+        }
+        perfil.setPermiso(permisoOpt.get()); // <-- CLAVE: Asignar la nueva entidad Permiso
+
+        // 3. ASIGNAR ESTADO (que ya tenías)
         perfil.setEstado(cdPerfilDTO.getEstado());
+
+        // El Usuario se mantiene inalterado, ya que el idUsuario no se toca en la edición.
+
         perfilRepository.save(perfil);
 
         return new FormResponseSuccessDTO("Perfil editado correctamente", true);
