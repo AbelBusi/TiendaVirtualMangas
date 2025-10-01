@@ -57,7 +57,7 @@ public class Persona {
     private String pais;
 
     @CreationTimestamp
-    @Column(name = "fecha_creacion",nullable = false)
+    @Column(name = "fecha_creacion", nullable = false, updatable = false)
     private LocalDateTime fecha_creacion;
 
     @Column(name = "estado",nullable = false)

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personas - Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/assets/css/app.css}">
+  <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
+  <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/bodyTransparent.css}">
+  <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+
+  <!-- Agregar en el <head> -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+
+
+</head>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* ocupa mínimo toda la pantalla, pero crece con el contenido */
+    background-size: cover;   /* se adapta al tamaño de la pantalla */
+    background-position: center; /* centrada */
+    background-repeat: no-repeat;
+    color: #fff;
+}
+
+
+</style>
+
+<body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
+<div id="app">
+  <div th:replace="~{components/header :: siderAdmin}"></div>
+
+  <div id="main">
+    <header class="mb-3">
+      <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+      </a>
+    </header>
+
+    <div class="page-heading">
+      <div class="page-title">
+        <div class="row">
+          <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>PERSONAS</h3>
+          </div>
+          <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Personas</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón de agregar persona -->
+      <div class="d-flex justify-content-end mb-3">
+        <button type="button" class="botone" data-bs-toggle="modal" data-bs-target="#agregarPersonaModal">
+          <i class="fas fa-plus"></i> Agregar Persona
+        </button>
+      </div>
+
+      <!-- Modal para editar persona -->
+      <div class="modal fade" id="editarPersonaModal" tabindex="-1" aria-labelledby="editarPersonaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content modal-anime">
+            <div class="modal-header border-0">
+              <h5 class="modal-title fw-bold" id="editarPersonaLabel">Editar Persona</h5>
+              <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              <form th:action="@{/administrador/personas/editar}" method="post">
+                <input type="hidden" name="idPersona">
+
+                <div class="mb-3">
+                  <label class="form-label">DNI</label>
+                  <input type="text" class="form-control input-anime" name="dni" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" class="form-control input-anime" name="nombre" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Apellidos</label>
+                  <input type="text" class="form-control input-anime" name="apellidos" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Edad</label>
+                  <input type="date" class="form-control input-anime" name="edad" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Dirección</label>
+                  <input type="text" class="form-control input-anime" name="direccion" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Teléfono</label>
+                  <input type="text" class="form-control input-anime" name="telefono" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">País</label>
+                  <input type="text" class="form-control input-anime" name="pais" required>
+                </div>
+                <input type="hidden" name="estado">
+
+                <button type="submit" class="btn btn-anime w-100 fw-bold">Guardar cambios</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Modal para agregar persona -->
+      <div class="modal fade" id="agregarPersonaModal" tabindex="-1" aria-labelledby="agregarPersonaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content modal-anime">
+            <div class="modal-header border-0">
+              <h5 class="modal-title fw-bold" id="agregarPersonaLabel">Agregar Persona</h5>
+              <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              <form th:action="@{/administrador/personas/guardar}" th:object="${guardarPersona}" method="post">
+                <div class="mb-3">
+                  <label for="dni" class="form-label">DNI</label>
+                  <input type="text" class="form-control input-anime" th:field="*{dni}" required>
+                </div>
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input type="text" class="form-control input-anime" th:field="*{nombre}" required>
+                </div>
+                <div class="mb-3">
+                  <label for="apellidos" class="form-label">Apellidos</label>
+                  <input type="text" class="form-control input-anime" th:field="*{apellidos}" required>
+                </div>
+                <div class="mb-3">
+                  <label for="edad" class="form-label">Edad</label>
+                  <input type="date" class="form-control input-anime" th:field="*{edad}" required>
+                </div>
+                <div class="mb-3">
+                  <label for="direccion" class="form-label">Dirección</label>
+                  <input type="text" class="form-control input-anime" th:field="*{direccion}" required>
+                </div>
+                <div class="mb-3">
+                  <label for="telefono" class="form-label">Teléfono</label>
+                  <input type="text" class="form-control input-anime" th:field="*{telefono}" required>
+                </div>
+                <div class="mb-3">
+                  <label for="pais" class="form-label">País</label>
+                  <input type="text" class="form-control input-anime" th:field="*{pais}" required>
+                </div>
+
+                <input type="hidden" th:field="*{estado}" th:value="1">
+
+                <button type="submit" class="btn btn-anime w-100 fw-bold">Agregar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de personas -->
+      <section class="section mt-3">
+        <div class="row" id="table-head">
+          <div class="col-12">
+            <div class="card bg-transparent border-0">
+              <div class="card-header bg-transparent border-0">
+                <h4 class="card-title text-white text-center">Lista de Personas</h4>
+              </div>
+
+              <div class="card-content">
+                <div class="table-responsive">
+                  <table id="personasTable" class="table table-transparent table-striped">
+                    <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>DNI</th>
+                      <th>Nombre</th>
+                      <th>Apellidos</th>
+                      <th>Edad</th>
+                      <th>Dirección</th>
+                      <th>Teléfono</th>
+                      <th>País</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="persona : ${personas}" th:data-id="${persona.idPersona}">
+                      <td th:text="${persona.idPersona}"></td>
+                      <td th:text="${persona.dni}"></td>
+                      <td th:text="${persona.nombre}"></td>
+                      <td th:text="${persona.apellidos}"></td>
+                      <td th:text="${persona.edad}"></td>
+                      <td th:text="${persona.direccion}"></td>
+                      <td th:text="${persona.telefono}"></td>
+                      <td th:text="${persona.pais}"></td>
+                      <td th:text="${persona.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+                      <td>
+                        <button class="btn btn-sm btn-warning btn-action">
+                          <i class="fas fa-edit"></i> Editar
+                        </button>
+
+                        <form th:action="@{/administrador/personas/cambiarEstado}" method="post" style="display:inline">
+                          <input type="hidden" name="idPersona" th:value="${persona.idPersona}">
+                          <button type="submit" class="btn btn-sm btn-info btn-action">
+                            <i class="fas fa-eye"></i>
+                            <span th:text="${persona.estado == 1 ? 'Inactivar' : 'Activar'}"></span>
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+
+<!-- Scripts DataTables -->
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Extensiones para exportar -->
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+
+<script>
+$(document).ready(function () {
+    // Inicializamos DataTables
+    const table = $('#personasTable').DataTable({
+        dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
+        buttons: [
+            { extend: 'excelHtml5', text: '<i class="fas fa-file-excel"></i> Excel', className: 'btn buttons-excel' },
+            { extend: 'pdfHtml5', text: '<i class="fas fa-file-pdf"></i> PDF', className: 'btn buttons-pdf' },
+            { extend: 'print', text: '<i class="fas fa-print"></i> Imprimir', className: 'btn buttons-print' }
+        ],
+order: [ [2, "asc"] ],
+        language: {
+            search: "Buscar:",
+            lengthMenu: "Mostrar _MENU_ registros",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            paginate: { previous: "⬅", next: "➡" }
+        }
+    });
+
+    // Delegación de eventos: funciona con DataTables
+    $('#personasTable tbody').on('click', '.btn-warning', function () {
+        const row = $(this).closest('tr');
+
+        const id = row.data('id'); // dataset id
+        const dni = row.find('td:eq(1)').text().trim();
+        const nombre = row.find('td:eq(2)').text().trim();
+        const apellidos = row.find('td:eq(3)').text().trim();
+        const edad = row.find('td:eq(4)').text().trim();
+        const direccion = row.find('td:eq(5)').text().trim();
+        const telefono = row.find('td:eq(6)').text().trim();
+        const pais = row.find('td:eq(7)').text().trim();
+        const estado = row.find('td:eq(8)').text().trim() === 'Activo' ? 1 : 0;
+
+        // Rellenamos el modal
+        const modal = document.getElementById('editarPersonaModal');
+        modal.querySelector('input[name="idPersona"]').value = id;
+        modal.querySelector('input[name="dni"]').value = dni;
+        modal.querySelector('input[name="nombre"]').value = nombre;
+        modal.querySelector('input[name="apellidos"]').value = apellidos;
+        modal.querySelector('input[name="edad"]').value = edad;
+        modal.querySelector('input[name="direccion"]').value = direccion;
+        modal.querySelector('input[name="telefono"]').value = telefono;
+        modal.querySelector('input[name="pais"]').value = pais;
+        modal.querySelector('input[name="estado"]').value = estado;
+
+        // Mostramos el modal
+        new bootstrap.Modal(modal).show();
+    });
+});
+</script>
+
+
+
+</body>
+
+</html>

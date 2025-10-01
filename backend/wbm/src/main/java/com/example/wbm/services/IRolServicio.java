@@ -16,7 +16,8 @@ public interface IRolServicio {
 
     boolean rolExistente(String rol);
 
-        FormResponseSuccessDTO cambiarEStadoRol(Integer idRol);
+    FormResponseSuccessDTO cambiarEStadoRol(Integer idRol);
+
 
 
 }

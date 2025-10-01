@@ -1,6 +1,8 @@
 package com.example.wbm.controller.admin;
 
+import com.example.wbm.implementation.PersonaServicioImpl;
 import com.example.wbm.implementation.RolServicioImpl;
+import com.example.wbm.model.dto.CDPersonaDTO;
 import com.example.wbm.model.dto.RolDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.List;
 public class AdminController {
 
     private final RolServicioImpl rolServicio;
+    private final PersonaServicioImpl personaServicio;
 
     @GetMapping("")
     public String home (){
@@ -67,6 +70,41 @@ public class AdminController {
         rolServicio.cambiarEStadoRol(idRol);
         return "redirect:/administrador/roles";
     }
+
+    @GetMapping("/personas")
+    public String personas(Model model) {
+        // Inicializamos DTOs para los modales
+        CDPersonaDTO personaGuardar = new CDPersonaDTO();
+        model.addAttribute("guardarPersona", personaGuardar);
+
+        CDPersonaDTO personaEditar = new CDPersonaDTO();
+        model.addAttribute("editarPersona", personaEditar);
+
+        // Traemos lista de personas
+        List<CDPersonaDTO> personas = personaServicio.leerPersonas();
+        model.addAttribute("personas", personas);
+
+        return "/administrador/admin-personas";
+    }
+
+    @PostMapping("/personas/guardar")
+    public String guardarPersona(@ModelAttribute("guardarPersona") CDPersonaDTO personaDTO) {
+        personaServicio.crear(personaDTO);
+        return "redirect:/administrador/personas";
+    }
+
+    @PostMapping("/personas/editar")
+    public String editarPersona(@ModelAttribute("editarPersona") CDPersonaDTO personaDTO) {
+        personaServicio.editarPersona(personaDTO);
+        return "redirect:/administrador/personas";
+    }
+
+    @PostMapping("/personas/cambiarEstado")
+    public String cambiarEstadoPersona(@RequestParam("idPersona") Integer idPersona) {
+        personaServicio.cambiarEStadoPersona(idPersona);
+        return "redirect:/administrador/personas";
+    }
+
 
 
 
