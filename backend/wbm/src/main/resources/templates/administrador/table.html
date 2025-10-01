@@ -62,9 +62,11 @@
                                     <label class="form-label">Persona</label>
                                     <select id="selectPersona" class="form-select input-anime" th:field="*{idPersona}" required>
                                         <option value="" disabled selected>Seleccione una persona</option>
-                                        <option th:each="persona : ${personasDisponibles}" th:value="${persona.idPersona}"
-                                                th:text="${persona.idPersona + ' - ' + persona.nombre + ' ' + persona.apellidos + ' (' + persona.dni + ')'}">
+                                        <option th:each="persona : ${personasDisponibles}"
+                                                th:value="${persona.idPersona}"
+                                                th:text="'ID: ' + ${persona.idPersona} + ', Nombre: ' + ${persona.nombre} + ' ' + ${persona.apellidos} + ', DNI: ' + ${persona.dni}">
                                         </option>
+
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -102,10 +104,13 @@
                                 <div class="mb-3">
                                     <label class="form-label">Persona</label>
                                     <select class="form-select input-anime" id="editPersona" name="idPersona" disabled>
-                                        <option th:each="persona : ${personasDisponibles}" th:value="${persona.idPersona}"
-                                                th:text="${persona.idPersona + ' - ' + persona.nombre + ' ' + persona.apellidos + ' (' + persona.dni + ')'}">
+                                        <option th:each="persona : ${personasDisponibles}"
+                                                th:value="${persona.idPersona}"
+                                                th:text="'ID: ' + ${persona.idPersona} + ', Nombre: ' + ${persona.nombre} + ' ' + ${persona.apellidos} + ', DNI: (' + ${persona.dni} + ')'">
                                         </option>
                                     </select>
+
+
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Nombre de usuario</label>
@@ -309,5 +314,6 @@ $(document).ready(function() {
         modalUsuarioBS.show();
     });
 });
-</script></body>
+</script>
+</body>
 </html>

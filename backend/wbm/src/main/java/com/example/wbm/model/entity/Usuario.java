@@ -9,6 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
@@ -52,5 +54,8 @@ public class Usuario {
 
     @Column(name = "estado",nullable = false)
     private Integer estado;
+
+    @OneToMany(mappedBy = "usuario",fetch = FetchType.LAZY)
+    private List<Perfil> perfiles;
 
 }
