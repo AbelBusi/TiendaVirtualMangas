@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -87,24 +88,30 @@ public class librosController {
     }
 
     @PostMapping("/libros/guardar")
-    public String guardarLibro(@Valid @ModelAttribute("guardarLibro") LibroDTO libroDTO){
+    public String guardarLibro(
+            @Valid @ModelAttribute("guardarLibro") LibroDTO libroDTO,
+            @RequestParam("file") MultipartFile file) { // <-- Se recibe el archivo aquí
 
-        // La lógica de subir la imagen se manejaría aquí o en el servicio.
-        // Por simplicidad, asumimos que portadaUrl ya viene poblado (ej: con el nombre del archivo).
-        libroServicio.guardarLibro(libroDTO);
+        // El servicio se encargará de guardar el archivo y la ruta en el DTO
+        libroServicio.guardarLibroConImagen(libroDTO, file);
 
         return "redirect:/administrador/libros";
     }
 
+
+    // ----------------------------------------------------
+// Método de EDITAR (Con Imagen opcional)
+// ----------------------------------------------------
     @PostMapping("/libros/editar")
-    public String editarLibro(@Valid @ModelAttribute("editarLibro") LibroDTO libroDTO){
+    public String editarLibro(
+            @Valid @ModelAttribute("editarLibro") LibroDTO libroDTO,
+            @RequestParam(value = "file", required = false) MultipartFile file) { // <-- Archivo opcional
 
-        // La lógica de edición de imagen también iría aquí si fuera necesario.
-        libroServicio.editarLibro(libroDTO);
+        // El servicio se encargará de guardar el archivo y la ruta
+        libroServicio.editarLibroConImagen(libroDTO, file);
 
         return "redirect:/administrador/libros";
     }
-
     @PostMapping("/libros/cambiarEstado")
     public String cambiarEstadoLibro(@RequestParam("idLibro") Integer idLibro) {
 

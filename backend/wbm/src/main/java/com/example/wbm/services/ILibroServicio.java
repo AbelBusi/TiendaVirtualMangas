@@ -2,6 +2,7 @@ package com.example.wbm.services;
 
 import com.example.wbm.model.dto.FormResponseSuccessDTO;
 import com.example.wbm.model.dto.LibroDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,9 +13,13 @@ public interface ILibroServicio {
     LibroDTO leerLibroPorId(Integer idLibro);
 
     // Se recomienda usar String para la URL o un objeto MultipartFile para el archivo
-    FormResponseSuccessDTO guardarLibro(LibroDTO libroDTO);
+// Dentro de ILibroServicio.java
 
-    FormResponseSuccessDTO editarLibro(LibroDTO libroDTO);
+// ... otros métodos
+
+    FormResponseSuccessDTO guardarLibroConImagen(LibroDTO libroDTO, MultipartFile file);
+
+    FormResponseSuccessDTO editarLibroConImagen(LibroDTO libroDTO, MultipartFile file);
 
     FormResponseSuccessDTO cambiarEstadoLibro(Integer idLibro);
 
