@@ -28,5 +28,8 @@ public class TipoLibro {
     @Column(name = "estado", nullable = false)
     private Integer estado;
 
+    @OneToMany(mappedBy = "tipoLibro",fetch = FetchType.LAZY)
+    private List<Libro> tipos;
+
 
 }

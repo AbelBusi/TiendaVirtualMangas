@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libros - Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/app.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/css/bodyTransparent.css}">
+    <link rel="stylesheet" th:href="@{/css/botonesAdmin.css}">
+
+    <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+
+<body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
+<div id="app">
+    <div th:replace="~{components/header :: siderAdmin}"></div>
+
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <div class="page-heading">
+            <div class="page-title">
+                <h3>LIBROS</h3>
+            </div>
+
+            <div class="d-flex justify-content-end mb-3">
+                <button type="button" class="botone" data-bs-toggle="modal" data-bs-target="#agregarLibroModal">
+                    <i class="fas fa-plus"></i> Agregar Libro
+                </button>
+            </div>
+
+            <div class="modal fade" id="agregarLibroModal" tabindex="-1" aria-labelledby="agregarLibroLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content modal-anime">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold" id="agregarLibroLabel">Agregar Libro</h5>
+                            <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:object="${guardarLibro}" th:action="@{/administrador/libros/guardar}" method="post">
+                                <input type="hidden" th:field="*{estado}" th:value="1"/>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Título</label>
+                                        <input type="text" class="form-control input-anime" th:field="*{titulo}" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Autor</label>
+                                        <input type="text" class="form-control input-anime" th:field="*{autor}" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea class="form-control input-anime" th:field="*{descripcion}" rows="3" required></textarea>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Editorial</label>
+                                        <input type="text" class="form-control input-anime" th:field="*{editorial}" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">ISBN</label>
+                                        <input type="text" class="form-control input-anime" th:field="*{isbn}" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Tipo de Libro (Categoría)</label>
+                                        <select id="selectTipoLibro" class="form-select input-anime" th:field="*{tipoLibro}" required>
+                                            <option value="" disabled selected>Seleccione</option>
+                                            <option th:each="tipo : ${tiposLibro}"
+                                                    th:value="${tipo.idTipoLibro}"
+                                                    th:text="${tipo.nombre} + ' (' + ${tipo.descripcion} + ')'">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Idioma</label>
+                                        <input type="text" class="form-control input-anime" th:field="*{idioma}" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">N° Páginas</label>
+                                        <input type="number" class="form-control input-anime" th:field="*{numPaginas}" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Precio (S/)</label>
+                                        <input type="number" step="0.01" class="form-control input-anime" th:field="*{precio}" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Fecha Publicación</label>
+                                        <input type="datetime-local" class="form-control input-anime" th:field="*{fechaPublicacion}" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Portada URL (Ruta en /store)</label>
+                                        <input type="text" class="form-control input-anime" th:field="*{portadaUrl}" placeholder="ej: mi_libro.jpg" required>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-anime w-100 fw-bold mt-3">Agregar Libro</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalLibro" tabindex="-1" aria-labelledby="modalLibroLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content modal-anime">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold" id="modalLibroLabel"></h5>
+                            <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formEditarLibro" th:action="@{/administrador/libros/editar}" method="post" style="display:none;">
+                                <input type="hidden" id="editIdLibro" name="idLibro">
+                                <input type="hidden" id="editEstadoLibro" name="estado">
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Título</label>
+                                        <input type="text" class="form-control input-anime" id="editTitulo" name="titulo" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Autor</label>
+                                        <input type="text" class="form-control input-anime" id="editAutor" name="autor" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea class="form-control input-anime" id="editDescripcion" name="descripcion" rows="3" required></textarea>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Editorial</label>
+                                        <input type="text" class="form-control input-anime" id="editEditorial" name="editorial" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">ISBN</label>
+                                        <input type="text" class="form-control input-anime" id="editIsbn" name="isbn" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Tipo de Libro (Categoría)</label>
+                                        <select class="form-select input-anime" id="editTipoLibro" name="tipoLibro" required>
+                                            <option th:each="tipo : ${tiposLibro}"
+                                                    th:value="${tipo.idTipoLibro}"
+                                                    th:text="${tipo.nombre}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Idioma</label>
+                                        <input type="text" class="form-control input-anime" id="editIdioma" name="idioma" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">N° Páginas</label>
+                                        <input type="number" class="form-control input-anime" id="editNPaginas" name="nPaginas" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Precio (S/)</label>
+                                        <input type="number" step="0.01" class="form-control input-anime" id="editPrecio" name="precio" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Fecha Publicación</label>
+                                        <input type="datetime-local" class="form-control input-anime" id="editFechaPublicacion" name="fechaPublicacion" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Portada URL (Ruta en /store)</label>
+                                        <input type="text" class="form-control input-anime" id="editPortadaUrl" name="portadaUrl" required>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-anime w-100 fw-bold mt-3">Guardar Cambios</button>
+                            </form>
+
+                            <div id="vistaLibro" style="display:none;">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <img id="viewPortada" class="img-fluid rounded shadow" alt="Portada del Libro" style="max-height: 250px; object-fit: cover;">
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="mb-2"><strong>Título:</strong> <span id="viewTitulo"></span></div>
+                                        <div class="mb-2"><strong>Autor:</strong> <span id="viewAutor"></span></div>
+                                        <div class="mb-2"><strong>Editorial:</strong> <span id="viewEditorial"></span></div>
+                                        <div class="mb-2"><strong>Tipo:</strong> <span id="viewTipoLibro"></span></div>
+                                        <div class="mb-2"><strong>ISBN:</strong> <span id="viewIsbn"></span></div>
+                                        <div class="mb-2"><strong>Páginas:</strong> <span id="viewNPaginas"></span></div>
+                                        <div class="mb-2"><strong>Precio:</strong> <span id="viewPrecio"></span></div>
+                                        <div class="mb-2"><strong>Estado:</strong> <span id="viewEstado"></span></div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <strong>Descripción:</strong> <p id="viewDescripcion"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section mt-3">
+                <div class="row" id="table-head">
+                    <div class="col-12">
+                        <div class="card bg-transparent border-0">
+                            <div class="card-header bg-transparent border-0">
+                                <h4 class="card-title text-white text-center">Lista de Libros</h4>
+                            </div>
+                            <div class="card-content">
+                                <div class="table-responsive">
+                                    <table id="librosTable" class="table table-transparent table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Portada</th>
+                                            <th>Título</th>
+                                            <th>Autor</th>
+                                            <th>Tipo</th>
+                                            <th>Precio</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="libro : ${libros}"
+                                            th:attr="data-id=${libro.idLibro},
+                                                     data-titulo=${libro.titulo},
+                                                     data-autor=${libro.autor},
+                                                     data-descripcion=${libro.descripcion},
+                                                     data-fecha=${#temporals.format(libro.fechaPublicacion, 'yyyy-MM-dd''T''HH:mm:ss')},
+                                                     data-editorial=${libro.editorial},
+                                                     data-genero=${libro.genero},
+                                                     data-tipo=${libro.tipoLibro},
+                                                     data-npaginas=${libro.nPaginas},
+                                                     data-isbn=${libro.isbn},
+                                                     data-idioma=${libro.idioma},
+                                                     data-portada=${libro.portadaUrl},
+                                                     data-precio=${libro.precio},
+                                                     data-estado=${libro.estado}">
+                                            <td th:text="${libro.idLibro}"></td>
+                                            <td>
+                                                <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}" alt="Portada" style="width: 50px; height: 75px; object-fit: cover;">
+                                            </td>
+                                            <td th:text="${libro.titulo}"></td>
+                                            <td th:text="${libro.autor}"></td>
+                                            <td th:text="${libro.tipoLibro}"></td>
+                                            <td th:text="'S/ ' + ${#numbers.formatDecimal(libro.precio, 1, 2)}"></td>
+                                            <td th:text="${libro.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary btn-editar-libro">
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </button>
+
+                                                <form th:action="@{/administrador/libros/cambiarEstado}" method="post" style="display:inline">
+                                                    <input type="hidden" name="idLibro" th:value="${libro.idLibro}">
+                                                    <button type="submit" class="btn btn-sm btn-warning btn-action">
+                                                        <i class="fas fa-exchange-alt"></i> Cambiar Estado
+                                                    </button>
+                                                </form>
+
+                                                <button class="btn btn-sm btn-info btn-ver-libro">
+                                                    <i class="fas fa-eye"></i> Ver
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+
+<script>
+$(document).ready(function () {
+    // 1. Inicialización de DataTables
+    $('#librosTable').DataTable({
+        dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
+        buttons: [
+            { extend: 'excelHtml5', className: 'btn btn-success', text: '<i class="fas fa-file-excel"></i> Excel', exportOptions: { columns: ':visible' } },
+            { extend: 'pdfHtml5', className: 'btn btn-danger', text: '<i class="fas fa-file-pdf"></i> PDF', exportOptions: { columns: ':visible' } },
+            { extend: 'print', className: 'btn btn-primary', text: '<i class="fas fa-print"></i> Imprimir', exportOptions: { columns: ':visible' } }
+        ],
+        order: [ [2, 'asc'] ], // Ordena por Título
+        language: {
+            search: "Buscar:", lengthMenu: "Mostrar _MENU_ registros", info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            paginate: { previous: "⬅", next: "➡" }
+        }
+    });
+
+    // 2. Inicialización de Select2 para el modal de AGREGAR
+    $('#selectTipoLibro').select2({
+        dropdownParent: $('#agregarLibroModal'),
+        placeholder: "Seleccione una categoría",
+        width: '100%'
+    });
+
+    // Desactivar enforceFocus para el modal de edición/ver
+    $('#modalLibro').on('shown.bs.modal', function () {
+        $(document).off('focusin.modal');
+    });
+
+    // Función auxiliar para obtener el nombre de TipoLibro dado el ID
+    const getTipoLibroNombre = (id) => {
+        return $('#editTipoLibro option[value="' + id + '"]').text().trim();
+    };
+
+    // 3. Delegación para Botón EDITAR LIBRO
+    $(document).on('click', '.btn-editar-libro', function() {
+        const rowData = $(this).closest('tr').data();
+
+        $('#modalLibroLabel').text('Editar Libro: ' + rowData.titulo);
+        $('#formEditarLibro').show();
+        $('#vistaLibro').hide();
+
+        // Llenado del formulario de edición
+        $('#editIdLibro').val(rowData.id);
+        $('#editTitulo').val(rowData.titulo);
+        $('#editAutor').val(rowData.autor);
+        $('#editDescripcion').val(rowData.descripcion);
+        $('#editFechaPublicacion').val(rowData.fecha);
+        $('#editEditorial').val(rowData.editorial);
+        $('#editIsbn').val(rowData.isbn);
+        $('#editIdioma').val(rowData.idioma);
+        $('#editNPaginas').val(rowData.npaginas);
+        $('#editPrecio').val(parseFloat(rowData.precio).toFixed(2));
+        $('#editPortadaUrl').val(rowData.portada);
+        $('#editEstadoLibro').val(rowData.estado);
+
+        // Seleccionar el TipoLibro correcto en el select
+        $('#editTipoLibro').val(rowData.tipo).trigger('change');
+
+        const modalLibroBS = new bootstrap.Modal(document.getElementById('modalLibro'));
+        modalLibroBS.show();
+    });
+
+    // 4. Delegación para Botón VER LIBRO
+    $(document).on('click', '.btn-ver-libro', function() {
+        const rowData = $(this).closest('tr').data();
+
+        $('#modalLibroLabel').text('Detalles del Libro: ' + rowData.titulo);
+        $('#formEditarLibro').hide();
+        $('#vistaLibro').show();
+
+        // Llenado de la vista
+        $('#viewPortada').attr('src', '/media/images/store/' + rowData.portada);
+        $('#viewTitulo').text(rowData.titulo);
+        $('#viewAutor').text(rowData.autor);
+        $('#viewEditorial').text(rowData.editorial);
+        $('#viewTipoLibro').text(getTipoLibroNombre(rowData.tipo));
+        $('#viewIsbn').text(rowData.isbn);
+        $('#viewNPaginas').text(rowData.npaginas);
+        $('#viewPrecio').text('S/ ' + parseFloat(rowData.precio).toFixed(2));
+        $('#viewEstado').text(rowData.estado == 1 ? 'Activo' : 'Inactivo');
+        $('#viewDescripcion').text(rowData.descripcion);
+
+        const modalLibroBS = new bootstrap.Modal(document.getElementById('modalLibro'));
+        modalLibroBS.show();
+    });
+});
+</script>
+</body>
+</html>
