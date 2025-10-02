@@ -33,7 +33,8 @@ public class WebSecurityConfigUser {
 				.authorizeHttpRequests((requests) -> requests
 						// Permisos públicos
 						.requestMatchers("/assets/**", "/css/**", "/js/**", "/media/**").permitAll()
-						.requestMatchers("/ingresar", "/ingresar/**", "/inicio/**").permitAll()
+						.requestMatchers("/ingresar", "/ingresar/**", "/inicio/**","/tienda","/tienda/**","/revista","/revista/**"
+						,"/contactanos","/contactanos/**").permitAll()
 
 						// CORRECCIÓN CLAVE: Se usa "ROLE_ADMINISTRADOR" que es el que se crea en CustomUserDetails
 						.requestMatchers("/administrador/**").hasAuthority("ROLE_ADMINISTRADOR")

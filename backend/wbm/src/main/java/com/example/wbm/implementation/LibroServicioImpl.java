@@ -30,8 +30,8 @@ public class LibroServicioImpl implements ILibroServicio {
     private final ILibroMapper libroMapper;
     private final ITipoLibroRepository tipoLibroRepository;
 
-    private static final String UPLOAD_DIR = "src/main/resources/static/media/images/store/";
-// Inyectar Repositorio de la FK
+    // CAMBIO CLAVE EN EL SERVICIO
+    private static final String UPLOAD_DIR = "uploads/images/store/";// Inyectar Repositorio de la FK
 
     @Transactional(readOnly = true)
     @Override
@@ -177,4 +177,11 @@ public class LibroServicioImpl implements ILibroServicio {
             return new FormResponseSuccessDTO("El estado del libro pasó a Activo", true);
         }
     }
+
+    @Override
+    public List<Libro> leerLibrosActivos() {
+        // Llama al método del repositorio para obtener solo los libros con estado = 1
+        return libroRepository.findByEstadoIsTrue();
+    }
+
 }

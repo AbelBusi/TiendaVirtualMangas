@@ -29,4 +29,7 @@ public class LibroDTO {
     private BigDecimal precio;
     private Integer estado;
 
+    private String nombreTipoLibro;
+
+
 }

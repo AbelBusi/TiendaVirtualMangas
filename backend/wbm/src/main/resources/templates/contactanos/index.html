@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -12,21 +11,21 @@
     <!-- Font Awesome 6 (CDN) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-    <link rel="shortcut icon" href="../assets/media/images/iconos/iconoOnePieceCHAD.png" />
+    <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
 
-    <link rel="stylesheet" href="../assets/css/carrusel.css">
-    <link rel="stylesheet" href="../assets/css/header.css">
-    <link rel="stylesheet" href="../assets/css/footer.css">
-    <link rel="stylesheet" href="../assets/css/letras.css">
-    <link rel="stylesheet" href="../assets/css/card.css">
-    <link rel="stylesheet" href="../assets/css/apiContainer.css">
-    <link rel="stylesheet" href="../assets/css/mangas.css">
-    <link rel="stylesheet" href="../assets/css/botones.css">
+    <link rel="stylesheet" th:href="@{/css/carrusel.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/letras.css}">
+    <link rel="stylesheet" th:href="@{/css/card.css}">
+    <link rel="stylesheet" th:href="@{/css/apiContainer.css}">
+    <link rel="stylesheet" th:href="@{/css/mangas.css}">
+    <link rel="stylesheet" th:href="@{/css/botones.css}">
 
     <style>
         .form-control:focus {
@@ -60,59 +59,7 @@
 <body>
 
 
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container-fluid">
-                <!-- Logo como imagen -->
-                <a class="navbar-brand d-flex align-items-center" href="../index.html">
-                    <img src="../assets/media/images/iconos/iconoOnePieceCHAD.png" alt="Logo" class="logo me-2">
-                    <span class="fw-bold textHeaderShadow tituloHeader">WEbStorm</span>
-                </a>
-
-                <!-- Botón hamburguesa -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Menú colapsable -->
-                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-                    <ul class="navbar-nav mb-2 mb-lg-0 text-center">
-                        <li class="nav-item mx-2">
-                            <a class="nav-link  textHeader textHeaderShadow" href="../store/index.html">
-                                <i class="fas fa-book"></i> Mangas
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="../revista/index.html">
-                                <i class="fas fa-newspaper"></i> Revistas
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="#">
-                                <i class="fas fa-comic"></i> Historietas
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="#">
-                                <i class="fas fa-concierge-bell"></i> Servicios
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link active textHeader textHeaderShadow" href="index.html">
-                                <i class="fas fa-envelope"></i> Contactarnos
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="../iniciarSesion/index.html">
-                                <i class="fas fa-user"></i> Iniciar Sesión
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+<div th:replace="components/header :: mainHeader"></div>
 
     <main class="container my-5">
         <!-- Banner de contacto -->
@@ -392,7 +339,7 @@
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
 
-    <script src="../assets/js/movimiento.js"></script>
+    <script th:src="@{/js/movimiento.js}"></script>
 
 
     <script>

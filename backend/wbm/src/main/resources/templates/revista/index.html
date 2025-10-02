@@ -1,32 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>WEbStorm</title>
     <meta name='viewport' content='user-scalable=no, width=device-width, initial-scale=1'>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous">
-
-    <!-- Font Awesome 6 (CDN) -->
+          crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-
-    <link rel="shortcut icon" href="../assets/media/images/iconos/iconoOnePieceCHAD.png" />
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
 
-    <link rel="stylesheet" href="../assets/css/carrusel.css">
-    <link rel="stylesheet" href="../assets/css/header.css">
-    <link rel="stylesheet" href="../assets/css/footer.css">
-    <link rel="stylesheet" href="../assets/css/letras.css">
-    <link rel="stylesheet" href="../assets/css/card.css">
-    <link rel="stylesheet" href="../assets/css/apiContainer.css">
-    <link rel="stylesheet" href="../assets/css/mangas.css">
-    <link rel="stylesheet" href="../assets/css/botones.css">
+    <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+
+    <link rel="stylesheet" th:href="@{/css/carrusel.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/letras.css}">
+    <link rel="stylesheet" th:href="@{/css/card.css}">
+    <link rel="stylesheet" th:href="@{/css/apiContainer.css}">
+    <link rel="stylesheet" th:href="@{/css/mangas.css}">
+    <link rel="stylesheet" th:href="@{/css/botones.css}">
 
 
 </head>
@@ -40,388 +36,324 @@
 
 <body>
 
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container-fluid">
-                <!-- Logo como imagen -->
-                <a class="navbar-brand d-flex align-items-center" href="../index.html">
-                    <img src="../assets/media/images/iconos/iconoOnePieceCHAD.png" alt="Logo" class="logo me-2">
-                    <span class="fw-bold textHeaderShadow tituloHeader">WEbStorm</span>
-                </a>
+<div th:replace="components/header :: mainHeader"></div>
 
-                <!-- Botón hamburguesa -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<main class="container espac">
+    <div class="p-5 mb-4 rounded text-dark bg-warning bg-opacity-25 shadow-sm">
+        <div class="col-lg-6 px-0">
+            <h1 class="display-4 fst-italic text-dark">Explorando el mundo del anime</h1>
+            <p class="lead my-3">Descubre historias, personajes y aventuras que han marcado generaciones en el mundo
+                del anime y manga.</p>
+            <p class="lead mb-0"><a href="#" class="fw-bold text-dark text-decoration-underline">Seguir
+                leyendo...</a></p>
+        </div>
+    </div>
 
-                <!-- Menú colapsable -->
-                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-                    <ul class="navbar-nav mb-2 mb-lg-0 text-center">
-                        <li class="nav-item mx-2">
-                            <a class="nav-link  textHeader textHeaderShadow" href="../store/index.html">
-                                <i class="fas fa-book"></i> Mangas
+    <div class="row mb-4 g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded-3 overflow-hidden h-100 bg-light">
+                <div class="row g-0">
+                    <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
+                        <strong class="text-warning mb-2">Shonen</strong>
+                        <h3 class="mb-2">Doraemon Plus</h3>
+                        <div class="text-muted mb-2">Mar 10</div>
+                        <p>Nobita y Doraemon enfrentan divertidos problemas diarios con inventos futuristas.</p>
+                        <a href="#" class="fw-semibold text-warning text-decoration-none">Seguir leyendo &rarr;</a>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <img th:src="@{/assets/media/images/mangas/Doraemon_Plus_04.jpg}" class="img-fluid rounded-end"
+                             alt="Doraemon">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded-3 overflow-hidden h-100 bg-light">
+                <div class="row g-0">
+                    <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
+                        <strong class="text-warning mb-2">Misterio</strong>
+                        <h3 class="mb-2">Teizuki Yuurei</h3>
+                        <div class="text-muted mb-2">Feb 28</div>
+                        <p>Misterios de fantasmas y espíritus en un mundo donde lo sobrenatural convive con humanos.
+                        </p>
+                        <a href="#" class="fw-semibold text-warning text-decoration-none">Seguir leyendo &rarr;</a>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <img th:src="@{/assets/media/images/mangas/2K Teizuki Yuurei Tsuki - 01 [NOT FULL].jpg}"
+                             class="img-fluid rounded-end" alt="Teizuki Yuurei">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3 class="pb-3 mb-4 fst-italic border-bottom text-warning">Últimas entradas</h3>
+
+            <article class="blog-post mb-5">
+                <h2 class="display-5 mb-1 text-dark">Majin Tantei Nogami Neuro</h2>
+                <p class="blog-post-meta text-muted">Enero 15, 2024 por <a href="#"
+                                                                           class="text-warning text-decoration-none">Autor Anime</a></p>
+                <p>Un detective con poderes sobrenaturales resuelve casos extraños mientras disfruta de deliciosos
+                    misterios.</p>
+                <hr>
+                <p>Neuro combina ingenio y humor, mostrando un mundo donde lo imposible se vuelve cotidiano.</p>
+            </article>
+
+            <article class="blog-post mb-5">
+                <h2 class="display-5 mb-1 text-dark">Elfen Lied</h2>
+                <p class="blog-post-meta text-muted">Diciembre 10, 2023 por <a href="#"
+                                                                               class="text-warning text-decoration-none">Autor Manga</a></p>
+                <p>Historia dramática y emotiva que explora los dilemas éticos y humanos de los seres especiales
+                    llamados Diclonius.</p>
+                <blockquote class="blockquote bg-warning bg-opacity-10 p-3 rounded">
+                    <p>"Entre violencia y ternura, se revelan los secretos más profundos de la humanidad."</p>
+                </blockquote>
+                <p>Elfen Lied combina acción y tragedia con un mensaje profundo sobre la aceptación y la empatía.
+                </p>
+            </article>
+
+            <article class="blog-post mb-5">
+                <h2 class="display-5 mb-1 text-dark">Hunter x Hunter</h2>
+                <p class="blog-post-meta text-muted">Enero 20, 2024 por <a href="#"
+                                                                           class="text-warning text-decoration-none">Fan Anime</a></p>
+                <p>Gon Freecss emprende un viaje para convertirse en cazador y descubrir el paradero de su padre.
+                </p>
+                <ul>
+                    <li>Acción intensa y estrategia en cada enfrentamiento.</li>
+                    <li>Personajes memorables y desarrollo profundo.</li>
+                    <li>Mundos imaginativos y sorprendentes.</li>
+                </ul>
+            </article>
+
+            <nav class="blog-pagination mb-5" aria-label="Pagination">
+                <a class="btn btn-outline-warning rounded-pill me-2" href="#">Anteriores</a>
+                <a class="btn btn-outline-secondary rounded-pill disabled" aria-disabled="true">Nuevos</a>
+            </nav>
+        </div>
+
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <div class="p-4 mb-3 bg-warning bg-opacity-10 rounded">
+                    <h4 class="fst-italic text-dark">Acerca de</h4>
+                    <p class="mb-0">Explora reseñas de mangas, curiosidades de anime y recomendaciones para los fans
+                        más apasionados.</p>
+                </div>
+
+                <div class="mb-4">
+                    <h4 class="fst-italic text-warning">Entradas recientes</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
+                                <img th:src="@{/assets/media/images/mangas/Elfen Lied - 08a [THANKS].jpg}"
+                                     class="rounded" height="96" width="100" alt="Elfen Lied">
+                                <div>
+                                    <h6 class="mb-0 text-dark">Elfen Lied Vol. 8</h6>
+                                    <small class="text-muted">Feb 5, 2024</small>
+                                </div>
                             </a>
                         </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link active textHeader textHeaderShadow" href="index.html">
-                                <i class="fas fa-newspaper"></i> Revistas
+                        <li class="mb-3">
+                            <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
+                                <img th:src="@{/assets/media/images/mangas/HXH 02.jpg}" class="rounded" height="96"
+                                     width="100" alt="HXH">
+                                <div>
+                                    <h6 class="mb-0 text-dark">Hunter x Hunter Vol. 2</h6>
+                                    <small class="text-muted">Ene 20, 2024</small>
+                                </div>
                             </a>
                         </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="#">
-                                <i class="fas fa-comic"></i> Historietas
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="#">
-                                <i class="fas fa-concierge-bell"></i> Servicios
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="../contactanos/index.html">
-                                <i class="fas fa-envelope"></i> Contactarnos
-                            </a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="nav-link textHeader textHeaderShadow" href="../iniciarSesion/index.html">
-                                <i class="fas fa-user"></i> Iniciar Sesión
+                        <li class="mb-3">
+                            <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
+                                <img th:src="@{/assets/media/images/mangas/Haruka_17_01.jpg}" class="rounded"
+                                     height="96" width="100" alt="Haruka">
+                                <div>
+                                    <h6 class="mb-0 text-dark">Haruka Vol. 1</h6>
+                                    <small class="text-muted">Ene 10, 2024</small>
+                                </div>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
-        </nav>
-    </header>
-
-    <main class="container espac">
-        <!-- Hero -->
-        <div class="p-5 mb-4 rounded text-dark bg-warning bg-opacity-25 shadow-sm">
-            <div class="col-lg-6 px-0">
-                <h1 class="display-4 fst-italic text-dark">Explorando el mundo del anime</h1>
-                <p class="lead my-3">Descubre historias, personajes y aventuras que han marcado generaciones en el mundo
-                    del anime y manga.</p>
-                <p class="lead mb-0"><a href="#" class="fw-bold text-dark text-decoration-underline">Seguir
-                        leyendo...</a></p>
-            </div>
         </div>
-
-        <!-- Tarjetas destacadas -->
-        <div class="row mb-4 g-4">
-            <div class="col-md-6">
-                <div class="card shadow-sm border-0 rounded-3 overflow-hidden h-100 bg-light">
-                    <div class="row g-0">
-                        <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
-                            <strong class="text-warning mb-2">Shonen</strong>
-                            <h3 class="mb-2">Doraemon Plus</h3>
-                            <div class="text-muted mb-2">Mar 10</div>
-                            <p>Nobita y Doraemon enfrentan divertidos problemas diarios con inventos futuristas.</p>
-                            <a href="#" class="fw-semibold text-warning text-decoration-none">Seguir leyendo &rarr;</a>
-                        </div>
-                        <div class="col-md-4 d-flex align-items-center">
-                            <img src="../assets/media/images/mangas/Doraemon_Plus_04.jpg" class="img-fluid rounded-end"
-                                alt="Doraemon">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card shadow-sm border-0 rounded-3 overflow-hidden h-100 bg-light">
-                    <div class="row g-0">
-                        <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
-                            <strong class="text-warning mb-2">Misterio</strong>
-                            <h3 class="mb-2">Teizuki Yuurei</h3>
-                            <div class="text-muted mb-2">Feb 28</div>
-                            <p>Misterios de fantasmas y espíritus en un mundo donde lo sobrenatural convive con humanos.
-                            </p>
-                            <a href="#" class="fw-semibold text-warning text-decoration-none">Seguir leyendo &rarr;</a>
-                        </div>
-                        <div class="col-md-4 d-flex align-items-center">
-                            <img src="../assets/media/images/mangas/2K Teizuki Yuurei Tsuki - 01 [NOT FULL].jpg"
-                                class="img-fluid rounded-end" alt="Teizuki Yuurei">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Últimas entradas -->
-        <div class="row g-5">
-            <div class="col-md-8">
-                <h3 class="pb-3 mb-4 fst-italic border-bottom text-warning">Últimas entradas</h3>
-
-                <article class="blog-post mb-5">
-                    <h2 class="display-5 mb-1 text-dark">Majin Tantei Nogami Neuro</h2>
-                    <p class="blog-post-meta text-muted">Enero 15, 2024 por <a href="#"
-                            class="text-warning text-decoration-none">Autor Anime</a></p>
-                    <p>Un detective con poderes sobrenaturales resuelve casos extraños mientras disfruta de deliciosos
-                        misterios.</p>
-                    <hr>
-                    <p>Neuro combina ingenio y humor, mostrando un mundo donde lo imposible se vuelve cotidiano.</p>
-                </article>
-
-                <article class="blog-post mb-5">
-                    <h2 class="display-5 mb-1 text-dark">Elfen Lied</h2>
-                    <p class="blog-post-meta text-muted">Diciembre 10, 2023 por <a href="#"
-                            class="text-warning text-decoration-none">Autor Manga</a></p>
-                    <p>Historia dramática y emotiva que explora los dilemas éticos y humanos de los seres especiales
-                        llamados Diclonius.</p>
-                    <blockquote class="blockquote bg-warning bg-opacity-10 p-3 rounded">
-                        <p>"Entre violencia y ternura, se revelan los secretos más profundos de la humanidad."</p>
-                    </blockquote>
-                    <p>Elfen Lied combina acción y tragedia con un mensaje profundo sobre la aceptación y la empatía.
-                    </p>
-                </article>
-
-                <article class="blog-post mb-5">
-                    <h2 class="display-5 mb-1 text-dark">Hunter x Hunter</h2>
-                    <p class="blog-post-meta text-muted">Enero 20, 2024 por <a href="#"
-                            class="text-warning text-decoration-none">Fan Anime</a></p>
-                    <p>Gon Freecss emprende un viaje para convertirse en cazador y descubrir el paradero de su padre.
-                    </p>
-                    <ul>
-                        <li>Acción intensa y estrategia en cada enfrentamiento.</li>
-                        <li>Personajes memorables y desarrollo profundo.</li>
-                        <li>Mundos imaginativos y sorprendentes.</li>
-                    </ul>
-                </article>
-
-                <nav class="blog-pagination mb-5" aria-label="Pagination">
-                    <a class="btn btn-outline-warning rounded-pill me-2" href="#">Anteriores</a>
-                    <a class="btn btn-outline-secondary rounded-pill disabled" aria-disabled="true">Nuevos</a>
-                </nav>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="col-md-4">
-                <div class="position-sticky" style="top: 2rem;">
-                    <div class="p-4 mb-3 bg-warning bg-opacity-10 rounded">
-                        <h4 class="fst-italic text-dark">Acerca de</h4>
-                        <p class="mb-0">Explora reseñas de mangas, curiosidades de anime y recomendaciones para los fans
-                            más apasionados.</p>
-                    </div>
-
-                    <div class="mb-4">
-                        <h4 class="fst-italic text-warning">Entradas recientes</h4>
-                        <ul class="list-unstyled">
-                            <li class="mb-3">
-                                <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
-                                    <img src="../assets/media/images/mangas/Elfen Lied - 08a [THANKS].jpg"
-                                        class="rounded" height="96" width="100" alt="Elfen Lied">
-                                    <div>
-                                        <h6 class="mb-0 text-dark">Elfen Lied Vol. 8</h6>
-                                        <small class="text-muted">Feb 5, 2024</small>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="mb-3">
-                                <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
-                                    <img src="../assets/media/images/mangas/HXH 02.jpg" class="rounded" height="96"
-                                        width="100" alt="HXH">
-                                    <div>
-                                        <h6 class="mb-0 text-dark">Hunter x Hunter Vol. 2</h6>
-                                        <small class="text-muted">Ene 20, 2024</small>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="mb-3">
-                                <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
-                                    <img src="../assets/media/images/mangas/Haruka_17_01.jpg" class="rounded"
-                                        height="96" width="100" alt="Haruka">
-                                    <div>
-                                        <h6 class="mb-0 text-dark">Haruka Vol. 1</h6>
-                                        <small class="text-muted">Ene 10, 2024</small>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    </div>
+</main>
 
 
-    <footer class="footer">
+<footer class="footer">
 
-        <!-- Widgets -->
-        <section class="py-4 py-md-5">
-            <div class="container overflow-hidden">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="container-fluid border border-dark rounded-3 shadow-sm">
-                            <div class="row">
-                                <!-- Contacto -->
-                                <div class="col-xs-12 col-lg-4">
-                                    <div class="widget p-3 p-md-4 p-xxl-5">
-                                        <h4 class="widget-title mb-4">Contacto</h4>
-                                        <address class="mb-4">
-                                            <i class="fas fa-map-marker-alt me-2"></i> Av. Otaku 777, Chiclayo, Perú
-                                        </address>
-                                        <p class="mb-1">
-                                            <a class="link-dark" href="tel:+51999999999">
-                                                <i class="fas fa-phone-alt me-2"></i> +51 999 999 999
-                                            </a>
-                                        </p>
-                                        <p class="mb-0">
-                                            <a class="link-dark" href="mailto:contacto@mangastore.com">
-                                                <i class="fas fa-envelope me-2"></i> contacto@mangastore.com
-                                            </a>
-                                        </p>
-                                    </div>
+    <section class="py-4 py-md-5">
+        <div class="container overflow-hidden">
+            <div class="row">
+                <div class="col-12">
+                    <div class="container-fluid border border-dark rounded-3 shadow-sm">
+                        <div class="row">
+                            <div class="col-xs-12 col-lg-4">
+                                <div class="widget p-3 p-md-4 p-xxl-5">
+                                    <h4 class="widget-title mb-4">Contacto</h4>
+                                    <address class="mb-4">
+                                        <i class="fas fa-map-marker-alt me-2"></i> Av. Otaku 777, Chiclayo, Perú
+                                    </address>
+                                    <p class="mb-1">
+                                        <a class="link-dark" href="tel:+51999999999">
+                                            <i class="fas fa-phone-alt me-2"></i> +51 999 999 999
+                                        </a>
+                                    </p>
+                                    <p class="mb-0">
+                                        <a class="link-dark" href="mailto:contacto@mangastore.com">
+                                            <i class="fas fa-envelope me-2"></i> contacto@mangastore.com
+                                        </a>
+                                    </p>
                                 </div>
+                            </div>
 
-                                <!-- Categorías -->
-                                <div class="col-xs-12 col-lg-4">
-                                    <div class="widget p-3 p-md-4 p-xxl-5">
-                                        <h4 class="widget-title mb-4">Categorías</h4>
-                                        <ul class="list-unstyled m-0 p-0">
-                                            <li class="mb-2">
-                                                <a href="#" class="link-dark"><i class="fas fa-book me-2"></i>Mangas
-                                                    Shonen</a>
-                                            </li>
-                                            <li class="mb-2">
-                                                <a href="#" class="link-dark"><i class="fas fa-heart me-2"></i>Mangas
-                                                    Shojo</a>
-                                            </li>
-                                            <li class="mb-2">
-                                                <a href="#" class="link-dark"><i class="fas fa-dragon me-2"></i>Seinen &
-                                                    Terror</a>
-                                            </li>
-                                            <li class="mb-2">
-                                                <a href="#" class="link-dark"><i class="fas fa-gamepad me-2"></i>Figuras
-                                                    de colección</a>
-                                            </li>
-                                            <li class="mb-0">
-                                                <a href="#" class="link-dark"><i class="fas fa-image me-2"></i>Posters y
-                                                    Merch</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                            <div class="col-xs-12 col-lg-4">
+                                <div class="widget p-3 p-md-4 p-xxl-5">
+                                    <h4 class="widget-title mb-4">Categorías</h4>
+                                    <ul class="list-unstyled m-0 p-0">
+                                        <li class="mb-2">
+                                            <a href="#" class="link-dark"><i class="fas fa-book me-2"></i>Mangas
+                                                Shonen</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a href="#" class="link-dark"><i class="fas fa-heart me-2"></i>Mangas
+                                                Shojo</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a href="#" class="link-dark"><i class="fas fa-dragon me-2"></i>Seinen &
+                                                Terror</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a href="#" class="link-dark"><i class="fas fa-gamepad me-2"></i>Figuras
+                                                de colección</a>
+                                        </li>
+                                        <li class="mb-0">
+                                            <a href="#" class="link-dark"><i class="fas fa-image me-2"></i>Posters y
+                                                Merch</a>
+                                        </li>
+                                    </ul>
                                 </div>
+                            </div>
 
-                                <!-- Horarios -->
-                                <div class="col-xs-12 col-lg-4">
-                                    <div class="widget p-3 p-md-4 p-xxl-5">
-                                        <h4 class="widget-title mb-4">Horarios</h4>
-                                        <p class="mb-4">Atendemos con la mejor energía para los fanáticos del manga y
-                                            anime.</p>
-                                        <div>
-                                            <div class="row mb-1">
-                                                <div class="col-5 col-xl-4">
-                                                    <span class="fw-bold">Lun - Vie:</span>
-                                                </div>
-                                                <div class="col-7 col-xl-8">
-                                                    <span class="text-secondary">10am - 8pm</span>
-                                                </div>
+                            <div class="col-xs-12 col-lg-4">
+                                <div class="widget p-3 p-md-4 p-xxl-5">
+                                    <h4 class="widget-title mb-4">Horarios</h4>
+                                    <p class="mb-4">Atendemos con la mejor energía para los fanáticos del manga y
+                                        anime.</p>
+                                    <div>
+                                        <div class="row mb-1">
+                                            <div class="col-5 col-xl-4">
+                                                <span class="fw-bold">Lun - Vie:</span>
                                             </div>
-                                            <div class="row mb-1">
-                                                <div class="col-5 col-xl-4">
-                                                    <span class="fw-bold">Sáb:</span>
-                                                </div>
-                                                <div class="col-7 col-xl-8">
-                                                    <span class="text-secondary">10am - 6pm</span>
-                                                </div>
+                                            <div class="col-7 col-xl-8">
+                                                <span class="text-secondary">10am - 8pm</span>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-5 col-xl-4">
-                                                    <span class="fw-bold">Dom:</span>
-                                                </div>
-                                                <div class="col-7 col-xl-8">
-                                                    <span class="text-secondary">Cerrado</span>
-                                                </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-5 col-xl-4">
+                                                <span class="fw-bold">Sáb:</span>
+                                            </div>
+                                            <div class="col-7 col-xl-8">
+                                                <span class="text-secondary">10am - 6pm</span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-5 col-xl-4">
+                                                <span class="fw-bold">Dom:</span>
+                                            </div>
+                                            <div class="col-7 col-xl-8">
+                                                <span class="text-secondary">Cerrado</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- end horarios -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Colophon -->
-        <div class="pb-4 pb-md-5">
-            <div class="container overflow-hidden">
-                <div class="row">
-                    <div class="col">
-                        <div class="container-fluid border border-dark rounded-3 shadow-sm">
-                            <div class="row gy-4 gy-lg-0 p-3 p-md-4 p-xxl-5 align-items-md-center">
-                                <!-- Logo -->
-                                <div class="col-xs-12 col-sm-6 col-lg-4 order-0 order-lg-0">
-                                    <div class="footer-logo-wrapper text-center text-sm-start">
-                                        <img src="../assets/media/images/iconos/iconoOnePieceCHAD.png" height="80px"
-                                            alt="Logo Manga Store" class="logo me-2">
+    <div class="pb-4 pb-md-5">
+        <div class="container overflow-hidden">
+            <div class="row">
+                <div class="col">
+                    <div class="container-fluid border border-dark rounded-3 shadow-sm">
+                        <div class="row gy-4 gy-lg-0 p-3 p-md-4 p-xxl-5 align-items-md-center">
+                            <div class="col-xs-12 col-sm-6 col-lg-4 order-0 order-lg-0">
+                                <div class="footer-logo-wrapper text-center text-sm-start">
+                                    <img th:src="@{/assets/media/images/iconos/iconoOnePieceCHAD.png}" height="80px"
+                                         alt="Logo Manga Store" class="logo me-2">
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-lg-4 order-2 order-lg-1">
+                                <div class="colophon-wrapper">
+                                    <div class="footer-copyright-wrapper text-center">
+                                        © 2024 MangaStore. Todos los derechos reservados.
+                                    </div>
+                                    <div class="credits text-secondary text-center mt-2 fs-8">
+                                        Desarrollado con pasión por <span class="text-primary">Otaku Devs</span>
                                     </div>
                                 </div>
+                            </div>
 
-                                <!-- Derechos -->
-                                <div class="col-xs-12 col-lg-4 order-2 order-lg-1">
-                                    <div class="colophon-wrapper">
-                                        <div class="footer-copyright-wrapper text-center">
-                                            © 2024 MangaStore. Todos los derechos reservados.
-                                        </div>
-                                        <div class="credits text-secondary text-center mt-2 fs-8">
-                                            Desarrollado con pasión por <span class="text-primary">Otaku Devs</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Redes sociales -->
-                                <div class="col-xs-12 col-sm-6 col-lg-4 order-1 order-lg-2">
-                                    <div class="social-media-wrapper">
-                                        <ul
+                            <div class="col-xs-12 col-sm-6 col-lg-4 order-1 order-lg-2">
+                                <div class="social-media-wrapper">
+                                    <ul
                                             class="list-unstyled m-0 p-0 d-flex justify-content-center justify-content-sm-end">
-                                            <li class="me-3">
-                                                <a href="#" class="link-dark link-opacity-75-hover" title="Facebook">
-                                                    <i class="fab fa-facebook-f fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li class="me-3">
-                                                <a href="#" class="link-dark link-opacity-75-hover" title="YouTube">
-                                                    <i class="fab fa-youtube fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li class="me-3">
-                                                <a href="#" class="link-dark link-opacity-75-hover" title="Twitter">
-                                                    <i class="fab fa-twitter fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="link-dark link-opacity-75-hover" title="Instagram">
-                                                    <i class="fab fa-instagram fa-lg"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <li class="me-3">
+                                            <a href="#" class="link-dark link-opacity-75-hover" title="Facebook">
+                                                <i class="fab fa-facebook-f fa-lg"></i>
+                                            </a>
+                                        </li>
+                                        <li class="me-3">
+                                            <a href="#" class="link-dark link-opacity-75-hover" title="YouTube">
+                                                <i class="fab fa-youtube fa-lg"></i>
+                                            </a>
+                                        </li>
+                                        <li class="me-3">
+                                            <a href="#" class="link-dark link-opacity-75-hover" title="Twitter">
+                                                <i class="fab fa-twitter fa-lg"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="link-dark link-opacity-75-hover" title="Instagram">
+                                                <i class="fab fa-instagram fa-lg"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <!-- end redes -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-    </footer>
+</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
 
 
-    <script>
+<script th:src="@{/js/movimiento.js}"></script>
+
+<script>
         $(document).ready(function () {
             $('#tablaMangas').DataTable({
                 "language": {
@@ -432,7 +364,7 @@
         });
     </script>
 
-    <script>
+<script>
         // Seleccionamos todos los botones de agregar al carrito
         const cartButtons = document.querySelectorAll(".card-link[data-bs-target='#offcanvasRight']");
 
@@ -458,7 +390,6 @@
         });
 
     </script>
-    <script src="../assets/js/movimiento.js"></script>
 
 
 </body>

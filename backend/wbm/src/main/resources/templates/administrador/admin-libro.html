@@ -58,13 +58,17 @@
                                 <input type="hidden" th:field="*{estado}" th:value="1"/>
 
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label">Título</label>
                                         <input type="text" class="form-control input-anime" th:field="*{titulo}" required>
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label">Autor</label>
                                         <input type="text" class="form-control input-anime" th:field="*{autor}" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Género</label>
+                                        <input type="text" class="form-control input-anime" th:field="*{genero}" required>
                                     </div>
                                 </div>
 
@@ -141,13 +145,17 @@
                                 <input type="hidden" id="editPortadaUrl" name="portadaUrl">
 
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label">Título</label>
                                         <input type="text" class="form-control input-anime" id="editTitulo" name="titulo" required>
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label">Autor</label>
                                         <input type="text" class="form-control input-anime" id="editAutor" name="autor" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Género</label>
+                                        <input type="text" class="form-control input-anime" id="editGenero" name="genero" required>
                                     </div>
                                 </div>
 
@@ -214,6 +222,7 @@
                                     <div class="col-8">
                                         <div class="mb-2"><strong>Título:</strong> <span id="viewTitulo"></span></div>
                                         <div class="mb-2"><strong>Autor:</strong> <span id="viewAutor"></span></div>
+                                        <div class="mb-2"><strong>Género:</strong> <span id="viewGenero"></span></div>
                                         <div class="mb-2"><strong>Editorial:</strong> <span id="viewEditorial"></span></div>
                                         <div class="mb-2"><strong>Tipo:</strong> <span id="viewTipoLibro"></span></div>
                                         <div class="mb-2"><strong>ISBN:</strong> <span id="viewIsbn"></span></div>
@@ -247,7 +256,7 @@
                                             <th>Portada</th>
                                             <th>Título</th>
                                             <th>Autor</th>
-                                            <th>Tipo</th>
+                                            <th>Género</th>
                                             <th>Precio</th>
                                             <th>Estado</th>
                                             <th>Acciones</th>
@@ -275,8 +284,7 @@
                                             </td>
                                             <td th:text="${libro.titulo}"></td>
                                             <td th:text="${libro.autor}"></td>
-                                            <td th:text="${libro.tipoLibro}"></td>
-                                            <td th:text="'S/ ' + ${#numbers.formatDecimal(libro.precio, 1, 2)}"></td>
+                                            <td th:text="${libro.genero}"></td> <td th:text="'S/ ' + ${#numbers.formatDecimal(libro.precio, 1, 2)}"></td>
                                             <td th:text="${libro.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
                                             <td>
                                                 <button class="btn btn-sm btn-primary btn-editar-libro">
@@ -357,7 +365,6 @@ $(document).ready(function () {
 
     // Función auxiliar para obtener el nombre de TipoLibro dado el ID (desde el select de edición)
     const getTipoLibroNombre = (id) => {
-        // Usamos el select del modal de edición que contiene todos los tipos cargados
         return $('#editTipoLibro option[value="' + id + '"]').text().trim();
     };
 
@@ -372,20 +379,20 @@ $(document).ready(function () {
         $('#formEditarLibro').show();
         $('#vistaLibro').hide();
 
-        // Llenado del formulario de edición (usando el nombre 'numPaginas' en el campo oculto)
+        // Llenado del formulario de edición
         $('#editIdLibro').val(rowData.id);
         $('#editTitulo').val(rowData.titulo);
         $('#editAutor').val(rowData.autor);
         $('#editDescripcion').val(rowData.descripcion);
         $('#editFechaPublicacion').val(rowData.fecha);
         $('#editEditorial').val(rowData.editorial);
+        // CORRECCIÓN: Llenar el campo Género
+        $('#editGenero').val(rowData.genero);
         $('#editIsbn').val(rowData.isbn);
         $('#editIdioma').val(rowData.idioma);
-        // Usamos el nombre 'numPaginas'
-        $('#editNumPaginas').val(rowData.npaginas);
+        $('#editNumPaginas').val(rowData.npaginas); // Usando 'npaginas' del th:attr
         $('#editPrecio').val(parseFloat(rowData.precio).toFixed(2));
         $('#editEstadoLibro').val(rowData.estado);
-        // Guardamos la URL actual en el campo oculto para mantenerla si NO hay subida de archivo
         $('#editPortadaUrl').val(rowData.portada);
 
         // Seleccionar el TipoLibro correcto en el select
@@ -407,10 +414,11 @@ $(document).ready(function () {
         $('#viewPortada').attr('src', '/media/images/store/' + rowData.portada);
         $('#viewTitulo').text(rowData.titulo);
         $('#viewAutor').text(rowData.autor);
+        $('#viewGenero').text(rowData.genero); // Añadido a la vista
         $('#viewEditorial').text(rowData.editorial);
         $('#viewTipoLibro').text(getTipoLibroNombre(rowData.tipo));
         $('#viewIsbn').text(rowData.isbn);
-        $('#viewNPaginas').text(rowData.npaginas); // Usamos el nombre 'npaginas' que definimos en el th:attr
+        $('#viewNPaginas').text(rowData.npaginas);
         $('#viewPrecio').text('S/ ' + parseFloat(rowData.precio).toFixed(2));
         $('#viewEstado').text(rowData.estado == 1 ? 'Activo' : 'Inactivo');
         $('#viewDescripcion').text(rowData.descripcion);

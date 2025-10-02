@@ -28,7 +28,7 @@
                         </a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link textHeader textHeaderShadow" href="../revista/index.html">
+                        <a class="nav-link textHeader textHeaderShadow" th:href="@{/revista}">
                             <i class="fas fa-newspaper"></i> Revistas
                         </a>
                     </li>
@@ -67,7 +67,7 @@
                         <a href="index.html">Web Store Manga</a>
                     </div>
                     <div class="toggler">
-                        <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        <a th:href="@{/administrador}" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <li class="sidebar-title">Menu</li>
 
                     <li class="sidebar-item active ">
-                        <a href="index.html" class='sidebar-link'>
+                        <a th:href="@{administrador}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Inicio</span>
                         </a>
@@ -127,52 +127,17 @@
                         </ul>
                     </li>
 
-                    <li class="sidebar-item  has-sub">
-                        <a href="#" class='sidebar-link'>
-                            <i class="bi bi-grid-1x2-fill"></i>
-                            <span>Layouts</span>
-                        </a>
-                        <ul class="submenu ">
-                            <li class="submenu-item ">
-                                <a href="layout-default.html">Default Layout</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="layout-vertical-1-column.html">1 Column</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="layout-vertical-navbar.html">Vertical with Navbar</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="layout-horizontal.html">Horizontal Menu</a>
-                            </li>
-                        </ul>
-                    </li>
 
-                    <li class="sidebar-title">Forms &amp; Tables</li>
+                    <li class="sidebar-title">Modelos</li>
 
                     <li class="sidebar-item  has-sub">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-hexagon-fill"></i>
-                            <span>Form Elements</span>
+                            <span>Gestionar Mi WEB</span>
                         </a>
                         <ul class="submenu ">
                             <li class="submenu-item ">
-                                <a href="form-element-input.html">Input</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="form-element-input-group.html">Input Group</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="form-element-select.html">Select</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="form-element-radio.html">Radio</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="form-element-checkbox.html">Checkbox</a>
-                            </li>
-                            <li class="submenu-item ">
-                                <a href="form-element-textarea.html">Textarea</a>
+                                <a href="form-element-input.html">Cambiar titulo</a>
                             </li>
                         </ul>
                     </li>

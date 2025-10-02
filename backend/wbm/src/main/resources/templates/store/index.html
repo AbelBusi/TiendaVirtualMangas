@@ -4,14 +4,15 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>WEbStorm</title>
+    <title>Manga Store</title>
     <meta name='viewport' content='user-scalable=no, width=device-width, initial-scale=1'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous">
+          crossorigin="anonymous">
 
     <!-- Font Awesome 6 (CDN) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
+    <!-- Reemplazado con ruta relativa para el ejemplo. Ajusta si es necesario. -->
     <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -19,6 +20,7 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
 
+    <!-- Se asume que estos CSS están disponibles en la ruta relativa -->
     <link rel="stylesheet" th:href="@{/css/carrusel.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
@@ -34,764 +36,505 @@
 
 <body>
 
-    <!-- Carrito de Compras -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header border-bottom">
-            <h5 id="offcanvasRightLabel" class="fw-bold">Carrito de Compras</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
+<!-- Carrito de Compras -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header border-bottom">
+        <h5 id="offcanvasRightLabel" class="fw-bold">Carrito de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
 
-        <div class="offcanvas-body d-flex flex-column">
+    <div class="offcanvas-body d-flex flex-column">
 
-            <!-- Producto -->
-            <div class="card mb-3 shadow-sm border-0 rounded-3">
-                <div class="row g-0 align-items-center">
-                    <div class="col-4">
-                        <img th:src="@{/media/images/mangas/Haruka_17_09.jpg}" class="img-fluid rounded-start"
-                            alt="Portada libro">
-                    </div>
-                    <div class="col-8">
-                        <div class="card-body p-2">
-                            <h6 class="card-title fw-semibold mb-1">Doraemon Vol. 1</h6>
-                            <p class="text-muted small mb-2">Precio: <span class="fw-bold text-dark">S/ 25.00</span></p>
-                            <div class="input-group input-group-sm">
-                                <span class="input-group-text cantidadCaja">Cantidad</span>
-                                <input type="number" class="form-control cantidad" value="1" min="1">
-                            </div>
+        <!-- Producto (Ejemplo estático) -->
+        <div class="card mb-3 shadow-sm border-0 rounded-3">
+            <div class="row g-0 align-items-center">
+                <div class="col-4">
+                    <img th:src="@{/media/images/mangas/Haruka_17_09.jpg}" class="img-fluid rounded-start"
+                         alt="Portada libro">
+                </div>
+                <div class="col-8">
+                    <div class="card-body p-2">
+                        <h6 class="card-title fw-semibold mb-1">Doraemon Vol. 1</h6>
+                        <p class="text-muted small mb-2">Precio: <span class="fw-bold text-dark">S/ 25.00</span></p>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text cantidadCaja">Cantidad</span>
+                            <input type="number" class="form-control cantidad" value="1" min="1">
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Total -->
-            <div class="mt-auto border-top pt-3">
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="fw-semibold">Total:</span>
-                    <span class="fw-bold fs-5 textoPrecio" id="totalCarrito">S/ 25.00</span>
-                </div>
-                <div class="d-grid">
-                    <a class="card-linkA" href="../store/pagando.html"><i class="fa fa-circle-info me-1"></i> Finalizar
-                        compra</a>
+        <!-- Total (Ejemplo estático) -->
+        <div class="mt-auto border-top pt-3">
+            <div class="d-flex justify-content-between mb-3">
+                <span class="fw-semibold">Total:</span>
+                <span class="fw-bold fs-5 textoPrecio" id="totalCarrito">S/ 25.00</span>
+            </div>
+            <div class="d-grid">
+                <a class="card-linkA" href="../store/pagando.html"><i class="fa fa-circle-info me-1"></i> Finalizar
+                    compra</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div th:replace="components/header :: mainHeader"></div>
+
+
+<section class="py-5">
+
+    <div class="container-fluid py-4">
+
+        <!-- Búsqueda General -->
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                <div class="input-group">
+                    <input class="form-control border-end-0 border" type="search" placeholder="Buscar por título o autor..."
+                           id="searchInput"> <!-- ID añadido -->
+                    <button class="btn btn-outline-secondary bg-white border-start-0" id="searchButton" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
                 </div>
             </div>
+        </div>
 
+        <div class="text-center mt-4">
+            <button class="btn carrito btn-lg px-4" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#filtrosCollapse" aria-expanded="false" aria-controls="filtrosCollapse">
+                <i class="fa fa-sliders me-2"></i> Mostrar / Ocultar Filtros
+            </button>
+        </div>
+
+        <!-- Filtros Avanzados -->
+        <div class="collapse mt-4" id="filtrosCollapse">
+            <div class="row">
+                <div class="col-md-10 mx-auto">
+                    <div class="p-4 border rounded shadow-sm bg-light">
+
+                        <h4 class="fw-bold mb-4 text-center">Filtros Avanzados</h4>
+
+                        <div class="row g-4">
+                            <!-- Categoría (Usaremos este para filtrar) -->
+                            <div class="col-md-6 col-lg-4">
+                                <label class="form-label fw-bold">Categoría</label>
+                                <select class="form-select form-select-lg filter-select" id="filterCategoria">
+                                    <option value="todos" selected>Todos</option>
+                                    <!-- CORRECCIÓN CLAVE: Se cambió 'libro.categoria' por 'libro.nombreTipoLibro'
+                                         para coincidir con el campo usado en la tabla inferior y resolver el error.
+                                         OJO: Esta implementación genera opciones duplicadas si no usas una lista de categorías distinta.
+                                    -->
+                                    <option th:each="libro : ${librosActivos}"
+                                            th:value="${libro.nombreTipoLibro}"
+                                            th:text="${libro.nombreTipoLibro}">
+                                        Shonen
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Precio (Usaremos este para filtrar por rango) -->
+                            <div class="col-md-6 col-lg-4">
+                                <label class="form-label fw-bold">Precio</label>
+                                <select class="form-select form-select-lg filter-select" id="filterPrecio"> <!-- ID y Clase añadidos -->
+                                    <option value="0-9999" selected>Todos</option>
+                                    <option value="0-10">Menos de S/ 10</option>
+                                    <option value="10-20">S/ 10 - S/ 20</option>
+                                    <option value="20-50">S/ 20 - S/ 50</option>
+                                    <option value="50-100">S/ 50 - S/ 100</option>
+                                    <option value="100-9999">Más de S/ 100</option>
+                                </select>
+                            </div>
+
+                            <!-- Valoración (Dejado para extensión futura) -->
+                            <div class="col-md-6 col-lg-4">
+                                <label class="form-label fw-bold">Valoración</label>
+                                <select class="form-select form-select-lg">
+                                    <option>Todos</option>
+                                    <option>⭐⭐⭐⭐⭐</option>
+                                    <!-- ... otras opciones ... -->
+                                </select>
+                            </div>
+
+                            <!-- Estado (Dejado para extensión futura) -->
+                            <div class="col-md-6 col-lg-4">
+                                <label class="form-label fw-bold">Estado</label>
+                                <select class="form-select form-select-lg">
+                                    <option>Todos</option>
+                                    <!-- ... otras opciones ... -->
+                                </select>
+                            </div>
+
+                            <!-- Idioma (Dejado para extensión futura) -->
+                            <div class="col-md-6 col-lg-4">
+                                <label class="form-label fw-bold">Idioma</label>
+                                <select class="form-select form-select-lg">
+                                    <option>Todos</option>
+                                    <!-- ... otras opciones ... -->
+                                </select>
+                            </div>
+
+                            <!-- Año (Dejado para extensión futura) -->
+                            <div class="col-md-6 col-lg-4">
+                                <label class="form-label fw-bold">Año de publicación</label>
+                                <select class="form-select form-select-lg">
+                                    <option>Todos</option>
+                                    <!-- ... otras opciones ... -->
+                                </select>
+                            </div>
+
+                            <!-- Editorial (Dejado para extensión futura) -->
+                            <div class="col-md-6 col-lg-4">
+                                <label class="form-label fw-bold">Editorial</label>
+                                <select class="form-select form-select-lg">
+                                    <option>Todos</option>
+                                    <!-- ... otras opciones ... -->
+                                </select>
+                            </div>
+
+                            <!-- Formato (Dejado para extensión futura) -->
+                            <div class="col-md-6 col-lg-4">
+                                <label class="form-label fw-bold">Formato</label>
+                                <select class="form-select form-select-lg">
+                                    <option>Todos</option>
+                                    <!-- ... otras opciones ... -->
+                                </select>
+                            </div>
+
+                            <!-- Extras (Dejado para extensión futura) -->
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Extras</label>
+                                <div class="d-flex flex-wrap gap-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input filter-checkbox" type="checkbox" id="filtro-ofertas" value="ofertas">
+                                        <label class="form-check-label" for="filtro-ofertas">Ofertas</label>
+                                    </div>
+                                    <!-- ... otros checkboxes ... -->
+                                </div>
+                            </div>
+
+                            <!-- Botón grande para aplicar filtros -->
+                            <div class="col-12 mt-4">
+                                <button class="btn carrito btn-lg w-100 py-3 fw-bold" id="applyFiltersBtn">
+                                    <i class="fa fa-filter me-2"></i> Aplicar Filtros
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secciones de Categorías (Dejamos igual) -->
+        <div class="container my-5">
+            <h3 class="text-center textTitle mb-4">
+                <i class="fas fa-list-alt me-2"></i> Categorías de Manga
+            </h3>
+            <!-- ... Índice A-Z y Ejemplo de categorías ... -->
+            <div class="d-flex flex-wrap justify-content-center mb-4 gap-2">
+                <a href="#cat-A" class="btn btn-outline-dark btn-sm">A</a>
+                <!-- ... letras ... -->
+                <a href="#cat-Z" class="btn btn-outline-dark btn-sm">Z</a>
+            </div>
+
+            <div class="row g-3 text-center">
+                <div class="col-6 col-md-3" id="cat-A">
+                    <div class="border p-3 rounded shadow-sm bg-light">
+                        <i class="fas fa-dragon fa-2x mb-2"></i>
+                        <h6>Acción</h6>
+                    </div>
+                </div>
+                <!-- ... otras categorías estáticas ... -->
+                <div class="col-6 col-md-3" id="cat-S">
+                    <div class="border p-3 rounded shadow-sm bg-light">
+                        <i class="fas fa-star fa-2x mb-2"></i>
+                        <h6>Shonen</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Galería de Productos Dinámica -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 container-fluid" id="productGrid">
+
+        <!-- BUCLE THYMELEAF PARA LLENAR LA GALERÍA -->
+        <div class="col sombraDivCard product-card"
+             th:each="libro : ${librosActivos}"
+             th:data-title="${libro.titulo}"
+             th:data-author="${libro.autor}"
+             th:data-price="${libro.precio}"
+             th:data-category="${libro.nombreTipoLibro}"> <!-- CORRECCIÓN CLAVE: Se cambió 'libro.categoria' por 'libro.nombreTipoLibro' -->
+
+            <div class="card cardIndividual h-100">
+                <!-- Imagen/Placeholder -->
+                <img th:if="${libro.portadaUrl != null and libro.portadaUrl != ''}"
+                     th:src="${libro.portadaUrl}"
+                     class="imageCard"
+                     alt="Portada libro"
+                     onerror="this.onerror=null; this.src='https://placehold.co/400x600/CCCCCC/333333?text=Sin+Portada';" />
+
+                <div th:unless="${libro.portadaUrl != null and libro.portadaUrl != ''}"
+                     class="d-flex align-items-center justify-content-center bg-light imageCard"
+                     style="height: 300px;">
+                    <span class="text-muted">Sin Imagen</span>
+                </div>
+
+                <div class="card-body pEntrar text-center">
+                    <h5 class="card-title text-truncate" th:text="${libro.titulo}">Título del Libro</h5>
+                    <p class="text-muted small" th:text="${libro.autor}">Autor Desconocido</p>
+                    <h2 class="fw-bold" th:text="'S/ ' + ${#numbers.formatDecimal(libro.precio, 1, 2)}">$15.00</h2>
+                </div>
+
+                <div class="card-footer d-flex justify-content-around">
+                    <!-- Botón Añadir al Carrito (usa SweetAlert2) -->
+                    <button class="card-link addToCartBtn" type="button" data-bs-target="#offcanvasRight"
+                            aria-controls="offcanvasRight" data-libro-id="#">
+                        <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
+                    </button>
+                    <!-- Enlace a Información (usando el ID del libro) -->
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensaje si no hay libros -->
+        <div th:if="${#lists.isEmpty(librosActivos)}" class="col-12">
+            <div class="alert alert-info text-center" role="alert">
+                <i class="fas fa-info-circle me-2"></i> No se encontraron libros activos en la tienda.
+            </div>
         </div>
     </div>
 
+</section>
+<div class="container my-5">
+    <h2 class="text-center textTitle mb-4">Mangas populares por autores</h2>
+    <div class="table-responsive">
+        <table id="tablaMangas" class="table table-striped table-hover align-middle text-center" style="width:100%">
+            <thead class="bg-dark text-white">
+            <tr>
+                <th>Portada</th>
+                <th>Título</th>
+                <th>Autor(a)</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Unidades Vendidas</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="libro : ${librosActivos}">
+                <td>
+                    <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
+                         th:alt="${libro.titulo}"
+                         class="img-fluid"
+                         style="width: 50px; height: 75px; object-fit: cover;">
+                </td>
 
-    <div th:replace="components/header :: mainHeader"></div>
+                <td th:text="${libro.titulo}"></td>
 
+                <td th:text="${libro.autor}"></td>
 
-    <section class="py-5">
+                <td th:text="${libro.nombreTipoLibro}"></td>
 
-        <div class="container-fluid py-4">
+                <td th:text="'S/ ' + ${#numbers.formatDecimal(libro.precio, 1, 2)}"></td>
 
+                <td>--</td>
+
+                <td>
+                    <button class="btn btn-sm btn-outline-primary" data-libro-id="#">
+                        <i class="fa fa-cart-plus"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="footer">
+
+    <!-- Widgets -->
+    <section class="py-4 py-md-5">
+        <div class="container overflow-hidden">
             <div class="row">
-                <div class="col-md-5 mx-auto">
-                    <div class="input-group">
-                        <input class="form-control border-end-0 border" type="search" placeholder="Buscar..."
-                            id="example-search-input">
-                        <button class="btn btn-outline-secondary bg-white border-start-0" type="button">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-4">
-                <button class="btn carrito btn-lg px-4" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#filtrosCollapse" aria-expanded="false" aria-controls="filtrosCollapse">
-                    <i class="fa fa-sliders me-2"></i> Mostrar / Ocultar Filtros
-                </button>
-            </div>
-
-            <div class="collapse mt-4" id="filtrosCollapse">
-                <div class="row">
-                    <div class="col-md-10 mx-auto">
-                        <div class="p-4 border rounded shadow-sm bg-light">
-
-                            <h4 class="fw-bold mb-4 text-center">Filtros Avanzados</h4>
-
-                            <div class="row g-4">
-                                <!-- Categoría -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Categoría</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Shonen</option>
-                                        <option>Shojo</option>
-                                        <option>Seinen</option>
-                                        <option>Josei</option>
-                                        <option>Isekai</option>
-                                        <option>Terror</option>
-                                        <option>Comedia</option>
-                                        <option>Drama</option>
-                                        <option>Acción</option>
-                                        <option>Romance</option>
-                                        <option>Aventura</option>
-                                        <option>Deportes</option>
-                                        <option>Slice of Life</option>
-                                    </select>
-                                </div>
-
-                                <!-- Precio -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Precio</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Menos de $10</option>
-                                        <option>$10 - $20</option>
-                                        <option>$20 - $50</option>
-                                        <option>$50 - $100</option>
-                                        <option>Más de $100</option>
-                                    </select>
-                                </div>
-
-                                <!-- Valoración -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Valoración</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>⭐⭐⭐⭐⭐</option>
-                                        <option>⭐⭐⭐⭐</option>
-                                        <option>⭐⭐⭐</option>
-                                        <option>⭐⭐</option>
-                                        <option>⭐</option>
-                                    </select>
-                                </div>
-
-                                <!-- Estado -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Estado</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Disponible</option>
-                                        <option>Agotado</option>
-                                        <option>Próximamente</option>
-                                        <option>En preventa</option>
-                                    </select>
-                                </div>
-
-                                <!-- Idioma -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Idioma</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Español</option>
-                                        <option>Inglés</option>
-                                        <option>Japonés</option>
-                                        <option>Francés</option>
-                                        <option>Alemán</option>
-                                        <option>Coreano</option>
-                                    </select>
-                                </div>
-
-                                <!-- Año -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Año de publicación</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>2025</option>
-                                        <option>2024</option>
-                                        <option>2023</option>
-                                        <option>2020 - 2022</option>
-                                        <option>2010 - 2019</option>
-                                        <option>Antes del 2010</option>
-                                    </select>
-                                </div>
-
-                                <!-- Editorial -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Editorial</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Shueisha</option>
-                                        <option>Kodansha</option>
-                                        <option>Shogakukan</option>
-                                        <option>Kadokawa</option>
-                                        <option>Square Enix</option>
-                                        <option>Norma Editorial</option>
-                                        <option>Ivrea</option>
-                                        <option>Planeta Cómic</option>
-                                    </select>
-                                </div>
-
-                                <!-- Formato -->
-                                <div class="col-md-6 col-lg-4">
-                                    <label class="form-label fw-bold">Formato</label>
-                                    <select class="form-select form-select-lg">
-                                        <option>Todos</option>
-                                        <option>Tomo simple</option>
-                                        <option>Tomo doble</option>
-                                        <option>Edición coleccionista</option>
-                                        <option>Box Set</option>
-                                        <option>Digital</option>
-                                    </select>
-                                </div>
-
-                                <!-- Extras -->
-                                <div class="col-12">
-                                    <label class="form-label fw-bold">Extras</label>
-                                    <div class="d-flex flex-wrap gap-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="filtro-ofertas">
-                                            <label class="form-check-label" for="filtro-ofertas">Ofertas</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="filtro-novedades">
-                                            <label class="form-check-label" for="filtro-novedades">Novedades</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="filtro-populares">
-                                            <label class="form-check-label" for="filtro-populares">Más populares</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="filtro-limitadas">
-                                            <label class="form-check-label" for="filtro-limitadas">Ediciones
-                                                limitadas</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="filtro-digital">
-                                            <label class="form-check-label" for="filtro-digital">Disponible en
-                                                digital</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Botón grande para aplicar -->
-                                <div class="col-12 mt-4">
-                                    <button class="btn carrito btn-lg w-100 py-3 fw-bold">
-                                        <i class="fa fa-filter me-2"></i> Aplicar Filtros
-                                    </button>
+                <div class="col-12">
+                    <div class="container-fluid border border-dark rounded-3 shadow-sm">
+                        <div class="row">
+                            <!-- Contacto -->
+                            <div class="col-xs-12 col-lg-4">
+                                <div class="widget p-3 p-md-4 p-xxl-5">
+                                    <h4 class="widget-title mb-4">Contacto</h4>
+                                    <address class="mb-4">
+                                        <i class="fas fa-map-marker-alt me-2"></i> Av. Otaku 777, Chiclayo, Perú
+                                    </address>
+                                    <p class="mb-1">
+                                        <a class="link-dark" href="tel:+51999999999">
+                                            <i class="fas fa-phone-alt me-2"></i> +51 999 999 999
+                                        </a>
+                                    </p>
+                                    <p class="mb-0">
+                                        <a class="link-dark" href="mailto:contacto@mangastore.com">
+                                            <i class="fas fa-envelope me-2"></i> contacto@mangastore.com
+                                        </a>
+                                    </p>
                                 </div>
                             </div>
 
+                            <!-- Categorías -->
+                            <div class="col-xs-12 col-lg-4">
+                                <div class="widget p-3 p-md-4 p-xxl-5">
+                                    <h4 class="widget-title mb-4">Categorías</h4>
+                                    <ul class="list-unstyled m-0 p-0">
+                                        <li class="mb-2">
+                                            <a href="#" class="link-dark"><i class="fas fa-book me-2"></i>Mangas
+                                                Shonen</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a href="#" class="link-dark"><i class="fas fa-heart me-2"></i>Mangas
+                                                Shojo</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a href="#" class="link-dark"><i class="fas fa-dragon me-2"></i>Seinen &
+                                                Terror</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a href="#" class="link-dark"><i class="fas fa-gamepad me-2"></i>Figuras
+                                                de colección</a>
+                                        </li>
+                                        <li class="mb-0">
+                                            <a href="#" class="link-dark"><i class="fas fa-image me-2"></i>Posters y
+                                                Merch</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Horarios -->
+                            <div class="col-xs-12 col-lg-4">
+                                <div class="widget p-3 p-md-4 p-xxl-5">
+                                    <h4 class="widget-title mb-4">Horarios</h4>
+                                    <p class="mb-4">Atendemos con la mejor energía para los fanáticos del manga y
+                                        anime.</p>
+                                    <div>
+                                        <div class="row mb-1">
+                                            <div class="col-5 col-xl-4">
+                                                <span class="fw-bold">Lun - Vie:</span>
+                                            </div>
+                                            <div class="col-7 col-xl-8">
+                                                <span class="text-secondary">10am - 8pm</span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-5 col-xl-4">
+                                                <span class="fw-bold">Sáb:</span>
+                                            </div>
+                                            <div class="col-7 col-xl-8">
+                                                <span class="text-secondary">10am - 6pm</span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-5 col-xl-4">
+                                                <span class="fw-bold">Dom:</span>
+                                            </div>
+                                            <div class="col-7 col-xl-8">
+                                                <span class="text-secondary">Cerrado</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end horarios -->
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="container my-5">
-                <h3 class="text-center textTitle mb-4">
-                    <i class="fas fa-list-alt me-2"></i> Categorías de Manga
-                </h3>
-
-                <!-- Índice A-Z -->
-                <div class="d-flex flex-wrap justify-content-center mb-4 gap-2">
-                    <a href="#cat-A" class="btn btn-outline-dark btn-sm">A</a>
-                    <a href="#cat-B" class="btn btn-outline-dark btn-sm">B</a>
-                    <a href="#cat-C" class="btn btn-outline-dark btn-sm">C</a>
-                    <a href="#cat-D" class="btn btn-outline-dark btn-sm">D</a>
-                    <a href="#cat-E" class="btn btn-outline-dark btn-sm">E</a>
-                    <a href="#cat-F" class="btn btn-outline-dark btn-sm">F</a>
-                    <a href="#cat-G" class="btn btn-outline-dark btn-sm">G</a>
-                    <a href="#cat-H" class="btn btn-outline-dark btn-sm">H</a>
-                    <a href="#cat-I" class="btn btn-outline-dark btn-sm">I</a>
-                    <a href="#cat-J" class="btn btn-outline-dark btn-sm">J</a>
-                    <a href="#cat-K" class="btn btn-outline-dark btn-sm">K</a>
-                    <a href="#cat-L" class="btn btn-outline-dark btn-sm">L</a>
-                    <a href="#cat-M" class="btn btn-outline-dark btn-sm">M</a>
-                    <a href="#cat-N" class="btn btn-outline-dark btn-sm">N</a>
-                    <a href="#cat-O" class="btn btn-outline-dark btn-sm">O</a>
-                    <a href="#cat-P" class="btn btn-outline-dark btn-sm">P</a>
-                    <a href="#cat-Q" class="btn btn-outline-dark btn-sm">Q</a>
-                    <a href="#cat-R" class="btn btn-outline-dark btn-sm">R</a>
-                    <a href="#cat-S" class="btn btn-outline-dark btn-sm">S</a>
-                    <a href="#cat-T" class="btn btn-outline-dark btn-sm">T</a>
-                    <a href="#cat-U" class="btn btn-outline-dark btn-sm">U</a>
-                    <a href="#cat-V" class="btn btn-outline-dark btn-sm">V</a>
-                    <a href="#cat-W" class="btn btn-outline-dark btn-sm">W</a>
-                    <a href="#cat-X" class="btn btn-outline-dark btn-sm">X</a>
-                    <a href="#cat-Y" class="btn btn-outline-dark btn-sm">Y</a>
-                    <a href="#cat-Z" class="btn btn-outline-dark btn-sm">Z</a>
-                </div>
-
-                <!-- Ejemplo de categorías -->
-                <div class="row g-3 text-center">
-                    <div class="col-6 col-md-3" id="cat-A">
-                        <div class="border p-3 rounded shadow-sm bg-light">
-                            <i class="fas fa-dragon fa-2x mb-2"></i>
-                            <h6>Acción</h6>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3" id="cat-C">
-                        <div class="border p-3 rounded shadow-sm bg-light">
-                            <i class="fas fa-laugh-squint fa-2x mb-2"></i>
-                            <h6>Comedia</h6>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3" id="cat-D">
-                        <div class="border p-3 rounded shadow-sm bg-light">
-                            <i class="fas fa-theater-masks fa-2x mb-2"></i>
-                            <h6>Drama</h6>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3" id="cat-S">
-                        <div class="border p-3 rounded shadow-sm bg-light">
-                            <i class="fas fa-star fa-2x mb-2"></i>
-                            <h6>Shonen</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 container-fluid">
-
-            <!-- MANGA 1 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Doraemon_Plus_04.jpg}" class="imageCard"
-                        alt="Doraemon Plus 04">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Doraemon Plus 04</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                        <a class="card-linkA" href="../store/libro.html"><i
-                                class="fa fa-circle-info me-1"></i>Informacion</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 2 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Majin_Tantei_Nogami_Neuro_09.jpg}" class="imageCard"
-                        alt="Majin Tantei Nogami Neuro 09">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Majin Tantei Nogami Neuro 09</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                        <a class="card-linkA" href="../store/libro.html"><i
-                                class="fa fa-circle-info me-1"></i>Informacion</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 3 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/028_.jpg}" class="imageCard" alt="Manga 028">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Manga 028</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link" type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                        <a class="card-linkA" href="../store/libro.html"><i
-                                class="fa fa-circle-info me-1"></i>Informacion</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 4 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/2K_Teizuki_Yuurei_Tsuki_01.jpg}"
-                        class="imageCard" alt="Teizuki Yuurei Tsuki 01">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Teizuki Yuurei Tsuki 01</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                        <a class="card-linkA" href="../store/libro.html"><i
-                                class="fa fa-circle-info me-1"></i>Informacion</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 5 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Elfen_Lied_08a_.jpg}" class="imageCard"
-                        alt="Elfen Lied 08a">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Elfen Lied 08a</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                        <a class="card-linkA" href="../store/libro.html"><i
-                                class="fa fa-circle-info me-1"></i>Informacion</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 6 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Elfen Lied - 01.jpg}" class="imageCard" alt="Elfen Lied 01">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Elfen Lied 01</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                        <a class="card-linkA" href="../store/libro.html"><i
-                                class="fa fa-circle-info me-1"></i>Informacion</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 7 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/HXH 02.jpg}" class="imageCard" alt="Hunter x Hunter 02">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Hunter x Hunter 02</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                        <a class="card-linkA" href="../store/libro.html"><i
-                                class="fa fa-circle-info me-1"></i>Informacion</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 8 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Haruka_17_15.jpg}" class="imageCard" alt="Haruka 17 15">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Haruka 17 15</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                        <a class="card-linkA" href="../store/libro.html"><i
-                                class="fa fa-circle-info me-1"></i>Informacion</a>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
     </section>
 
-    <div class="container my-5">
-        <h2 class="text-center textTitle mb-4">Mangas populares por autores</h2>
-        <div class="table-responsive">
-            <table id="tablaMangas" class="table table-striped table-hover align-middle text-center" style="width:100%">
-                <thead class="bg-dark text-white">
-                    <tr>
-                        <th>Portada</th>
-                        <th>Título</th>
-                        <th>Autor(a)</th>
-                        <th>Categoría</th>
-                        <th>Precio</th>
-                        <th>Unidades Vendidas</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><img th:src="@{/media/images/mangas/028_.jpg}" alt="One Piece" class="img-fluid"
-                                style="width: 50px;"></td>
-                        <td>One Piece</td>
-                        <td>Eiichiro Oda</td>
-                        <td>Shonen</td>
-                        <td>$10.00</td>
-                        <td>3,200,000</td>
-                        <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><img th:src="@{/media/images/mangas/Doraemon_Plus_04.jpg}" alt="Demon Slayer"
-                                class="img-fluid" style="width: 50px;"></td>
-                        <td>Demon Slayer: Kimetsu no Yaiba</td>
-                        <td>Koyoharu Gotouge</td>
-                        <td>Shonen</td>
-                        <td>$11.50</td>
-                        <td>2,100,000</td>
-                        <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><img th:src="@{/media/images/mangas/Elfen Lied - 01.jpg}" alt="Jujutsu Kaisen"
-                                class="img-fluid" style="width: 50px;"></td>
-                        <td>Jujutsu Kaisen</td>
-                        <td>Gege Akutami</td>
-                        <td>Shonen</td>
-                        <td>$12.00</td>
-                        <td>1,950,000</td>
-                        <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><img th:src="@{/media/images/mangas/Elfen_Lied_08a_.jpg}" alt="Spy x Family"
-                                class="img-fluid" style="width: 50px;"></td>
-                        <td>Spy x Family</td>
-                        <td>Tatsuya Endo</td>
-                        <td>Comedia, Acción</td>
-                        <td>$10.50</td>
-                        <td>1,800,000</td>
-                        <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><img th:src="@{/media/images/mangas/Majin_Tantei_Nogami_Neuro_09.jpg}" alt="Chainsaw Man"
-                                class="img-fluid" style="width: 50px;"></td>
-                        <td>Chainsaw Man</td>
-                        <td>Tatsuki Fujimoto</td>
-                        <td>Shonen, Seinen</td>
-                        <td>$13.00</td>
-                        <td>1,750,000</td>
-                        <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><img th:src="@{/media/images/mangas/Elfen Lied - 11.jpg}" alt="My Hero Academia"
-                                class="img-fluid" style="width: 50px;"></td>
-                        <td>My Hero Academia</td>
-                        <td>Kohei Horikoshi</td>
-                        <td>Shonen</td>
-                        <td>$11.00</td>
-                        <td>1,500,000</td>
-                        <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><img th:src="@{/media/images/mangas/Haruka_17_15.jpg}" alt="Dragon Ball Super"
-                                class="img-fluid" style="width: 50px;"></td>
-                        <td>Dragon Ball Super</td>
-                        <td>Akira Toriyama, Toyotarou</td>
-                        <td>Shonen</td>
-                        <td>$11.00</td>
-                        <td>1,200,000</td>
-                        <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><img th:src="@{/media/images/mangas/Haruka_17_01.jpg}" alt="Solo Leveling"
-                                class="img-fluid" style="width: 50px;"></td>
-                        <td>Solo Leveling (Novela)</td>
-                        <td>Chugong</td>
-                        <td>Isekai, Acción</td>
-                        <td>$25.00</td>
-                        <td>1,100,000</td>
-                        <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><img th:src="@{/media/images/mangas/Elfen_Lied_05a.jpg}" alt="Attack on Titan"
-                                class="img-fluid" style="width: 50px;"></td>
-                        <td>Attack on Titan</td>
-                        <td>Hajime Isayama</td>
-                        <td>Shonen, Drama</td>
-                        <td>$13.50</td>
-                        <td>1,000,000</td>
-                        <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td><img th:src="@{/media/images/mangas/Doraemon_Plus_04.jpg}" alt="Spy x Family"
-                                class="img-fluid" style="width: 50px;"></td>
-                        <td>Spy x Family Vol. 2</td>
-                        <td>Tatsuya Endo</td>
-                        <td>Comedia, Acción</td>
-                        <td>$10.50</td>
-                        <td>950,000</td>
-                        <td><button class="btn btn-sm btn-outline-primary"><i class="fa fa-cart-plus"></i></button></td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- Colophon -->
+    <div class="pb-4 pb-md-5">
+        <div class="container overflow-hidden">
+            <div class="row">
+                <div class="col">
+                    <div class="container-fluid border border-dark rounded-3 shadow-sm">
+                        <div class="row gy-4 gy-lg-0 p-3 p-md-4 p-xxl-5 align-items-md-center">
+                            <!-- Logo -->
+                            <div class="col-xs-12 col-sm-6 col-lg-4 order-0 order-lg-0">
+                                <div class="footer-logo-wrapper text-center text-sm-start">
+                                    <img th:src="@{/media/images/iconos/iconoOnePieceCHAD.png}" height="80px"
+                                         alt="Logo Manga Store" class="logo me-2">
+                                </div>
+                            </div>
+
+                            <!-- Derechos -->
+                            <div class="col-xs-12 col-lg-4 order-2 order-lg-1">
+                                <div class="colophon-wrapper">
+                                    <div class="footer-copyright-wrapper text-center">
+                                        © 2024 MangaStore. Todos los derechos reservados.
+                                    </div>
+                                    <div class="credits text-secondary text-center mt-2 fs-8">
+                                        Desarrollado con pasión por <span class="text-primary">Otaku Devs</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Redes sociales -->
+                            <div class="col-xs-12 col-sm-6 col-lg-4 order-1 order-lg-2">
+                                <div class="social-media-wrapper">
+                                    <ul
+                                            class="list-unstyled m-0 p-0 d-flex justify-content-center justify-content-sm-end">
+                                        <li class="me-3">
+                                            <a href="#" class="link-dark link-opacity-75-hover" title="Facebook">
+                                                <i class="fab fa-facebook-f fa-lg"></i>
+                                            </a>
+                                        </li>
+                                        <li class="me-3">
+                                            <a href="#" class="link-dark link-opacity-75-hover" title="YouTube">
+                                                <i class="fab fa-youtube fa-lg"></i>
+                                            </a>
+                                        </li>
+                                        <li class="me-3">
+                                            <a href="#" class="link-dark link-opacity-75-hover" title="Twitter">
+                                                <i class="fab fa-twitter fa-lg"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="link-dark link-opacity-75-hover" title="Instagram">
+                                                <i class="fab fa-instagram fa-lg"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end redes -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <footer class="footer">
+</footer>
 
-        <!-- Widgets -->
-        <section class="py-4 py-md-5">
-            <div class="container overflow-hidden">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="container-fluid border border-dark rounded-3 shadow-sm">
-                            <div class="row">
-                                <!-- Contacto -->
-                                <div class="col-xs-12 col-lg-4">
-                                    <div class="widget p-3 p-md-4 p-xxl-5">
-                                        <h4 class="widget-title mb-4">Contacto</h4>
-                                        <address class="mb-4">
-                                            <i class="fas fa-map-marker-alt me-2"></i> Av. Otaku 777, Chiclayo, Perú
-                                        </address>
-                                        <p class="mb-1">
-                                            <a class="link-dark" href="tel:+51999999999">
-                                                <i class="fas fa-phone-alt me-2"></i> +51 999 999 999
-                                            </a>
-                                        </p>
-                                        <p class="mb-0">
-                                            <a class="link-dark" href="mailto:contacto@mangastore.com">
-                                                <i class="fas fa-envelope me-2"></i> contacto@mangastore.com
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Categorías -->
-                                <div class="col-xs-12 col-lg-4">
-                                    <div class="widget p-3 p-md-4 p-xxl-5">
-                                        <h4 class="widget-title mb-4">Categorías</h4>
-                                        <ul class="list-unstyled m-0 p-0">
-                                            <li class="mb-2">
-                                                <a href="#" class="link-dark"><i class="fas fa-book me-2"></i>Mangas
-                                                    Shonen</a>
-                                            </li>
-                                            <li class="mb-2">
-                                                <a href="#" class="link-dark"><i class="fas fa-heart me-2"></i>Mangas
-                                                    Shojo</a>
-                                            </li>
-                                            <li class="mb-2">
-                                                <a href="#" class="link-dark"><i class="fas fa-dragon me-2"></i>Seinen &
-                                                    Terror</a>
-                                            </li>
-                                            <li class="mb-2">
-                                                <a href="#" class="link-dark"><i class="fas fa-gamepad me-2"></i>Figuras
-                                                    de colección</a>
-                                            </li>
-                                            <li class="mb-0">
-                                                <a href="#" class="link-dark"><i class="fas fa-image me-2"></i>Posters y
-                                                    Merch</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <!-- Horarios -->
-                                <div class="col-xs-12 col-lg-4">
-                                    <div class="widget p-3 p-md-4 p-xxl-5">
-                                        <h4 class="widget-title mb-4">Horarios</h4>
-                                        <p class="mb-4">Atendemos con la mejor energía para los fanáticos del manga y
-                                            anime.</p>
-                                        <div>
-                                            <div class="row mb-1">
-                                                <div class="col-5 col-xl-4">
-                                                    <span class="fw-bold">Lun - Vie:</span>
-                                                </div>
-                                                <div class="col-7 col-xl-8">
-                                                    <span class="text-secondary">10am - 8pm</span>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-1">
-                                                <div class="col-5 col-xl-4">
-                                                    <span class="fw-bold">Sáb:</span>
-                                                </div>
-                                                <div class="col-7 col-xl-8">
-                                                    <span class="text-secondary">10am - 6pm</span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-5 col-xl-4">
-                                                    <span class="fw-bold">Dom:</span>
-                                                </div>
-                                                <div class="col-7 col-xl-8">
-                                                    <span class="text-secondary">Cerrado</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end horarios -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Colophon -->
-        <div class="pb-4 pb-md-5">
-            <div class="container overflow-hidden">
-                <div class="row">
-                    <div class="col">
-                        <div class="container-fluid border border-dark rounded-3 shadow-sm">
-                            <div class="row gy-4 gy-lg-0 p-3 p-md-4 p-xxl-5 align-items-md-center">
-                                <!-- Logo -->
-                                <div class="col-xs-12 col-sm-6 col-lg-4 order-0 order-lg-0">
-                                    <div class="footer-logo-wrapper text-center text-sm-start">
-                                        <img th:src="@{/media/images/iconos/iconoOnePieceCHAD.png}" height="80px"
-                                            alt="Logo Manga Store" class="logo me-2">
-                                    </div>
-                                </div>
-
-                                <!-- Derechos -->
-                                <div class="col-xs-12 col-lg-4 order-2 order-lg-1">
-                                    <div class="colophon-wrapper">
-                                        <div class="footer-copyright-wrapper text-center">
-                                            © 2024 MangaStore. Todos los derechos reservados.
-                                        </div>
-                                        <div class="credits text-secondary text-center mt-2 fs-8">
-                                            Desarrollado con pasión por <span class="text-primary">Otaku Devs</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Redes sociales -->
-                                <div class="col-xs-12 col-sm-6 col-lg-4 order-1 order-lg-2">
-                                    <div class="social-media-wrapper">
-                                        <ul
-                                            class="list-unstyled m-0 p-0 d-flex justify-content-center justify-content-sm-end">
-                                            <li class="me-3">
-                                                <a href="#" class="link-dark link-opacity-75-hover" title="Facebook">
-                                                    <i class="fab fa-facebook-f fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li class="me-3">
-                                                <a href="#" class="link-dark link-opacity-75-hover" title="YouTube">
-                                                    <i class="fab fa-youtube fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li class="me-3">
-                                                <a href="#" class="link-dark link-opacity-75-hover" title="Twitter">
-                                                    <i class="fab fa-twitter fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="link-dark link-opacity-75-hover" title="Instagram">
-                                                    <i class="fab fa-instagram fa-lg"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- end redes -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        xintegrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
 
 
-    <script>
+<script>
         $(document).ready(function () {
             $('#tablaMangas').DataTable({
                 "language": {
@@ -802,7 +545,7 @@
         });
     </script>
 
-    <script>
+<script>
         // Seleccionamos todos los botones de agregar al carrito
         const cartButtons = document.querySelectorAll(".card-link[data-bs-target='#offcanvasRight']");
 
@@ -828,7 +571,7 @@
         });
 
     </script>
-    <script th:src="@{/js/movimiento.js}"></script>
+<script th:src="@{/js/movimiento.js}"></script>
 
 
 </body>

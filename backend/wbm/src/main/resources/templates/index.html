@@ -183,171 +183,33 @@
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4 container-fluid">
 
-            <div class="col sombraDivCard">
+            <div class="col sombraDivCard" th:each="libro : ${libros}">
                 <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Doraemon_Plus_04.jpg}" class="imageCard" alt="Doraemon">
-                    <div class="card-body pEntrar">
-                        <h5 class="card-title text-center">Doraemon Plus</h5>
-                        <p class="card-text">Nobita y Doraemon enfrentan divertidos problemas diarios con inventos
-                            futuristas.</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link" type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Majin_Tantei_Nogami_Neuro_09.jpg}" class="imageCard"
-                        alt="Majin Tantei">
-                    <div class="card-body pEntrar">
-                        <h5 class="card-title text-center">Majin Tantei</h5>
-                        <p class="card-text">Neuro resuelve misterios sobrenaturales mientras investiga crímenes oscuros
-                            en la ciudad.</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                    </div>
-                </div>
-            </div>
+                    <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
+                         class="imageCard"
+                         th:alt="${libro.titulo}">
 
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/028_.jpg}" class="imageCard" alt="Manga 028">
                     <div class="card-body pEntrar">
-                        <h5 class="card-title text-center">Manga 028</h5>
-                        <p class="card-text">Una historia intensa de acción y amistad donde los protagonistas superan
-                            grandes desafíos.</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                    </div>
-                </div>
-            </div>
+                        <h5 class="card-title text-center" th:text="${libro.titulo}">Título del Libro</h5>
 
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/2K_Teizuki_Yuurei_Tsuki_01.jpg}" class="imageCard"
-                        alt="Teizuki Yuurei">
-                    <div class="card-body pEntrar">
-                        <h5 class="card-title text-center">Teizuki Yuurei</h5>
-                        <p class="card-text">Misterios de fantasmas y espíritus en un mundo donde lo sobrenatural
-                            convive con humanos.</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Elfen_Lied_08a_.jpg}" class="imageCard"
-                        alt="Elfen Lied">
-                    <div class="card-body pEntrar">
-                        <h5 class="card-title text-center">Elfen Lied</h5>
-                        <p class="card-text">Relato oscuro de venganza y descubrimiento entre humanos y diclonius.</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Elfen Lied - 01.jpg}" class="imageCard" alt="Elfen Lied 01">
-                    <div class="card-body pEntrar">
-                        <h5 class="card-title text-center">Elfen Lied Vol.1</h5>
-                        <p class="card-text">Conoce a Lucy y los dilemas morales que surgen entre humanos y diclonius.
+                        <p class="card-text" th:text="${#strings.substring(libro.descripcion, 0, #strings.length(libro.descripcion) > 100 ? 100 : #strings.length(libro.descripcion)) + (#strings.length(libro.descripcion) > 100 ? '...' : '')}">
+                            Descripción corta del libro.
                         </p>
                     </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/HXH 02.jpg}" class="imageCard" alt="Hunter x Hunter">
-                    <div class="card-body pEntrar">
-                        <h5 class="card-title text-center">Hunter x Hunter</h5>
-                        <p class="card-text">Gon inicia su aventura para convertirse en cazador mientras enfrenta
-                            enemigos poderosos.</p>
-                    </div>
                     <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                    </div>
-                </div>
-            </div>
+                        <span class="fw-bold align-self-center">S/ <span th:text="${#numbers.formatDecimal(libro.precio, 1, 2)}">25.00</span></span>
 
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Haruka_17_15.jpg}" class="imageCard" alt="Haruka 17">
-                    <div class="card-body pEntrar">
-                        <h5 class="card-title text-center">Haruka 17</h5>
-                        <p class="card-text">Historias de adolescentes y los desafíos de la vida escolar con amistad y
-                            romance.</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
                         <button class="card-link" type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
+                                aria-controls="offcanvasRight" th:data-libro-id="${libro.idLibro}">
+                            <i class="fa fa-cart-plus me-1"> </i>Agregar
+                        </button>
                     </div>
                 </div>
             </div>
-
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Haruka_17_09.jpg}" class="imageCard" alt="Haruka 09">
-                    <div class="card-body pEntrar">
-                        <h5 class="card-title text-center">Haruka 09</h5>
-                        <p class="card-text">Continúa la vida escolar de Haruka y sus amigos, enfrentando nuevos retos y
-                            sorpresas.</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Haruka_17_01.jpg}" class="imageCard" alt="Haruka 01">
-                    <div class="card-body pEntrar">
-                        <h5 class="card-title text-center">Haruka 01</h5>
-                        <p class="card-text">Inicio de la historia de Haruka, mostrando sus primeros días y relaciones
-                            en la escuela.</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link"  type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"><i class="fa fa-cart-plus me-1"> </i>Agregar al
-                            carrito</button>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
-
     <div class="container-fluid padre my-5">
         <div class="container-centerApi texto">
 
