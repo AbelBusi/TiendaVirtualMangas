@@ -44,4 +44,6 @@ public class Rol {
     @OneToMany(mappedBy = "rol",fetch = FetchType.LAZY)
     private List<Perfil> perfiles;
 
+
+
 }

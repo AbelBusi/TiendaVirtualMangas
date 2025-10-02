@@ -34,7 +34,7 @@ public class UsuarioDTO {
     private String correo;
 
     @NotBlank(message = "Debes ingresar una clave y no algo vacío.")
-    @Size(min = 8, max = 45, message = "La clave debe tener entre 8 y 45 caracteres.")
+    @Size(min = 8, max = 300, message = "La clave debe tener entre 8 y 45 caracteres.")
     private String password;
 
     @NotNull(message = "Se debe ingresar el estado de la persona con relacion al sistema.")

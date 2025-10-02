@@ -19,6 +19,7 @@ import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 
 @Entity
@@ -45,7 +46,7 @@ public class Usuario {
     @Column(name = "correo",nullable = false,unique = true,length = 45)
     private String correo;
 
-    @Column(name = "password",nullable = false,length = 45)
+    @Column(name = "password",nullable = false,length = 300)
     private String password;
 
     @CreationTimestamp
@@ -57,5 +58,21 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario",fetch = FetchType.LAZY)
     private List<Perfil> perfiles;
+
+    //Se devolvera un estado true o false si es que se encuentra el rol del usuario
+    public boolean hasRole(String roleName) {
+
+        Iterator<Perfil> iterator=this.perfiles.iterator();
+
+        while (iterator.hasNext()) {
+            Perfil role= iterator.next();
+            if(role.getRol().getNombre().equals(roleName)) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
 
 }

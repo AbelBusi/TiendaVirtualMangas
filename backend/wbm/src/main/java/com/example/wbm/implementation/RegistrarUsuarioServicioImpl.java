@@ -11,6 +11,7 @@ import com.example.wbm.repository.IUsuarioRepository;
 import com.example.wbm.services.IRegistrarUsuarioServicio;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +24,8 @@ public class RegistrarUsuarioServicioImpl implements IRegistrarUsuarioServicio {
     private final IUsuarioMapper usuarioMapper;
     private final UsuarioServicioImpl usuarioServicio;
     private final PersonaServicioImpl personaServicio;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
     @Override
@@ -39,8 +42,10 @@ public class RegistrarUsuarioServicioImpl implements IRegistrarUsuarioServicio {
             return new FormIngresarResponseDTO("El correo de la pesona ya existe",false);
         }
 
+
         persona.setEstado(1);
         personaRepository.save(persona);
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuario.setPersona(persona);
         usuario.setEstado(1);
         usuarioRepository.save(usuario);

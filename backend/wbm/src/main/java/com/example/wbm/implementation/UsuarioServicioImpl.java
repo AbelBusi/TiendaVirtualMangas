@@ -8,6 +8,7 @@ import com.example.wbm.model.mapStructure.IUsuarioMapper;
 import com.example.wbm.repository.IUsuarioRepository;
 import com.example.wbm.services.IUsuarioServicio;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     private final IUsuarioRepository usuarioRepository;
     private final IUsuarioMapper usuarioMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Usuario leerUsuario() {
@@ -66,7 +68,9 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             return new FormResponseSuccessDTO("El usuario que intenta ingresar ya existe", false);
         }
 
+
         Usuario usuario = usuarioMapper.toEntity(cdUsuarioDTO);
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioRepository.save(usuario);
 
         return new FormResponseSuccessDTO("El usuario fue creado con éxito", true);
