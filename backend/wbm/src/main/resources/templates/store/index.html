@@ -260,57 +260,42 @@
     </div>
 
     <!-- Galería de Productos Dinámica -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 container-fluid" id="productGrid">
+    <div class="container-fluid containerCard espacioContainer">
+        <h1 class="text-center textTitle">Mangas más vendidos</h1>
 
-        <!-- BUCLE THYMELEAF PARA LLENAR LA GALERÍA -->
-        <div class="col sombraDivCard product-card"
-             th:each="libro : ${librosActivos}"
-             th:data-title="${libro.titulo}"
-             th:data-author="${libro.autor}"
-             th:data-price="${libro.precio}"
-             th:data-category="${libro.nombreTipoLibro}"> <!-- CORRECCIÓN CLAVE: Se cambió 'libro.categoria' por 'libro.nombreTipoLibro' -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4 container-fluid">
 
-            <div class="card cardIndividual h-100">
-                <!-- Imagen/Placeholder -->
-                <img th:if="${libro.portadaUrl != null and libro.portadaUrl != ''}"
-                     th:src="${libro.portadaUrl}"
-                     class="imageCard"
-                     alt="Portada libro"
-                     onerror="this.onerror=null; this.src='https://placehold.co/400x600/CCCCCC/333333?text=Sin+Portada';" />
+            <div class="col sombraDivCard" th:each="libro : ${librosActivos}">
+                <div class="card cardIndividual">
 
-                <div th:unless="${libro.portadaUrl != null and libro.portadaUrl != ''}"
-                     class="d-flex align-items-center justify-content-center bg-light imageCard"
-                     style="height: 300px;">
-                    <span class="text-muted">Sin Imagen</span>
+                    <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
+                         class="imageCard"
+                         th:alt="${libro.titulo}">
+
+                    <div class="card-body pEntrar">
+                        <h5 class="card-title text-center" th:text="${libro.titulo}">Título del Libro</h5>
+
+                        <p class="card-text" th:text="${#strings.substring(libro.descripcion, 0, #strings.length(libro.descripcion) > 100 ? 100 : #strings.length(libro.descripcion)) + (#strings.length(libro.descripcion) > 100 ? '...' : '')}">
+                            Descripción corta del libro.
+                        </p>
+                    </div>
+
+                    <div class="card-footer d-flex justify-content-around">
+                        <span class="fw-bold align-self-center">S/ <span th:text="${#numbers.formatDecimal(libro.precio, 1, 2)}">25.00</span></span>
+
+                        <button class="card-link" type="button" data-bs-target="#offcanvasRight"
+                                aria-controls="offcanvasRight" th:data-libro-id="${libro.idLibro}">
+                            <i class="fa fa-cart-plus me-1"> </i>Agregar
+                        </button>
+                    </div>
                 </div>
-
-                <div class="card-body pEntrar text-center">
-                    <h5 class="card-title text-truncate" th:text="${libro.titulo}">Título del Libro</h5>
-                    <p class="text-muted small" th:text="${libro.autor}">Autor Desconocido</p>
-                    <h2 class="fw-bold" th:text="'S/ ' + ${#numbers.formatDecimal(libro.precio, 1, 2)}">$15.00</h2>
-                </div>
-
-                <div class="card-footer d-flex justify-content-around">
-                    <!-- Botón Añadir al Carrito (usa SweetAlert2) -->
-                    <button class="card-link addToCartBtn" type="button" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight" data-libro-id="#">
-                        <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
-                    </button>
-                    <!-- Enlace a Información (usando el ID del libro) -->
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Mensaje si no hay libros -->
-        <div th:if="${#lists.isEmpty(librosActivos)}" class="col-12">
-            <div class="alert alert-info text-center" role="alert">
-                <i class="fas fa-info-circle me-2"></i> No se encontraron libros activos en la tienda.
             </div>
         </div>
     </div>
-
 </section>
+
+
+
 <div class="container my-5">
     <h2 class="text-center textTitle mb-4">Mangas populares por autores</h2>
     <div class="table-responsive">
@@ -571,6 +556,7 @@
         });
 
     </script>
+
 <script th:src="@{/js/movimiento.js}"></script>
 
 

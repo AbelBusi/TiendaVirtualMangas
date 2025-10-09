@@ -4,6 +4,8 @@ import com.example.wbm.implementation.*;
 import com.example.wbm.model.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ public class AdminController {
     private final UsuarioServicioImpl usuarioServicio;
     private final PerfilServicioImpl perfilServicio;
     private final PermisoServicioImpl permisoServicio;
+    private final DniClienteServiceImpl dniClienteService;
 
     @GetMapping("")
     public String home (){
@@ -159,6 +162,20 @@ public class AdminController {
     public String cambiarEstadoPersona(@RequestParam("idPersona") Integer idPersona) {
         personaServicio.cambiarEStadoPersona(idPersona);
         return "redirect:/administrador/personas";
+    }
+
+    @GetMapping("/dni/{dni}")
+    @ResponseBody
+    public ResponseEntity<?> buscarPersonaPorDni(@PathVariable String dni) {
+        try {
+            // Llamamos al servicio que consume la API externa
+            var personaInfo = dniClienteService.consultarDni(dni, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNTksImV4cCI6MTc2MDM4MzUyMH0.Kv9oJnEtAgtNZrV4-aQ4sfd8C5qvKL4yNG4_w2ekIDo");
+
+            // Si tu API devuelve JSON, aquí podrías mapearlo a un DTO según el formato
+            return ResponseEntity.ok(personaInfo);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró información para el DNI ingresado");
+        }
     }
 
     @GetMapping("/perfiles")

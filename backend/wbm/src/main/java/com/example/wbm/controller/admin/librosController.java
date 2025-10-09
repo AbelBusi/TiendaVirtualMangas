@@ -78,11 +78,9 @@ public class librosController {
             model.addAttribute("guardarLibro", guardarLibro);
         }
 
-        // 2. DTOs para el Formulario de EDITAR
         LibroDTO editarLibro = LibroDTO.builder().build();
         model.addAttribute("editarLibro", editarLibro);
 
-        // 3. Listas para la tabla y Selects
         List<LibroDTO> libros = libroServicio.leerLibros();
         model.addAttribute("libros", libros);
 
@@ -92,9 +90,6 @@ public class librosController {
         return "/administrador/admin-libro";
     }
 
-    // ----------------------------------------------------
-    // MÉTODO MODIFICADO PARA MANEJAR VALIDACIÓN
-    // ----------------------------------------------------
     @PostMapping("/libros/guardar")
     public String guardarLibro(
             @Valid @ModelAttribute("guardarLibro") LibroDTO libroDTO,
@@ -118,31 +113,21 @@ public class librosController {
             LibroDTO editarLibro = LibroDTO.builder().build();
             model.addAttribute("editarLibro", editarLibro);
 
-            // El objeto 'guardarLibro' (con los errores) ya está en el modelo
-            // y se puede acceder desde Thymeleaf.
-
-            // Retorna a la misma vista. El script SweetAlert2 de tu HTML se encargará de mostrar los errores.
             return "/administrador/admin-libro";
         }
 
-        // 3. Lógica para guardar (si no hay errores)
         try {
-            // Aquí puedes añadir validación para la imagen si es necesaria
-            // (Ej: if (file.isEmpty()) { ... })
+
             libroServicio.guardarLibroConImagen(libroDTO, file);
             ra.addFlashAttribute("alerta_exito", "Libro agregado exitosamente.");
         } catch (Exception e) {
             ra.addFlashAttribute("alerta_error", "Error al guardar el libro: " + e.getMessage());
         }
 
-        // Redirecciona si todo fue exitoso
         return "redirect:/administrador/libros";
     }
 
 
-    // ----------------------------------------------------
-    // Método de EDITAR (Con Imagen opcional) - Se recomienda aplicar validación aquí también
-    // ----------------------------------------------------
     @PostMapping("/libros/editar")
     public String editarLibro(
             @Valid @ModelAttribute("editarLibro") LibroDTO libroDTO,
@@ -151,8 +136,7 @@ public class librosController {
             Model model,
             RedirectAttributes ra) {
 
-        // Se omite la lógica de manejo de errores de editar por ser similar,
-        // pero DEBERÍAS implementarla.
+
 
         libroServicio.editarLibroConImagen(libroDTO, file);
 

@@ -1,6 +1,6 @@
 package com.example.wbm.controller.home; // O el paquete correcto
 
-import com.example.wbm.services.ILibroServicio; // Importa tu servicio
+import com.example.wbm.implementation.LibroServicioImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor // Para inyectar el servicio automáticamente
 public class InicioController {
 
-    // Inyecta el servicio de libros
-    private final ILibroServicio libroServicio;
+
+    private final LibroServicioImpl libroServicio;
 
     @GetMapping("")
     public String home (Model model){

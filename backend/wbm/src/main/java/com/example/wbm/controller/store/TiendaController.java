@@ -1,5 +1,6 @@
 package com.example.wbm.controller.store;
 
+import com.example.wbm.implementation.LibroServicioImpl;
 import com.example.wbm.model.dto.LibroDTO;
 import com.example.wbm.model.entity.Libro;
 import com.example.wbm.model.mapStructure.ILibroMapper;
@@ -18,15 +19,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor // Para inyectar el servicio
 public class TiendaController {
 
-    private final ILibroServicio libroServicio; // Inyecta el servicio
-
+    private final LibroServicioImpl libroServicioImpl;
     private final ILibroMapper libroMapper;
 
     @GetMapping("")
     public String inicio(Model model){
 
-        // 1. Obtener la lista de Entidades (Libro) del servicio
-        List<Libro> librosEntidades = libroServicio.leerLibrosActivos();
+        List<Libro> librosEntidades = libroServicioImpl.leerLibrosActivos();
 
         // 2. Mapear la lista de Entidades a una lista de DTOs
         List<LibroDTO> librosDTO = librosEntidades.stream()

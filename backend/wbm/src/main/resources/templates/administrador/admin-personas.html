@@ -132,30 +132,41 @@ body {
             </div>
             <div class="modal-body">
               <form th:action="@{/administrador/personas/guardar}" th:object="${guardarPersona}" method="post">
+
+                <!-- Campo DNI con botón de búsqueda -->
                 <div class="mb-3">
                   <label for="dni" class="form-label">DNI</label>
-                  <input type="text" class="form-control input-anime" th:field="*{dni}" required>
+                  <div class="input-group">
+                    <input type="text" class="form-control input-anime" id="dni" th:field="*{dni}" maxlength="8" required>
+                    <button type="button" class="btn btn-warning fw-bold" id="buscarDni">Buscar</button>
+                  </div>
                 </div>
+
                 <div class="mb-3">
                   <label for="nombre" class="form-label">Nombre</label>
-                  <input type="text" class="form-control input-anime" th:field="*{nombre}" required>
+                  <input type="text" class="form-control input-anime" th:field="*{nombre}" id="nombre" required>
                 </div>
+
                 <div class="mb-3">
                   <label for="apellidos" class="form-label">Apellidos</label>
-                  <input type="text" class="form-control input-anime" th:field="*{apellidos}" required>
+                  <input type="text" class="form-control input-anime" th:field="*{apellidos}" id="apellidos" required>
                 </div>
+
                 <div class="mb-3">
                   <label for="edad" class="form-label">Edad</label>
                   <input type="date" class="form-control input-anime" th:field="*{edad}" required>
                 </div>
+
                 <div class="mb-3">
                   <label for="direccion" class="form-label">Dirección</label>
                   <input type="text" class="form-control input-anime" th:field="*{direccion}" required>
                 </div>
+
                 <div class="mb-3">
                   <label for="telefono" class="form-label">Teléfono</label>
                   <input type="text" class="form-control input-anime" th:field="*{telefono}" required>
                 </div>
+
                 <div class="mb-3">
                   <label for="pais" class="form-label">País</label>
                   <input type="text" class="form-control input-anime" th:field="*{pais}" required>
@@ -305,7 +316,31 @@ order: [ [2, "asc"] ],
 });
 </script>
 
+<script>
+  document.getElementById("buscarDni").addEventListener("click", async () => {
+    const dni = document.getElementById("dni").value.trim();
+    if (dni.length !== 8) {
+      alert("El DNI debe tener 8 dígitos.");
+      return;
+    }
 
+    try {
+      const res = await fetch(`/dni/${dni}`);
+      if (!res.ok) throw new Error("No se encontró información para el DNI ingresado.");
+
+      const data = await res.json();
+
+      // Ajusta estos nombres según la respuesta de tu API
+      document.getElementById("nombre").value = data.nombres || "";
+      document.getElementById("apellidos").value =
+        `${data.apellidoPaterno || ""} ${data.apellidoMaterno || ""}`.trim();
+
+    } catch (error) {
+      alert("No se encontró información para el DNI ingresado.");
+      console.error(error);
+    }
+  });
+</script>
 
 </body>
 
