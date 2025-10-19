@@ -33,13 +33,13 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		Usuario usuario = usuarioRepository.findByCorreoWithPerfiles(email)
 				.orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
 
-		// Obtener la sesión (si quieres)
+		// Obtener la sesión
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 		HttpSession session = attr.getRequest().getSession(true);
-		session.setAttribute("idUsuario", usuario);
+		session.setAttribute("usuarioSesion", usuario);
 		session.setMaxInactiveInterval(300);
 
-		// Logs de depuración
+		// Logs
 		logger.info("Usuario id: {}", usuario.getIdUsuario());
 		logger.info("Correo: {}", usuario.getCorreo());
 		logger.info("Password hash BD: {}", usuario.getPassword());
@@ -49,6 +49,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
 		return new CustomUserDetails(usuario);
 	}
+
 
 	
 

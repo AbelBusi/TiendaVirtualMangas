@@ -25,12 +25,10 @@
 
 </head>
 
-
-
-
 <body>
-<!-- Carrito de Compras -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+
+    <!-- Carrito de Compras -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header border-bottom">
         <h5 id="offcanvasRightLabel" class="fw-bold">Carrito de Compras</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -73,8 +71,7 @@
     </div>
 </div>
 
-<div th:replace="~{components/header :: mainHeader}"></div>
-
+    <div th:replace="~{components/header :: mainHeader}"></div>
 
     <section class="py-5">
         <div class="container px-4 px-lg-5 my-5">
@@ -106,97 +103,50 @@
             </div>
         </div>
     </section>
-    <!-- Related items section-->
+        <!-- Related items section-->
     <section class="py-5 bg-light container-fluid">
 
         <h1 class="text-center textTitle">Mangas relacionados</h1>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 container-fluid">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4 container-fluid">
 
-            <!-- MANGA 1 -->
-            <div class="col sombraDivCard">
+            <div class="col sombraDivCard" th:each="libro : ${librosActivos}">
                 <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Doraemon_Plus_04.jpg}" class="imageCard"
-                        alt="Doraemon Plus 04">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Doraemon Plus 04</h5>
-                        <h2 class="fw-bold">$15.00</h2>
+
+                    <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
+                         class="imageCard"
+                         th:alt="${libro.titulo}">
+
+                    <div class="card-body pEntrar">
+                        <h5 class="card-title text-center" th:text="${libro.titulo}">Título del Libro</h5>
+
+                        <p class="card-text" th:text="${#strings.substring(libro.descripcion, 0, #strings.length(libro.descripcion) > 100 ? 100 : #strings.length(libro.descripcion)) + (#strings.length(libro.descripcion) > 100 ? '...' : '')}">
+                            Descripción corta del libro.
+                        </p>
                     </div>
+
                     <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link">
-                            <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
+                        <span class="fw-bold align-self-center">S/ <span th:text="${#numbers.formatDecimal(libro.precio, 1, 2)}">25.00</span></span>
+
+                        <button class="card-link" type="button" data-bs-target="#offcanvasRight"
+                                aria-controls="offcanvasRight" th:data-libro-id="${libro.idLibro}">
+                            <i class="fa fa-cart-plus me-1"> </i>Agregar
                         </button>
-                        <button class="card-link">
-                            <i class="fa fa-circle-info me-1"></i> Información
+                        <button
+                                type="button"
+                                class="card-link btn btn-light"
+                                th:onclick="'window.location.href=\'' + @{/tienda/libros/{idLibro}(idLibro=${libro.idLibro})} + '\';'">
+                            <i class="fa fa-info-circle me-1"></i>
                         </button>
+
+
                     </div>
                 </div>
             </div>
-
-            <!-- MANGA 2 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/Majin_Tantei_Nogami_Neuro_09.jpg}" class="imageCard"
-                        alt="Majin Tantei Nogami Neuro 09">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Majin Tantei Nogami Neuro 09</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link">
-                            <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
-                        </button>
-                        <button class="card-link">
-                            <i class="fa fa-circle-info me-1"></i> Información
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 3 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/028 [THX].jpg}" class="imageCard" alt="Manga 028">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Manga 028</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link">
-                            <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
-                        </button>
-                        <button class="card-link">
-                            <i class="fa fa-circle-info me-1"></i> Información
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MANGA 4 -->
-            <div class="col sombraDivCard">
-                <div class="card cardIndividual">
-                    <img th:src="@{/media/images/mangas/2K Teizuki Yuurei Tsuki - 01 [NOT FULL].jpg}"
-                        class="imageCard" alt="Teizuki Yuurei Tsuki 01">
-                    <div class="card-body pEntrar text-center">
-                        <h5 class="card-title">Teizuki Yuurei Tsuki 01</h5>
-                        <h2 class="fw-bold">$15.00</h2>
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <button class="card-link">
-                            <i class="fa fa-cart-plus me-1"></i> Agregar al carrito
-                        </button>
-                        <button class="card-link">
-                            <i class="fa fa-circle-info me-1"></i> Información
-                        </button>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
 
-
-<div th:replace="~{components/footer :: footerReplace}"></div>
+    <div th:replace="~{components/footer :: footerReplace}"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -233,13 +183,10 @@
 
     </script>
 
-
 <script th:src="@{/js/slider.js}"></script>
 <script th:src="@{/js/apiPrueba.js}"></script>
 <script th:src="@{/js/movimiento.js}"></script>
 <script th:src="@{/js/carrito.js}"></script>
-
-
 
 </body>
 

@@ -18,15 +18,14 @@ public class InicioController {
     private final LibroServicioImpl libroServicio;
 
     @GetMapping("")
-    public String home (Model model, HttpSession session){
-
-        /*Usuario usuario = Usuario.builder().build();*/
+    public String home(Model model, HttpSession session) {
 
         model.addAttribute("libros", libroServicio.leerLibrosActivos());
-/*
-        usuario = (Usuario) session.getAttribute("idUsuario");
 
-        model.addAttribute("sesion",usuario);*/
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        model.addAttribute("sesion", usuario);
+
         return "index";
     }
+
 }

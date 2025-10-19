@@ -49,11 +49,19 @@ public class TiendaController {
 
         model.addAttribute("libro", libroDTO);
 
+
+        List<Libro> librosActivos = libroServicioImpl.leerLibrosActivos();
+
+        List<Libro> librosCategoria = librosActivos.subList(0,5);
+
+        model.addAttribute("librosActivos", librosCategoria);
+
         return "/store/libro";
     }
 
     @GetMapping("libro")
     public String venta(Model model){
+
 
         return "/store/pagando";
     }

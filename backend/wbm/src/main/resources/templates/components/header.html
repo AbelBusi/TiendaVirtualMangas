@@ -5,7 +5,8 @@
 </head>
 
 <style>
-    .user-box {
+
+.user-box {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 6px 10px;
@@ -30,13 +31,11 @@
 
 </style>
 <body>
-<header th:fragment="mainHeader">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
+<header th:fragment="mainHeader"> <nav class="navbar navbar-expand-lg navbar-dark"> <div class="container-fluid">
             <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center" th:href="@{/inicio}">
-                <img th:src="@{/media/images/iconos/iconoOnePieceCHAD.png}" alt="Logo" class="logo me-2">
-                <span class="fw-bold textHeaderShadow tituloHeader">WEbStorm</span>
+                <img th:src="@{/media/images/iconos/iconoOnePieceCHAD.png}" alt="Logo" class="logo me-2" style="height: 40px;">
+                <span class="fw-bold text-light tituloHeader">WEbStorm</span>
             </a>
 
             <!-- Botón hamburguesa -->
@@ -47,50 +46,71 @@
 
             <!-- Menú -->
             <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-                <ul class="navbar-nav mb-2 mb-lg-0 text-center">
+                <ul class="navbar-nav mb-2 mb-lg-0 text-center align-items-center">
+
                     <li class="nav-item mx-2">
-                        <a class="nav-link active textHeader textHeaderShadow" th:href="@{/tienda}">
+                        <a class="nav-link active text-light" th:href="@{/tienda}">
                             <i class="fas fa-book"></i> Mangas
                         </a>
                     </li>
+
                     <li class="nav-item mx-2">
-                        <a class="nav-link textHeader textHeaderShadow" th:href="@{/revista}">
+                        <a class="nav-link text-light" th:href="@{/revista}">
                             <i class="fas fa-newspaper"></i> Revistas
                         </a>
                     </li>
+
                     <li class="nav-item mx-2">
-                        <a class="nav-link textHeader textHeaderShadow" href="#">
-                            <i class="fas fa-comic"></i> Historietas
+                        <a class="nav-link text-light" href="#">
+                            <i class="fas fa-book-open"></i> Historietas
                         </a>
                     </li>
+
                     <li class="nav-item mx-2">
-                        <a class="nav-link textHeader textHeaderShadow" href="#">
+                        <a class="nav-link text-light" href="#">
                             <i class="fas fa-concierge-bell"></i> Servicios
                         </a>
                     </li>
+
                     <li class="nav-item mx-2">
-                        <a class="nav-link textHeader textHeaderShadow" href="../contactanos/index.html">
-                            <i class="fas fa-envelope"></i> Contactarnos
+                        <a class="nav-link text-light" th:href="@{/contactanos}">
+                            <i class="fas fa-envelope"></i> Contacto
                         </a>
                     </li>
 
                     <!-- Si NO está logueado -->
-                    <li class="nav-item mx-2" >
-                        <a class="nav-link textHeader textHeaderShadow" th:href="@{/ingresar}">
+                    <li class="nav-item mx-2" th:if="${sesion == null}">
+                        <a class="nav-link text-light" th:href="@{/ingresar}">
                             <i class="fas fa-user"></i> Iniciar Sesión
                         </a>
                     </li>
 
                     <!-- Si está logueado -->
-                    <li class="nav-item mx-2" >
-                        <div class="d-flex align-items-center justify-content-center user-box">
-                            <div class="user-square text-center">
+                    <li class="nav-item dropdown mx-2" th:if="${sesion != null}">
+                        <a class="nav-link dropdown-toggle text-light d-flex align-items-center" href="#" id="userDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="bg-light text-dark rounded-circle d-flex justify-content-center align-items-center"
+                                 style="width: 35px; height: 35px;">
                                 <i class="fas fa-user"></i>
                             </div>
-                            <span class="ms-2 textHeader textHeaderShadow"
-                                  text="#">Usuario</span>
-                        </div>
+                            <span class="ms-2" th:text="${sesion.nombre}">Usuario</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                            <li>
+                                <h6 class="dropdown-header text-muted mb-0">
+                                    Rol: <span th:text="${sesion.perfiles[0].rol.nombre}">Rol</span>
+                                </h6>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" th:href="@{/perfil}"><i class="fas fa-user-cog me-2"></i> Perfil</a></li>
+                            <li><a class="dropdown-item" th:href="@{/configuracion}"><i class="fas fa-cog me-2"></i> Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" th:href="@{/logout}">
+                                <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión</a>
+                            </li>
+                        </ul>
                     </li>
+
                 </ul>
             </div>
         </div>
