@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Puedes dejar vacío el head si solo es fragmento -->
 </head>
 
 <style>
@@ -113,8 +112,7 @@
 
                 </ul>
             </div>
-        </div>
-    </nav>
+        </div></nav>
 </header>
 
 <div  th:fragment="siderAdmin">
@@ -123,7 +121,9 @@
             <div class="sidebar-header">
                 <div class="d-flex justify-content-between">
                     <div class="logo">
-                        <a href="index.html">Web Store Manga</a>
+                        <a th:href="@{/administrador}">Web Store Manga</a>
+                        <p><i class="fas fa-user"></i></i> Usuario</p>
+
                     </div>
                     <div class="toggler">
                         <a th:href="@{/administrador}" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>

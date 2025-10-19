@@ -1,51 +1,37 @@
-    /* Estilos del BODY */
     body {
         position: relative;
         background-size: cover;
         background-attachment: fixed;
         z-index: 0;
-
-        /* CLAVE 1: Asegura que el body ocupe toda la altura de la pantalla */
         min-height: 100vh;
-        margin: 0; /* Elimina el margen por defecto del body */
+        margin: 0;
     }
 
-    /* Pseudo-elemento para crear la capa (overlay) */
     body::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-
-        /* CLAVE 2: Fuerza al overlay a ocupar el 100% de la altura de la ventana */
         height: 100%;
-
-        /* Esto asegura que si el body tiene min-height: 100vh, también lo cubre. */
-        /* Si tu contenido excede 100vh, el 100% se ajustará dinámicamente. */
-
-        /* Opacidad al 95% para máxima oscuridad */
         background-color: rgba(0, 0, 0, 0.35);
         z-index: -1;
     }
 
-    /* Color base: Tu color favorito #efb810 */
 :root {
     --anime-gold: #efb810;
     --anime-dark: #222222;
     --anime-glow: rgba(239, 184, 16, 0.6);
 }
 
-/* Estilo Base para todos los botones de acción */
 .btn-sm {
-    /* Fondo oscuro y texto blanco/claro */
     background-color: var(--anime-dark) !important;
     color: white !important;
     border: 1px solid var(--anime-gold) !important;
     border-radius: 4px;
-    padding: 0.25rem 0.6rem; /* Ajuste para mantenerlos pequeños */
-    font-weight: 600; /* Hace que el texto se vea más audaz */
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); /* Sombra de texto sutil */
+    padding: 0.25rem 0.6rem;
+    font-weight: 600;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     transition: all 0.2s ease-in-out;
 }
 
@@ -54,7 +40,6 @@
     background-color: #333333 !important; /* Ligeramente más claro en hover */
     /* Sombra exterior brillante (GLOW) */
     box-shadow: 0 0 10px var(--anime-glow), 0 0 20px var(--anime-glow);
-    transform: translateY(-1px); /* Efecto 3D sutil */
     color: var(--anime-gold) !important;
 }
 
