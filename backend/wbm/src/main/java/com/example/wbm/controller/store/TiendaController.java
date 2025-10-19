@@ -9,9 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // Necesario para pasar datos a Thymeleaf
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -39,13 +41,18 @@ public class TiendaController {
     }
 
 
-    @GetMapping("libro")
-    public String libro(Model model){
+    @GetMapping("libros/{id}")
+    public String libro(@PathVariable Integer id, Model model){
+
+
+        LibroDTO libroDTO= libroServicioImpl.leerLibroPorId(id);
+
+        model.addAttribute("libro", libroDTO);
 
         return "/store/libro";
     }
 
-    @GetMapping("venta")
+    @GetMapping("libro")
     public String venta(Model model){
 
         return "/store/pagando";

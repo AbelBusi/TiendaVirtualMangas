@@ -285,9 +285,8 @@
                         <button
                                 type="button"
                                 class="card-link btn btn-light"
-                                th:onclick="'window.location.href=\'' + @{/tienda/libro} + '\';'">
+                                th:onclick="'window.location.href=\'' + @{/tienda/libros/{idLibro}(idLibro=${libro.idLibro})} + '\';'">
                             <i class="fa fa-info-circle me-1"></i>
-
                         </button>
 
 
