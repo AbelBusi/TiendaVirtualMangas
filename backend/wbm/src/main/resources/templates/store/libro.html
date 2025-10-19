@@ -80,17 +80,17 @@
         <div class="container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-items-center">
                 <div class="col-md-6">
-                    <img class="card-img-top mb-5 mb-md-0" th:src="@{/media/images/mangas/Doraemon_Plus_04.jpg}"
-                        alt="..." />
+                    <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
+                         class="imageCard"
+                         th:alt="${libro.titulo}">
                 </div>
                 <div class="col-md-6">
                     <div class="small mb-1">SKU: BST-498</div>
-                    <h1 class="display-5 fw-bolder">Doraemon Plus 04</h1>
+                    <h1 class="display-5 fw-bolder" th:text="${libro.titulo}">Doraemon Plus 04</h1>
                     <div class="fs-5 mb-5">
-                        <span class="text-decoration-line-through">S/45.00</span>
-                        <span>$40.00</span>
+                        <span class="text-decoration-line-through" th:text="${libro.precio}">S/45.00</span>
                     </div>
-                    <p class="lead">Nobita y Doraemon enfrentan divertidos problemas diarios con inventos
+                    <p class="lead" th:text="${libro.descripcion}">Nobita y Doraemon enfrentan divertidos problemas diarios con inventos
                         futuristas. Nobita y Doraemon enfrentan divertidos problemas diarios con inventos
                         futuristas.</p>
                     <div class="d-flex">
