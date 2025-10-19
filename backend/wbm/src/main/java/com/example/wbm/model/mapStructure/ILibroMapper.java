@@ -19,11 +19,8 @@ public interface ILibroMapper {
             @Mapping(source = "editorial", target = "editorial"),
             @Mapping(source = "genero", target = "genero"),
 
-            // Mapeo del ID de la FK
             @Mapping(source = "tipoLibro.idTipoLibro", target = "tipoLibro"),
 
-            // CLAVE DE LA SOLUCIÓN: Usamos una expresión Java para verificar si tipoLibro no es null.
-            // Si es null, asigna "Sin Categoría". Si no es null, asigna el nombre.
             @Mapping(target = "nombreTipoLibro",
                     expression = "java(libro.getTipoLibro() != null ? libro.getTipoLibro().getNombre() : \"Sin Categoría\")"),
 
@@ -37,6 +34,6 @@ public interface ILibroMapper {
     LibroDTO toDto(Libro libro);
 
     @InheritInverseConfiguration
-    @Mapping(target = "tipoLibro", ignore = true) // Ignoramos la relación completa
+    @Mapping(target = "tipoLibro", ignore = true)
     Libro toEntity(LibroDTO libroDTO);
 }

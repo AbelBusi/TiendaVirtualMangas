@@ -9,10 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous">
 
-    <!-- Font Awesome 6 (CDN) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-    <!-- Reemplazado con ruta relativa para el ejemplo. Ajusta si es necesario. -->
     <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -20,14 +18,12 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
 
-    <!-- Se asume que estos CSS están disponibles en la ruta relativa -->
     <link rel="stylesheet" th:href="@{/css/carrusel.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" th:href="@{/css/letras.css}">
     <link rel="stylesheet" th:href="@{/css/card.css}">
-    <link rel="stylesheet" th:href="@{/css/apiContainer.css}">
-    <link rel="stylesheet" th:href="@{/css/mangas.css}">
+    <link rel="stylesheet" th:href="@{/css/libroDetalle.css}">
     <link rel="stylesheet" th:href="@{/css/botones.css}">
 
 
@@ -80,8 +76,7 @@
     </div>
 </div>
 
-
-<div th:replace="components/header :: mainHeader"></div>
+<div th:replace="~{components/header :: mainHeader}"></div>
 
 
 <section class="py-5">
@@ -287,6 +282,15 @@
                                 aria-controls="offcanvasRight" th:data-libro-id="${libro.idLibro}">
                             <i class="fa fa-cart-plus me-1"> </i>Agregar
                         </button>
+                        <button
+                                type="button"
+                                class="card-link btn btn-light"
+                                th:onclick="'window.location.href=\'' + @{/tienda/libro} + '\';'">
+                            <i class="fa fa-info-circle me-1"></i>
+
+                        </button>
+
+
                     </div>
                 </div>
             </div>
@@ -341,170 +345,8 @@
     </div>
 </div>
 
-<footer class="footer">
+<div th:replace="~{components/footer :: footerReplace}"></div>
 
-    <!-- Widgets -->
-    <section class="py-4 py-md-5">
-        <div class="container overflow-hidden">
-            <div class="row">
-                <div class="col-12">
-                    <div class="container-fluid border border-dark rounded-3 shadow-sm">
-                        <div class="row">
-                            <!-- Contacto -->
-                            <div class="col-xs-12 col-lg-4">
-                                <div class="widget p-3 p-md-4 p-xxl-5">
-                                    <h4 class="widget-title mb-4">Contacto</h4>
-                                    <address class="mb-4">
-                                        <i class="fas fa-map-marker-alt me-2"></i> Av. Otaku 777, Chiclayo, Perú
-                                    </address>
-                                    <p class="mb-1">
-                                        <a class="link-dark" href="tel:+51999999999">
-                                            <i class="fas fa-phone-alt me-2"></i> +51 999 999 999
-                                        </a>
-                                    </p>
-                                    <p class="mb-0">
-                                        <a class="link-dark" href="mailto:contacto@mangastore.com">
-                                            <i class="fas fa-envelope me-2"></i> contacto@mangastore.com
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Categorías -->
-                            <div class="col-xs-12 col-lg-4">
-                                <div class="widget p-3 p-md-4 p-xxl-5">
-                                    <h4 class="widget-title mb-4">Categorías</h4>
-                                    <ul class="list-unstyled m-0 p-0">
-                                        <li class="mb-2">
-                                            <a href="#" class="link-dark"><i class="fas fa-book me-2"></i>Mangas
-                                                Shonen</a>
-                                        </li>
-                                        <li class="mb-2">
-                                            <a href="#" class="link-dark"><i class="fas fa-heart me-2"></i>Mangas
-                                                Shojo</a>
-                                        </li>
-                                        <li class="mb-2">
-                                            <a href="#" class="link-dark"><i class="fas fa-dragon me-2"></i>Seinen &
-                                                Terror</a>
-                                        </li>
-                                        <li class="mb-2">
-                                            <a href="#" class="link-dark"><i class="fas fa-gamepad me-2"></i>Figuras
-                                                de colección</a>
-                                        </li>
-                                        <li class="mb-0">
-                                            <a href="#" class="link-dark"><i class="fas fa-image me-2"></i>Posters y
-                                                Merch</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Horarios -->
-                            <div class="col-xs-12 col-lg-4">
-                                <div class="widget p-3 p-md-4 p-xxl-5">
-                                    <h4 class="widget-title mb-4">Horarios</h4>
-                                    <p class="mb-4">Atendemos con la mejor energía para los fanáticos del manga y
-                                        anime.</p>
-                                    <div>
-                                        <div class="row mb-1">
-                                            <div class="col-5 col-xl-4">
-                                                <span class="fw-bold">Lun - Vie:</span>
-                                            </div>
-                                            <div class="col-7 col-xl-8">
-                                                <span class="text-secondary">10am - 8pm</span>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-1">
-                                            <div class="col-5 col-xl-4">
-                                                <span class="fw-bold">Sáb:</span>
-                                            </div>
-                                            <div class="col-7 col-xl-8">
-                                                <span class="text-secondary">10am - 6pm</span>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-5 col-xl-4">
-                                                <span class="fw-bold">Dom:</span>
-                                            </div>
-                                            <div class="col-7 col-xl-8">
-                                                <span class="text-secondary">Cerrado</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end horarios -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Colophon -->
-    <div class="pb-4 pb-md-5">
-        <div class="container overflow-hidden">
-            <div class="row">
-                <div class="col">
-                    <div class="container-fluid border border-dark rounded-3 shadow-sm">
-                        <div class="row gy-4 gy-lg-0 p-3 p-md-4 p-xxl-5 align-items-md-center">
-                            <!-- Logo -->
-                            <div class="col-xs-12 col-sm-6 col-lg-4 order-0 order-lg-0">
-                                <div class="footer-logo-wrapper text-center text-sm-start">
-                                    <img th:src="@{/media/images/iconos/iconoOnePieceCHAD.png}" height="80px"
-                                         alt="Logo Manga Store" class="logo me-2">
-                                </div>
-                            </div>
-
-                            <!-- Derechos -->
-                            <div class="col-xs-12 col-lg-4 order-2 order-lg-1">
-                                <div class="colophon-wrapper">
-                                    <div class="footer-copyright-wrapper text-center">
-                                        © 2024 MangaStore. Todos los derechos reservados.
-                                    </div>
-                                    <div class="credits text-secondary text-center mt-2 fs-8">
-                                        Desarrollado con pasión por <span class="text-primary">Otaku Devs</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Redes sociales -->
-                            <div class="col-xs-12 col-sm-6 col-lg-4 order-1 order-lg-2">
-                                <div class="social-media-wrapper">
-                                    <ul
-                                            class="list-unstyled m-0 p-0 d-flex justify-content-center justify-content-sm-end">
-                                        <li class="me-3">
-                                            <a href="#" class="link-dark link-opacity-75-hover" title="Facebook">
-                                                <i class="fab fa-facebook-f fa-lg"></i>
-                                            </a>
-                                        </li>
-                                        <li class="me-3">
-                                            <a href="#" class="link-dark link-opacity-75-hover" title="YouTube">
-                                                <i class="fab fa-youtube fa-lg"></i>
-                                            </a>
-                                        </li>
-                                        <li class="me-3">
-                                            <a href="#" class="link-dark link-opacity-75-hover" title="Twitter">
-                                                <i class="fab fa-twitter fa-lg"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="link-dark link-opacity-75-hover" title="Instagram">
-                                                <i class="fab fa-instagram fa-lg"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- end redes -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         xintegrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

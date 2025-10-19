@@ -37,4 +37,14 @@ public class TiendaController {
 
         return "/store/index";
     }
+
+
+    @GetMapping("libro")
+    public String libro(Model model){
+
+        return "/store/libro";
+    }
+
+
+
 }

@@ -3,12 +3,38 @@
 <head>
     <!-- Puedes dejar vacío el head si solo es fragmento -->
 </head>
+
+<style>
+    .user-box {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 6px 10px;
+    transition: 0.3s;
+}
+
+.user-box:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.user-square {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #ffc107; /* amarillo dorado tipo One Piece */
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+</style>
 <body>
 <header th:fragment="mainHeader">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <!-- Logo como imagen -->
-            <a class="navbar-brand d-flex align-items-center" th:href="@{inicio}">
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center" th:href="@{/inicio}">
                 <img th:src="@{/media/images/iconos/iconoOnePieceCHAD.png}" alt="Logo" class="logo me-2">
                 <span class="fw-bold textHeaderShadow tituloHeader">WEbStorm</span>
             </a>
@@ -19,7 +45,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Menú colapsable -->
+            <!-- Menú -->
             <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
                 <ul class="navbar-nav mb-2 mb-lg-0 text-center">
                     <li class="nav-item mx-2">
@@ -47,10 +73,23 @@
                             <i class="fas fa-envelope"></i> Contactarnos
                         </a>
                     </li>
-                    <li class="nav-item mx-2">
+
+                    <!-- Si NO está logueado -->
+                    <li class="nav-item mx-2" >
                         <a class="nav-link textHeader textHeaderShadow" th:href="@{/ingresar}">
                             <i class="fas fa-user"></i> Iniciar Sesión
                         </a>
+                    </li>
+
+                    <!-- Si está logueado -->
+                    <li class="nav-item mx-2" >
+                        <div class="d-flex align-items-center justify-content-center user-box">
+                            <div class="user-square text-center">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="ms-2 textHeader textHeaderShadow"
+                                  text="#">Usuario</span>
+                        </div>
                     </li>
                 </ul>
             </div>

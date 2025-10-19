@@ -1,6 +1,8 @@
 package com.example.wbm.controller.home; // O el paquete correcto
 
 import com.example.wbm.implementation.LibroServicioImpl;
+import com.example.wbm.model.entity.Usuario;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +18,15 @@ public class InicioController {
     private final LibroServicioImpl libroServicio;
 
     @GetMapping("")
-    public String home (Model model){
-        // 1. Obtiene la lista de libros
-        // Nota: Si solo quieres libros "Activos" (estado = 1), debes crear un método en tu servicio para eso.
-        model.addAttribute("libros", libroServicio.leerLibrosActivos());
+    public String home (Model model, HttpSession session){
 
+        /*Usuario usuario = Usuario.builder().build();*/
+
+        model.addAttribute("libros", libroServicio.leerLibrosActivos());
+/*
+        usuario = (Usuario) session.getAttribute("idUsuario");
+
+        model.addAttribute("sesion",usuario);*/
         return "index";
     }
 }
