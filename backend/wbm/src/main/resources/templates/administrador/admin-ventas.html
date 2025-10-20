@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas - Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/app.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/css/bodyTransparent.css}">
+    <link rel="stylesheet" th:href="@{/css/botonesAdmin.css}">
+
+    <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+
+
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        /* ocupa mínimo toda la pantalla, pero crece con el contenido */
+        background-size: cover;
+        /* se adapta al tamaño de la pantalla */
+        background-position: center;
+        /* centrada */
+        background-repeat: no-repeat;
+        color: #fff;
+    }
+
+    /* Asegurar que el color del texto de la tabla sea visible */
+    #ventasTable tbody tr {
+        color: #f1f1f1;
+        /* Color de texto para el cuerpo de la tabla */
+    }
+
+    #ventasTable thead th {
+        color: #ffffff;
+        /* Color de texto para el encabezado de la tabla */
+    }
+
+    /* Estilos para el botón de Detalle */
+    .btn-detalle-venta {
+        background-color: #ffe082; /* Amarillo claro */
+        border-color: #ffe082;
+        color: #212529; /* Texto oscuro */
+        transition: background-color 0.3s;
+    }
+
+    .btn-detalle-venta:hover {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        color: #212529;
+    }
+</style>
+
+<body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
+<div id="app">
+    <div th:replace="~{components/header :: siderAdmin}"></div>
+
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <div class="page-heading">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-md-6 order-md-1 order-last">
+                        <h3>VENTAS</h3>
+                    </div>
+                    <div class="col-12 col-md-6 order-md-2 order-first">
+                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a th:href="@{/administrador/dashboard}">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Ventas</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section mt-3">
+                <div class="row" id="table-head">
+                    <div class="col-12">
+                        <div class="card bg-transparent border-0">
+                            <div class="card-header bg-transparent border-0">
+                                <h4 class="card-title text-white text-center">Historial de Ventas</h4>
+                            </div>
+
+                            <div class="d-flex justify-content-end mb-3">
+                                <button type="button" class="botone">
+                                    <i class="fas fa-plus"></i> Registrar Nueva Venta
+                                </button>
+                            </div>
+
+
+                            <div class="card-content">
+                                <div class="table-responsive">
+                                    <table id="ventasTable" class="table table-transparent table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>ID VENTA</th>
+                                            <th>FECHA</th>
+                                            <th>CLIENTE</th>
+                                            <th>TOTAL</th>
+                                            <th>ESTADO</th>
+                                            <th>ACCIONES</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-id="101">
+                                            <td>101</td>
+                                            <td>2025-10-19 19:10</td>
+                                            <td>Monkey D. Luffy</td>
+                                            <td>$180.00</td>
+                                            <td>
+                                                <span class="badge bg-success">Completada</span>
+                                            </td>
+                                            <td>
+                                                <a th:href="@{/administrador/ventas/detalles}" class="btn btn-sm btn-detalle-venta btn-action">
+                                                    <i class="fas fa-search-plus"></i> Detalle
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr data-id="102">
+                                            <td>102</td>
+                                            <td>2025-10-18 10:30</td>
+                                            <td>Roronoa Zoro</td>
+                                            <td>$75.50</td>
+                                            <td>
+                                                <span class="badge bg-danger">Anulada</span>
+                                            </td>
+                                            <td>
+                                                <a th:href="@{/administrador/ventas/detalles}" class="btn btn-sm btn-detalle-venta btn-action">
+                                                    <i class="fas fa-search-plus"></i> Detalle
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr data-id="103">
+                                            <td>103</td>
+                                            <td>2025-10-17 14:00</td>
+                                            <td>Nami-chan</td>
+                                            <td>$250.00</td>
+                                            <td>
+                                                <span class="badge bg-success">Completada</span>
+                                            </td>
+                                            <td>
+                                                <a th:href="@{/administrador/ventas/detalles}" class="btn btn-sm btn-detalle-venta btn-action">
+                                                    <i class="fas fa-search-plus"></i> Detalle
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </div>
+
+        <footer>
+            <div class="footer clearfix mb-0 text-muted">
+                <div class="float-start">
+                    <p>2021 &copy; Mazer</p>
+                </div>
+                <div class="float-end">
+                    <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+
+<script>
+        $(document).ready(function () {
+            // Cambiado el selector a '#ventasTable'
+            $('#ventasTable').DataTable({
+                dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
+                buttons: [{
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i> Excel',
+                        className: 'btn buttons-excel'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i> PDF',
+                        className: 'btn buttons-pdf'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i> Imprimir',
+                        className: 'btn buttons-print'
+                    }
+                ],
+                order: [
+                    [0, "desc"]
+                ],
+                language: {
+                    search: "Buscar:",
+                    lengthMenu: "Mostrar _MENU_ registros",
+                    info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    paginate: {
+                        previous: "⬅",
+                        next: "➡"
+                    }
+                }
+            });
+        });
+
+        // No necesitamos el script de edición/cambio de estado de roles aquí
+    </script>
+</body>
+
+</html>
