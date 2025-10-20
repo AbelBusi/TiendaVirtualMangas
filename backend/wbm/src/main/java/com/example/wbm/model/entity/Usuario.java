@@ -75,4 +75,7 @@ public class Usuario {
 
     }
 
+    @OneToMany(mappedBy = "usuario",fetch = FetchType.LAZY)
+    private List<Venta> ventas ;
+
 }

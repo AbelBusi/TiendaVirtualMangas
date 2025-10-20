@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -62,4 +63,7 @@ public class Libro {
 
     @Column(name = "estado", nullable = false)
     private Integer estado;
+
+    @OneToMany(mappedBy = "libro",fetch = FetchType.LAZY)
+    private List<DetalleVenta> detalles;
 }
