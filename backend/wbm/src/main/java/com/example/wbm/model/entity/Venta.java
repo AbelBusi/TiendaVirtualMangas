@@ -48,10 +48,15 @@ public class Venta {
     @Column(name = "fecha_venta",nullable = false)
     private LocalDateTime fechaVenta;
 
+    @Column(name = "numero_venta",unique = true,length = 100,nullable = false)
+    private String numeroVenta;
+
     @Column(name = "estado")
     private Boolean estado;
 
     @OneToMany(mappedBy = "venta",fetch = FetchType.LAZY)
     private List<DetalleVenta> detalleVentas;
+
+
 
 }

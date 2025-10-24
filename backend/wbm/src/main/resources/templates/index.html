@@ -27,10 +27,8 @@
 
 </head>
 
-
 <body>
 
-    <!-- Carrito de Compras -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header border-bottom">
             <h5 id="offcanvasRightLabel" class="fw-bold">Carrito de Compras</h5>
@@ -39,38 +37,43 @@
 
         <div class="offcanvas-body d-flex flex-column">
 
-            <!-- Producto -->
-            <div class="card mb-3 shadow-sm border-0 rounded-3">
-                <div class="row g-0 align-items-center">
-                    <div class="col-4">
-                        <img th:src="@{/media/images/mangas/Haruka_17_09.jpg}" class="img-fluid rounded-start"
-                            alt="Portada libro">
-                    </div>
-                    <div class="col-8">
-                        <div class="card-body p-2">
-                            <h6 class="card-title fw-semibold mb-1">Doraemon Vol. 1</h6>
-                            <p class="text-muted small mb-2">Precio: <span class="fw-bold text-dark">S/ 25.00</span></p>
-                            <div class="input-group input-group-sm">
-                                <span class="input-group-text cantidadCaja">Cantidad</span>
-                                <input type="number" class="form-control cantidad" value="1" min="1">
+            <form action="#" method="post" class="d-flex flex-column h-100">
+
+                <div class="card mb-3 shadow-sm border-0 rounded-3">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-4">
+                            <img src="media/images/mangas/Haruka_17_09.jpg" class="img-fluid rounded-start" alt="Portada libro">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body p-2">
+                                <h6 class="card-title fw-semibold mb-1">Doraemon Vol. 1</h6>
+                                <p class="text-muted small mb-2">Precio:
+                                    <span class="fw-bold text-dark">S/ 25.00</span>
+                                </p>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text cantidadCaja">Cantidad</span>
+                                    <input type="number" class="form-control cantidad" name="cantidad" value="1" min="1">
+                                </div>
+
+                                <input type="hidden" name="idProducto" value="1">
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Total -->
-            <div class="mt-auto border-top pt-3">
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="fw-semibold">Total:</span>
-                    <span class="fw-bold fs-5 textoPrecio" id="totalCarrito">S/ 25.00</span>
+                <div class="mt-auto border-top pt-3">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="fw-semibold">Total:</span>
+                        <span class="fw-bold fs-5 textoPrecio" id="totalCarrito">S/ 25.00</span>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-dark w-100">
+                            <i class="fa fa-circle-info me-1"></i> Finalizar compra
+                        </button>
+                    </div>
                 </div>
-                <div class="d-grid">
-                    <a class="card-linkA" href="#"><i class="fa fa-circle-info me-1"></i> Finalizar
-                        compra</a>
-                </div>
-            </div>
 
+            </form>
         </div>
     </div>
 
@@ -201,16 +204,18 @@
                     <div class="card-footer d-flex justify-content-around">
                         <span class="fw-bold align-self-center">S/ <span th:text="${#numbers.formatDecimal(libro.precio, 1, 2)}">25.00</span></span>
 
-                        <button class="card-link" type="button" data-bs-target="#offcanvasRight"
-                                aria-controls="offcanvasRight" th:data-libro-id="${libro.idLibro}">
-                            <i class="fa fa-cart-plus me-1"> </i>Agregar
+                        <button
+                                type="button"
+                                class="card-link btn btn-light"
+                                th:onclick="'window.location.href=\'' + @{/tienda/libros/{idLibro}(idLibro=${libro.idLibro})} + '\';'">
+                            <i class="fa fa-info-circle me-1"> Informacion</i>
                         </button>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="container-fluid padre my-5">
         <div class="container-centerApi texto">
@@ -297,7 +302,6 @@
     </div>
 
     <div th:replace="~{components/footer :: footerReplace}"></div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

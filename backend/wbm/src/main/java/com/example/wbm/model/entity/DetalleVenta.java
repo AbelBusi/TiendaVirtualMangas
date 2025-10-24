@@ -39,6 +39,9 @@ public class DetalleVenta {
     @JoinColumn(name = "libro",nullable = false)
     private Libro libro;
 
+    @Column(name = "nombreLibro",nullable = false)
+    private String nombreLibro;
+
     @Column(name = "cantidad")
     private Integer cantidad;
 

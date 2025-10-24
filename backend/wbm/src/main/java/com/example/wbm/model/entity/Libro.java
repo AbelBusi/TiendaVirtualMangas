@@ -64,6 +64,9 @@ public class Libro {
     @Column(name = "estado", nullable = false)
     private Integer estado;
 
+    @Column(name="stock")
+    private Integer stock;
+
     @OneToMany(mappedBy = "libro",fetch = FetchType.LAZY)
     private List<DetalleVenta> detalles;
 }

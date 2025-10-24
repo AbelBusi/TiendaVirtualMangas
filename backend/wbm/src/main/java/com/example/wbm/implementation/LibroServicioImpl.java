@@ -54,7 +54,6 @@ public class LibroServicioImpl implements ILibroServicio {
                 .orElse(null);
     }
 
-    // Ruta BASE donde se guardarán las imágenes (Asegúrate de que esta sea la ruta real en tu proyecto)
 
 
     @Transactional

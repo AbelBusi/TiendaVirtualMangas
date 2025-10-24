@@ -75,32 +75,48 @@
 
     <section class="py-5">
         <div class="container px-4 px-lg-5 my-5">
-            <div class="row gx-4 gx-lg-5 align-items-center">
-                <div class="col-md-6">
-                    <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
-                         class="imageCard"
-                         th:alt="${libro.titulo}">
-                </div>
-                <div class="col-md-6">
-                    <div class="small mb-1">SKU: BST-498</div>
-                    <h1 class="display-5 fw-bolder" th:text="${libro.titulo}">Doraemon Plus 04</h1>
-                    <div class="fs-5 mb-5">
-                        <span class="text-decoration-line-through" th:text="${libro.precio}">S/45.00</span>
+            <form th:action="@{/tienda/carrito}" method="POST">
+                <input type="hidden" name="idLibro" th:value="${libro.idLibro}">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6">
+                        <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
+                             class="imageCard"
+                             th:alt="${libro.titulo}">
                     </div>
-                    <p class="lead" th:text="${libro.descripcion}">Nobita y Doraemon enfrentan divertidos problemas diarios con inventos
-                        futuristas. Nobita y Doraemon enfrentan divertidos problemas diarios con inventos
-                        futuristas.</p>
-                    <div class="d-flex">
-                        <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
-                            style="max-width: 3rem" />
-                        <button class="btn btn-outline-dark flex-shrink-0 carrito" type="button"
-                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                            <i class="bi-cart-fill me-1"></i>
-                            Añadir al carrito
-                        </button>
+
+                    <div class="col-md-6">
+                        <div class="small mb-1">SKU: BST-498</div>
+                        <h1 class="display-5 fw-bolder" th:text="${libro.titulo}">Doraemon Plus 04</h1>
+
+                        <div class="fs-5 mb-4">
+                            <span th:text="'S/ ' + ${libro.precio}" class="fw-semibold">S/45.00</span>
+                        </div>
+
+                        <p class="lead mb-4" th:text="${libro.descripcion}">
+                            Nobita y Doraemon enfrentan divertidos problemas diarios con inventos futuristas.
+                        </p>
+
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <div class="d-flex align-items-center border rounded px-3 py-2 bg-light shadow-sm">
+                                <label for="cantidad" class="me-2 fw-semibold mb-0">Cantidad:</label>
+                                <input type="number"
+                                       id="cantidad"
+                                       name="cantidad"
+                                       min="1"
+                                       max="5"
+                                       value="1"
+                                       class="form-control form-control-sm text-center"
+                                       style="width: 70px;">
+                            </div>
+
+                            <button class="btn btn-dark d-flex align-items-center gap-2 shadow-sm" type="submit">
+                                <i class="bi bi-cart-fill"></i>
+                                <span>Agregar al Carrito</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </section>
         <!-- Related items section-->
