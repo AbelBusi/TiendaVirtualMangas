@@ -87,6 +87,7 @@ public class TiendaController {
         detalleOrden.setCantidad(cantidad);
         detalleOrden.setPrecio(producto.getPrecio().doubleValue());
         detalleOrden.setNombreLibro(producto.getTitulo());
+        detalleOrden.setPortada(producto.getPortadaUrl());
         detalleOrden.setTotal(producto.getPrecio().doubleValue() * cantidad);
         detalleOrden.setLibro(producto);
 

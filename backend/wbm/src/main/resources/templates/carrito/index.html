@@ -55,6 +55,7 @@
                         <table class="table">
                             <thead>
                             <tr>
+                                <th scope="col">Portada</th>
                                 <th scope="col">Libro</th>
                                 <th scope="col">Precio</th>
                                 <th scope="col">Cantidad</th>
@@ -64,6 +65,9 @@
                             </thead>
                             <tbody>
                             <tr th:each="detalleOrden:${carrito}">
+                                <td>
+                                    <img th:src="@{'/media/images/store/' + ${detalleOrden.portada}}" alt="Portada" style="width: 50px; height: 75px; object-fit: cover;">
+                                </td>
                                 <td th:text="${detalleOrden.nombreLibro}"></td>
                                 <td th:text="${detalleOrden.precio}"></td>
                                 <td th:text="${detalleOrden.cantidad}"></td>
