@@ -2,9 +2,12 @@ package com.example.wbm.model.mapStructure;
 
 import com.example.wbm.model.dto.CDUsuarioDTO;
 import com.example.wbm.model.dto.UsuarioDTO;
+import com.example.wbm.model.dto.UsuarioSesionDTO;
 import com.example.wbm.model.entity.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface IUsuarioMapper {
@@ -13,6 +16,9 @@ public interface IUsuarioMapper {
 
     Usuario toEntity(UsuarioDTO usuarioDTO);
 
+    UsuarioSesionDTO toDtoSession (Usuario usuario);
+
+    Usuario toEntitySession(UsuarioSesionDTO usuarioDTO);
 
     // Mapea Usuario + Persona a CDUsuarioDTO
     @Mapping(source = "persona.idPersona", target = "idPersona")

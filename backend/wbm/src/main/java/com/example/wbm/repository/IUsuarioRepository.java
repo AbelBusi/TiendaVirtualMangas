@@ -22,5 +22,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario,Integer> {
             "WHERE u.correo = :correo")
     Optional<Usuario> findByCorreoWithPerfiles(@Param("correo") String correo);
 
+    @Query("SELECT u FROM Usuario u JOIN FETCH u.persona WHERE u.idUsuario = :idUsuario")
+    Optional<Usuario> findByIdConPersona(@Param("idUsuario") Integer idUsuario);
 
 }

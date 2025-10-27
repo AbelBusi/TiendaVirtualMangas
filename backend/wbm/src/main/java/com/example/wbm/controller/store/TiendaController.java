@@ -1,12 +1,16 @@
 package com.example.wbm.controller.store;
 
 import com.example.wbm.implementation.LibroServicioImpl;
+import com.example.wbm.implementation.UsuarioServicioImpl;
 import com.example.wbm.model.dto.DetalleVentaDTO;
 import com.example.wbm.model.dto.LibroDTO;
+import com.example.wbm.model.dto.UsuarioSesionDTO;
 import com.example.wbm.model.dto.VentaDTO;
 import com.example.wbm.model.entity.Libro;
+import com.example.wbm.model.entity.Usuario;
 import com.example.wbm.model.mapStructure.ILibroMapper;
 import com.example.wbm.services.ILibroServicio; // Importa tu servicio
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +30,7 @@ public class TiendaController {
 
     private final LibroServicioImpl libroServicioImpl;
     private final ILibroMapper libroMapper;
+    private final UsuarioServicioImpl usuarioServicio;
     private final Logger loggger = LoggerFactory.getLogger(TiendaController.class);
 
     List<DetalleVentaDTO> detalles = new ArrayList<>();
@@ -74,7 +79,10 @@ public class TiendaController {
     }
 
     @PostMapping("/carrito")
-    public String addCarrito(@RequestParam Integer idLibro, @RequestParam Integer cantidad, Model model) {
+    public String addCarrito(@RequestParam Integer idLibro, @RequestParam Integer cantidad, Model model,HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        model.addAttribute("sesion", usuario);
 
         DetalleVentaDTO detalleOrden = new DetalleVentaDTO();
         LibroDTO producto = new LibroDTO();
@@ -109,6 +117,44 @@ public class TiendaController {
         return "/carrito/index";
     }
 
+    @GetMapping("/eliminar/carrito/{id}")
+    public String eliminarLibroCarrito(@PathVariable Integer id,Model model){
+        List<DetalleVentaDTO> ordenNueva = new ArrayList<>();
+        for (DetalleVentaDTO detalleVentaDTO:detalles){
+            if(detalleVentaDTO.getLibro().getIdLibro()!=id){
+                ordenNueva.add(detalleVentaDTO);
+            }
+        }
+        double sumaTotal=0;
+        detalles=ordenNueva;
+        sumaTotal = detalles.stream().mapToDouble(dt -> dt.getTotal()).sum();
+        pedido.setTotal(sumaTotal);
+        model.addAttribute("carrito", detalles);
+        model.addAttribute("pedido", pedido);
+
+        return "/carrito/index";
+
+    }
+
+    @GetMapping("/mostrarCarrito")
+    public String mostrarCarrito(Model model, HttpSession session){
+        model.addAttribute("carrito", detalles);
+        model.addAttribute("pedido", pedido);
+        model.addAttribute("sesion", session.getAttribute("usuarioSesion"));
+        return "/carrito/index";
+    }
+
+    @GetMapping("/ordenResumen")
+    public String resumenOrden(Model model, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+
+        model.addAttribute("carrito", detalles);
+        model.addAttribute("pedido", pedido);
+        model.addAttribute("usuario", usuario);
+
+        return "/carrito/resumenVenta";
+    }
 
 
 }

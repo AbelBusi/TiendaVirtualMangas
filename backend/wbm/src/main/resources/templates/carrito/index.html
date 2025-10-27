@@ -72,6 +72,7 @@
                                 <td th:text="${detalleOrden.precio}"></td>
                                 <td th:text="${detalleOrden.cantidad}"></td>
                                 <td th:text="${detalleOrden.total}"></td>
+                                <td><a th:href="@{/tienda/eliminar/carrito/{id} (id=${detalleOrden.libro.idLibro})}" class="btn btn-danger">Quitar</a></td>
                             </tr>
                             </tbody>
                         </table>
@@ -81,7 +82,7 @@
                         <h2 class="card-title">SUBTOTAL</h2>
 
                         <ul class="list-group">
-                            <a th:href="@{/OrdenResumen}" class="btn btn-dark" >Ver Orden</a>
+                            <a th:href="@{/tienda/ordenResumen}" class="btn btn-dark" >Ver Orden</a>
                         </ul>
                     </div>
 

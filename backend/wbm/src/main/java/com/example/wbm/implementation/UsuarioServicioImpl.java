@@ -3,6 +3,7 @@ package com.example.wbm.implementation;
 import com.example.wbm.model.dto.CDUsuarioDTO;
 import com.example.wbm.model.dto.FormResponseSuccessDTO;
 import com.example.wbm.model.dto.UsuarioDTO;
+import com.example.wbm.model.dto.UsuarioSesionDTO;
 import com.example.wbm.model.entity.Usuario;
 import com.example.wbm.model.mapStructure.IUsuarioMapper;
 import com.example.wbm.repository.IUsuarioRepository;
@@ -113,12 +114,29 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         return new FormResponseSuccessDTO("Estado del usuario actualizado correctamente", true);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public CDUsuarioDTO leerUsuarioPorId(Integer idUsuario) {
         Usuario usuario = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         return usuarioMapper.toCDDto(usuario);  // <-- aquí usas tu mapper
     }
+
+    @Transactional(readOnly = true)
+    public Optional<UsuarioSesionDTO> leerUsuarioPorIdDTO(Integer idUsuario) {
+        Usuario usuario = usuarioRepository.findByIdConPersona(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Fuerza la carga de la persona dentro de la sesión
+        if (usuario.getPersona() != null) {
+            usuario.getPersona().getIdPersona();
+        }
+
+        UsuarioSesionDTO dto = usuarioMapper.toDtoSession(usuario);
+        return Optional.of(dto);
+    }
+
+
+
 
 
 
