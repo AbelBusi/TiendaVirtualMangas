@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IVentaServicio {
 
-    Venta crearVenta(VentaDTO ventaDTO);
+    VentaDTO crearVenta(VentaDTO ventaDTO);
 
     boolean ventaExistente(String venta);
 

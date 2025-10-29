@@ -27,12 +27,9 @@
 
 </head>
 
-
 <body>
 
-
 <div th:replace="~{components/header :: mainHeader}"></div>
-
 
 <div class="container">
 
@@ -93,6 +90,8 @@
           <h2 class="card-title">Resumen Orden</h2>
 
           <ul class="list-group">
+            <li class="list-group-item"><h5 th:text=" 'Precio: ' + ${pedido.total}"> Total:</h5></li>
+            <a th:href="@{/tienda/guardarPedido}" class="btn btn-dark">Generar</a>
           </ul>
         </div>
       </div>
@@ -101,7 +100,6 @@
 </div>
 
 <div th:replace="~{components/footer :: footerReplace}"></div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

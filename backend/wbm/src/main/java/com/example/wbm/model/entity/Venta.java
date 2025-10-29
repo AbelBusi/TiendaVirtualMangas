@@ -52,7 +52,7 @@ public class Venta {
     private String numeroVenta;
 
     @Column(name = "estado")
-    private Boolean estado;
+    private Integer estado;
 
     @OneToMany(mappedBy = "venta",fetch = FetchType.LAZY)
     private List<DetalleVenta> detalleVentas;

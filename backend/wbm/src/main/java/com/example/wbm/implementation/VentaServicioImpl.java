@@ -72,13 +72,12 @@ public class VentaServicioImpl implements IVentaServicio {
 
 
     @Override
-    public Venta crearVenta(VentaDTO ventaDTO) {
-
-        Venta venta= ventaMapper.toEntity(ventaDTO);
-
-        return ventaRepositorio.save(venta);
-
+    public VentaDTO crearVenta(VentaDTO ventaDTO) {
+        Venta venta = ventaMapper.toEntity(ventaDTO);
+        Venta guardada = ventaRepositorio.save(venta);
+        return ventaMapper.toDto(guardada); // <- ahora devuelves la versión persistida
     }
+
 
     @Override
     public boolean ventaExistente(String venta) {
@@ -87,7 +86,13 @@ public class VentaServicioImpl implements IVentaServicio {
 
     @Override
     public List<VentaDTO> leerVentas() {
-        return null;
+        List<Venta> ventas = ventaRepositorio.findAll();
+        if (ventas == null || ventas.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return ventas.stream()
+                .map(ventaMapper::toDto)
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -96,5 +101,16 @@ public class VentaServicioImpl implements IVentaServicio {
         return perfilRepository.obtenerDatosPersona();
 
     }
+
+    public List<VentaDTO> leerVentasPersonas() {
+        List<Venta> ventas = ventaRepositorio.findAllConUsuarioYPersona();
+        if (ventas == null || ventas.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return ventas.stream()
+                .map(ventaMapper::toDto)
+                .toList();
+    }
+
 
 }

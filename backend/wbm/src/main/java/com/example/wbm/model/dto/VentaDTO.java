@@ -28,7 +28,7 @@ public class VentaDTO {
 
     private String numeroVenta;
 
-    private Boolean estado;
+    private Integer estado;
 
     private List<DetalleVentaDTO> detalleVentas;
 

@@ -284,7 +284,8 @@
                                             </td>
                                             <td th:text="${libro.titulo}"></td>
                                             <td th:text="${libro.autor}"></td>
-                                            <td th:text="${libro.genero}"></td> <td th:text="'S/ ' + ${#numbers.formatDecimal(libro.precio, 1, 2)}"></td>
+                                            <td th:text="${libro.genero}"></td>
+                                            <td th:text="'S/ ' + ${#numbers.formatDecimal(libro.precio, 1, 2)}"></td>
                                             <td th:text="${libro.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
                                             <td>
                                                 <button class="btn btn-sm btn-primary btn-editar-libro">

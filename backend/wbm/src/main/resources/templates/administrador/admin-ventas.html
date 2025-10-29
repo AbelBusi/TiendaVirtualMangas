@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -48,26 +49,31 @@
         }
 
         @media (min-width: 1400px) {
-        .modal-xxl {
-            /* Tu ancho deseado */
-            max-width: 95% !important;
+            .modal-xxl {
+                /* Tu ancho deseado */
+                max-width: 95% !important;
 
-            /* CORRECCIÓN DE CENTRADO */
-            width: 95% !important; /* Ayuda a la renderización consistente */
-            margin: 1.75rem auto !important; /* Forzar el centrado horizontal */
+                /* CORRECCIÓN DE CENTRADO */
+                width: 95% !important;
+                /* Ayuda a la renderización consistente */
+                margin: 1.75rem auto !important;
+                /* Forzar el centrado horizontal */
+            }
         }
-    }
 
-            @media (min-width: 1200px) {
-        .modal-xxl {
-            /* Tu ancho deseado */
-            max-width: 90% !important;
+        @media (min-width: 1200px) {
+            .modal-xxl {
+                /* Tu ancho deseado */
+                max-width: 90% !important;
 
-            /* CORRECCIÓN DE CENTRADO */
-            width: 90% !important; /* Ayuda a la renderización consistente */
-            margin: 1.75rem auto !important; /* Forzar el centrado horizontal */
+                /* CORRECCIÓN DE CENTRADO */
+                width: 90% !important;
+                /* Ayuda a la renderización consistente */
+                margin: 1.75rem auto !important;
+                /* Forzar el centrado horizontal */
+            }
         }
-    }
+
         /* Estilo para la tabla de libros dentro del modal */
         #librosTable tbody tr {
             color: #f1f1f1;
@@ -94,10 +100,12 @@
 
         /* Estilo para unir el título del resumen con la tabla */
         #detalleVentaTable {
-            margin-bottom: 0; /* Elimina margen inferior de la tabla */
+            margin-bottom: 0;
+            /* Elimina margen inferior de la tabla */
         }
     </style>
 </head>
+
 <style>
     body {
         margin: 0;
@@ -136,289 +144,289 @@
 </style>
 
 <body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
-<div id="app">
-    <div th:replace="~{components/header :: siderAdmin}"></div>
 
-    <div id="main">
-        <header class="mb-3">
-            <a href="#" class="burger-btn d-block d-xl-none">
-                <i class="bi bi-justify fs-3"></i>
-            </a>
-        </header>
+    <div id="app">
+        <div th:replace="~{components/header :: siderAdmin}"></div>
 
-        <div class="page-heading">
-            <div class="page-title">
-                <div class="row">
-                    <div class="col-12 col-md-6 order-md-1 order-last">
-                        <h3>VENTAS</h3>
-                    </div>
-                    <div class="col-12 col-md-6 order-md-2 order-first">
-                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a th:href="@{/administrador/dashboard}">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Ventas</li>
-                            </ol>
-                        </nav>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+            <div class="page-heading">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-md-6 order-md-1 order-last">
+                            <h3>VENTAS</h3>
+                        </div>
+                        <div class="col-12 col-md-6 order-md-2 order-first">
+                            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a th:href="@{/administrador/dashboard}">Dashboard</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Ventas</li>
+                                </ol>
+                            </nav>
+                        </div>
                     </div>
                 </div>
+
+                <section class="section mt-3">
+                    <div class="row" id="table-head">
+                        <div class="col-12">
+                            <div class="card bg-transparent border-0">
+                                <div class="card-header bg-transparent border-0">
+                                    <h4 class="card-title text-white text-center">Historial de Ventas</h4>
+                                </div>
+
+                                <div class="d-flex justify-content-end mb-3">
+                                    <button type="button" class="botone" data-bs-toggle="modal"
+                                        data-bs-target="#agregarVentaModal">
+                                        <i class="fas fa-plus"></i> Registrar Nueva Venta
+                                    </button>
+                                </div>
+
+
+                                <div class="card-content">
+                                    <div class="table-responsive">
+                                        <table id="ventasTable" class="table table-transparent table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID VENTA</th>
+                                                    <th>CLIENTE</th>
+                                                    <th>SUB TOTAL</th>
+                                                    <th>IGV</th>
+                                                    <th>TOTAL</th>
+                                                    <th>N° VENTA</th>
+                                                    <th>ESTADO</th>
+                                                    <th>ACCIONES</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="venta : ${ventas}" th:data-id="${venta.idVenta}">
+                                                <td th:text="${venta.idVenta}">ID</td>
+                                                <td th:text="${venta.usuario.persona.nombre + ' ' + venta.usuario.persona.apellidos}">Cliente</td> <!-- 👈 -->
+                                                <td th:text="${venta.subTotal}">Sub total</td>
+                                                <td th:text="${venta.igv}">IGV</td>
+                                                <td th:text="${venta.total}">Total</td>
+                                                <td th:text="${venta.numeroVenta}">N° VENTA</td>
+                                                <td>
+                                                    <span th:text="${venta.estado == 1 ? 'Activo' : 'Inactivo'}"></span>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-danger btn-action">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
             </div>
 
-            <section class="section mt-3">
-                <div class="row" id="table-head">
-                    <div class="col-12">
-                        <div class="card bg-transparent border-0">
-                            <div class="card-header bg-transparent border-0">
-                                <h4 class="card-title text-white text-center">Historial de Ventas</h4>
-                            </div>
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2021 &copy; Mazer</p>
+                    </div>
+                    <div class="float-end">
+                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
+                                href="http://ahmadsaugi.com">A. Saugi</a></p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
 
-                            <div class="d-flex justify-content-end mb-3">
-                                <button type="button" class="botone" data-bs-toggle="modal" data-bs-target="#agregarVentaModal">
-                                    <i class="fas fa-plus"></i> Registrar Nueva Venta
-                                </button>
-                            </div>
+    <div class="modal fade" id="agregarVentaModal" tabindex="-1" aria-labelledby="agregarVentaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xxl">
+            <div class="modal-content modal-anime">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="agregarVentaLabel">Registrar Nueva Venta (E-MANGAS)</h5>
+                    <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNuevaVenta" action="#" method="post">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h6 class="text-white mb-3"><i class="fas fa-user"></i> Datos del Cliente</h6>
+                                <div class="mb-3">
+                                    <label for="clienteSelect" class="form-label">Seleccionar Cliente</label>
+                                    <select class="form-select input-anime" id="clienteSelect" required>
+                                        <option th:each="c : ${clientes}" th:value="${c[0]}"
+                                            th:text="${c[0] + ' - ' + c[1]}">
+                                        </option>
 
 
-                            <div class="card-content">
+                                    </select>
+                                </div>
+
+                                <h6 class="text-white mt-4 mb-3"><i class="fas fa-book"></i> Seleccionar E-Mangas</h6>
+
                                 <div class="table-responsive">
-                                    <table id="ventasTable" class="table table-transparent table-striped">
+                                    <table id="librosTable" class="table table-transparent table-striped">
                                         <thead>
-                                        <tr>
-                                            <th>ID VENTA</th>
-                                            <th>FECHA</th>
-                                            <th>CLIENTE</th>
-                                            <th>TOTAL</th>
-                                            <th>ESTADO</th>
-                                            <th>ACCIONES</th>
-                                        </tr>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Portada</th>
+                                                <th>Título</th>
+                                                <th>Autor</th>
+                                                <th>Género</th>
+                                                <th>Precio (S/.)</th>
+                                                <th>Acción</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        <tr data-id="101">
-                                            <td>101</td>
-                                            <td>2025-10-19 19:10</td>
-                                            <td>Monkey D. Luffy</td>
-                                            <td>$180.00</td>
-                                            <td>
-                                                <span class="badge bg-success">Completada</span>
-                                            </td>
-                                            <td>
-                                                <a th:href="@{/administrador/ventas/detalles}" class="btn btn-sm btn-detalle-venta btn-action">
-                                                    <i class="fas fa-search-plus"></i> Detalle
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr data-id="102">
-                                            <td>102</td>
-                                            <td>2025-10-18 10:30</td>
-                                            <td>Roronoa Zoro</td>
-                                            <td>$75.50</td>
-                                            <td>
-                                                <span class="badge bg-danger">Anulada</span>
-                                            </td>
-                                            <td>
-                                                <a th:href="@{/administrador/ventas/detalles}" class="btn btn-sm btn-detalle-venta btn-action">
-                                                    <i class="fas fa-search-plus"></i> Detalle
-                                                </a>
-                                            </td>
-                                        </tr>
+                                            <tr th:each="libro : ${libros}"
+                                                th:attr="data-id=${libro.idLibro}, data-titulo=${libro.titulo}, data-precio=${libro.precio}">
+                                                <td th:text="${libro.idLibro}"></td>
+                                                <td>
+                                                    <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
+                                                        alt="Portada"
+                                                        style="width: 50px; height: 75px; object-fit: cover;">
+                                                </td>
+                                                <td th:text="${libro.titulo}"></td>
+                                                <td th:text="${libro.autor}"></td>
+                                                <td th:text="${libro.genero}"></td>
+                                                <td th:text="${#numbers.formatDecimal(libro.precio, 1, 2)}"
+                                                    th:data-price="${libro.precio}"></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-select-book"
+                                                        th:data-book-id="${libro.idLibro}">
+                                                        <i class="fas fa-cart-plus"></i> Añadir
+                                                    </button>
+                                                </td>
+                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
+                            <div class="col-lg-6">
 
-        </div>
-
-        <footer>
-            <div class="footer clearfix mb-0 text-muted">
-                <div class="float-start">
-                    <p>2021 &copy; Mazer</p>
-                </div>
-                <div class="float-end">
-                    <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a></p>
-                </div>
-            </div>
-        </footer>
-    </div>
-</div>
-
-<div class="modal fade" id="agregarVentaModal" tabindex="-1" aria-labelledby="agregarVentaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xxl">
-        <div class="modal-content modal-anime">
-            <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold" id="agregarVentaLabel">Registrar Nueva Venta (E-MANGAS)</h5>
-                <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formNuevaVenta" action="#" method="post">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h6 class="text-white mb-3"><i class="fas fa-user"></i> Datos del Cliente</h6>
-                            <div class="mb-3">
-                                <label for="clienteSelect" class="form-label">Seleccionar Cliente</label>
-                                <select class="form-select input-anime" id="clienteSelect" required>
-                                    <option th:each="c : ${clientes}"
-                                            th:value="${c[0]}"
-                                            th:text="${c[0] + ' - ' + c[1]}">
-                                    </option>
-
-
-                                </select>
-                            </div>
-
-                            <h6 class="text-white mt-4 mb-3"><i class="fas fa-book"></i> Seleccionar E-Mangas</h6>
-
-                            <div class="table-responsive">
-                                <table id="librosTable" class="table table-transparent table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Portada</th>
-                                        <th>Título</th>
-                                        <th>Autor</th>
-                                        <th>Género</th>
-                                        <th>Precio (S/.)</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="libro : ${libros}"
-                                        th:attr="data-id=${libro.idLibro}, data-titulo=${libro.titulo}, data-precio=${libro.precio}">
-                                        <td th:text="${libro.idLibro}"></td>
-                                        <td>
-                                            <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}" alt="Portada" style="width: 50px; height: 75px; object-fit: cover;">
-                                        </td>
-                                        <td th:text="${libro.titulo}"></td>
-                                        <td th:text="${libro.autor}"></td>
-                                        <td th:text="${libro.genero}"></td>
-                                        <td th:text="${#numbers.formatDecimal(libro.precio, 1, 2)}" th:data-price="${libro.precio}"></td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-select-book" th:data-book-id="${libro.idLibro}">
-                                                <i class="fas fa-cart-plus"></i> Añadir
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-
-                            <h6 class="text-white mb-3"><i class="fas fa-clipboard-list"></i> Detalle de Venta</h6>
-                            <div class="table-responsive">
-                                <table id="detalleVentaTable" class="table table-transparent table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>Título</th>
-                                        <th>Cant.</th>
-                                        <th>Precio U.</th>
-                                        <th>Subtotal</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <hr class="text-white">
-
-                            <h6 class="text-white mt-4 mb-3"><i class="fas fa-tags"></i> Aplicar Descuento</h6>
-                            <div class="row mb-3 align-items-end">
-                                <div class="col-6">
-                                    <label for="descuentoMonto" class="form-label">Valor de Descuento</label>
-                                    <input type="number" step="0.01" min="0" value="0.00" class="form-control input-anime" id="descuentoMonto">
+                                <h6 class="text-white mb-3"><i class="fas fa-clipboard-list"></i> Detalle de Venta</h6>
+                                <div class="table-responsive">
+                                    <table id="detalleVentaTable" class="table table-transparent table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Título</th>
+                                                <th>Cant.</th>
+                                                <th>Precio U.</th>
+                                                <th>Subtotal</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="col-6">
-                                    <label for="descuentoTipo" class="form-label">Tipo</label>
-                                    <select class="form-select input-anime" id="descuentoTipo">
-                                        <option value="percentage">% Porcentaje</option>
-                                        <option value="fixed">S/. Monto Fijo</option>
-                                    </select>
-                                </div>
-                            </div>
 
-                            <h6 class="text-white mt-4 mb-3"><i class="fas fa-calculator"></i> Resumen de Pago</h6>
+                                <hr class="text-white">
 
-                            <div class="row">
-                                <div class="col-6">
-                                    <p class="text-white">Total Bruto (Sin Descuento)</p>
+                                <h6 class="text-white mt-4 mb-3"><i class="fas fa-tags"></i> Aplicar Descuento</h6>
+                                <div class="row mb-3 align-items-end">
+                                    <div class="col-6">
+                                        <label for="descuentoMonto" class="form-label">Valor de Descuento</label>
+                                        <input type="number" step="0.01" min="0" value="0.00"
+                                            class="form-control input-anime" id="descuentoMonto">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="descuentoTipo" class="form-label">Tipo</label>
+                                        <select class="form-select input-anime" id="descuentoTipo">
+                                            <option value="percentage">% Porcentaje</option>
+                                            <option value="fixed">S/. Monto Fijo</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-6 text-end">
-                                    <p class="text-white fw-bold" id="totalBrutoDisplay">0.00</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <p class="text-white">Descuento Aplicado</p>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <p class="text-danger fw-bold" id="descuentoAplicadoDisplay">0.00</p>
-                                </div>
-                            </div>
 
-                            <div class="row border-top border-secondary pt-2">
-                                <div class="col-6">
-                                    <p class="text-white">Subtotal (Base Imponible)</p>
+                                <h6 class="text-white mt-4 mb-3"><i class="fas fa-calculator"></i> Resumen de Pago</h6>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="text-white">Total Bruto (Sin Descuento)</p>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <p class="text-white fw-bold" id="totalBrutoDisplay">0.00</p>
+                                    </div>
                                 </div>
-                                <div class="col-6 text-end">
-                                    <p class="text-white fw-bold" id="subtotalDisplay">0.00</p>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="text-white">Descuento Aplicado</p>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <p class="text-danger fw-bold" id="descuentoAplicadoDisplay">0.00</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <p class="text-white">IGV Fijo (S/.)</p>
+
+                                <div class="row border-top border-secondary pt-2">
+                                    <div class="col-6">
+                                        <p class="text-white">Subtotal (Base Imponible)</p>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <p class="text-white fw-bold" id="subtotalDisplay">0.00</p>
+                                    </div>
                                 </div>
-                                <div class="col-6 text-end">
-                                    <p class="text-white fw-bold" id="igvDisplay">5.00</p>
-                                    <input type="hidden" id="igvMonto" value="5.00">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="text-white">IGV Fijo (S/.)</p>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <p class="text-white fw-bold" id="igvDisplay">5.00</p>
+                                        <input type="hidden" id="igvMonto" value="5.00">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row border-top border-warning pt-2">
-                                <div class="col-6">
-                                    <h5 class="text-white">TOTAL A PAGAR (S/.)</h5>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <h5 class="text-warning fw-bold" id="totalFinalDisplay">5.00</h5>
+                                <div class="row border-top border-warning pt-2">
+                                    <div class="col-6">
+                                        <h5 class="text-white">TOTAL A PAGAR (S/.)</h5>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <h5 class="text-warning fw-bold" id="totalFinalDisplay">5.00</h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <hr class="text-white">
+                        <hr class="text-white">
 
-                    <button type="submit" class="btn btn-anime w-100 fw-bold"><i class="fas fa-save"></i> Guardar Venta</button>
-                </form>
+                        <button type="submit" class="btn btn-anime w-100 fw-bold"><i class="fas fa-save"></i> Guardar
+                            Venta</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
-<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/assets/js/main.js}"></script>
+    <script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/js/main.js}"></script>
 
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Inicialización de DataTables para la tabla principal de Ventas
-        $('#ventasTable').DataTable({
-            dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
-            buttons: [{
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Inicialización de DataTables para la tabla principal de Ventas
+            $('#ventasTable').DataTable({
+                dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
+                buttons: [{
                     extend: 'excelHtml5',
                     text: '<i class="fas fa-file-excel"></i> Excel',
                     className: 'btn buttons-excel'
@@ -433,105 +441,104 @@
                     text: '<i class="fas fa-print"></i> Imprimir',
                     className: 'btn buttons-print'
                 }
-            ],
-            order: [
-                [0, "desc"]
-            ],
-            language: {
-                search: "Buscar:",
-                lengthMenu: "Mostrar _MENU_ registros",
-                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                paginate: {
-                    previous: "⬅",
-                    next: "➡"
+                ],
+                order: [
+                    [0, "asc"]
+                ],
+                language: {
+                    search: "Buscar:",
+                    lengthMenu: "Mostrar _MENU_ registros",
+                    info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    paginate: {
+                        previous: "⬅",
+                        next: "➡"
+                    }
                 }
-            }
-        });
-
-        // Inicialización de DataTables para la tabla de Libros dentro del modal
-        $('#librosTable').DataTable({
-            paging: false,
-            searching: true,
-            info: false,
-            ordering: true,
-            scrollX: true,
-            columnDefs: [
-                // Puedes ajustar qué columnas se ocultan o no aquí
-            ],
-            language: {
-                search: "Buscar E-Manga:",
-            }
-        });
-    });
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Se asegura de que el IGV sea un número flotante
-        const IGV_FIJO = parseFloat(document.getElementById('igvMonto').value) || 0;
-        const detalleTableBody = document.querySelector('#detalleVentaTable tbody');
-        const descuentoMontoInput = document.getElementById('descuentoMonto');
-        const descuentoTipoSelect = document.getElementById('descuentoTipo');
-
-        // Escuchadores para recalcular cuando cambia el descuento o el tipo
-        descuentoMontoInput.addEventListener('input', recalcularTotales);
-        descuentoTipoSelect.addEventListener('change', recalcularTotales);
-
-        // Función principal para recalcular Subtotal, Descuento y Total
-        function recalcularTotales() {
-            let totalBruto = 0;
-            let descuentoAplicado = 0;
-
-            // 1. Calcular Total Bruto (Suma de subtotales de ítems)
-            detalleTableBody.querySelectorAll('tr').forEach(row => {
-                const rowSubtotal = parseFloat(row.dataset.rowSubtotal) || 0;
-                totalBruto += rowSubtotal;
             });
 
-            document.getElementById('totalBrutoDisplay').textContent = totalBruto.toFixed(2);
-
-            // 2. Calcular Descuento
-            const descuentoValor = parseFloat(descuentoMontoInput.value) || 0;
-            const descuentoTipo = descuentoTipoSelect.value;
-
-            if (descuentoValor > 0 && totalBruto > 0) {
-                if (descuentoTipo === 'percentage') {
-                    const porcentaje = Math.min(descuentoValor, 100);
-                    descuentoAplicado = totalBruto * (porcentaje / 100);
-                } else if (descuentoTipo === 'fixed') {
-                    descuentoAplicado = Math.min(descuentoValor, totalBruto);
+            // Inicialización de DataTables para la tabla de Libros dentro del modal
+            $('#librosTable').DataTable({
+                paging: false,
+                searching: true,
+                info: false,
+                ordering: true,
+                scrollX: true,
+                columnDefs: [
+                    // Puedes ajustar qué columnas se ocultan o no aquí
+                ],
+                language: {
+                    search: "Buscar E-Manga:",
                 }
-            } else {
-                 descuentoAplicado = 0;
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Se asegura de que el IGV sea un número flotante
+            const IGV_FIJO = parseFloat(document.getElementById('igvMonto').value) || 0;
+            const detalleTableBody = document.querySelector('#detalleVentaTable tbody');
+            const descuentoMontoInput = document.getElementById('descuentoMonto');
+            const descuentoTipoSelect = document.getElementById('descuentoTipo');
+
+            // Escuchadores para recalcular cuando cambia el descuento o el tipo
+            descuentoMontoInput.addEventListener('input', recalcularTotales);
+            descuentoTipoSelect.addEventListener('change', recalcularTotales);
+
+            // Función principal para recalcular Subtotal, Descuento y Total
+            function recalcularTotales() {
+                let totalBruto = 0;
+                let descuentoAplicado = 0;
+
+                // 1. Calcular Total Bruto (Suma de subtotales de ítems)
+                detalleTableBody.querySelectorAll('tr').forEach(row => {
+                    const rowSubtotal = parseFloat(row.dataset.rowSubtotal) || 0;
+                    totalBruto += rowSubtotal;
+                });
+
+                document.getElementById('totalBrutoDisplay').textContent = totalBruto.toFixed(2);
+
+                // 2. Calcular Descuento
+                const descuentoValor = parseFloat(descuentoMontoInput.value) || 0;
+                const descuentoTipo = descuentoTipoSelect.value;
+
+                if (descuentoValor > 0 && totalBruto > 0) {
+                    if (descuentoTipo === 'percentage') {
+                        const porcentaje = Math.min(descuentoValor, 100);
+                        descuentoAplicado = totalBruto * (porcentaje / 100);
+                    } else if (descuentoTipo === 'fixed') {
+                        descuentoAplicado = Math.min(descuentoValor, totalBruto);
+                    }
+                } else {
+                    descuentoAplicado = 0;
+                }
+
+                // 3. Calcular Subtotal (Base Imponible = Bruto - Descuento)
+                const subtotalFinal = totalBruto - descuentoAplicado;
+
+                // 4. Calcular Total Final (Subtotal + IGV fijo)
+                const totalFinal = subtotalFinal + IGV_FIJO;
+
+                // 5. Aplicar formato y actualizar displays
+                document.getElementById('descuentoAplicadoDisplay').textContent = descuentoAplicado.toFixed(2);
+                document.getElementById('subtotalDisplay').textContent = subtotalFinal.toFixed(2);
+                document.getElementById('totalFinalDisplay').textContent = totalFinal.toFixed(2);
             }
 
-            // 3. Calcular Subtotal (Base Imponible = Bruto - Descuento)
-            const subtotalFinal = totalBruto - descuentoAplicado;
+            // Función para renderizar una fila en el detalle de venta
+            function agregarFilaDetalle(bookId, title, price) {
+                const existingRow = detalleTableBody.querySelector(`tr[data-id="${bookId}"]`);
 
-            // 4. Calcular Total Final (Subtotal + IGV fijo)
-            const totalFinal = subtotalFinal + IGV_FIJO;
+                if (existingRow) {
+                    const inputCantidad = existingRow.querySelector('.input-cantidad');
+                    inputCantidad.value = parseInt(inputCantidad.value) + 1;
+                    actualizarFila(existingRow);
+                } else {
+                    const newRow = document.createElement('tr');
+                    newRow.dataset.id = bookId;
+                    newRow.dataset.price = price;
+                    newRow.dataset.rowSubtotal = price;
 
-            // 5. Aplicar formato y actualizar displays
-            document.getElementById('descuentoAplicadoDisplay').textContent = descuentoAplicado.toFixed(2);
-            document.getElementById('subtotalDisplay').textContent = subtotalFinal.toFixed(2);
-            document.getElementById('totalFinalDisplay').textContent = totalFinal.toFixed(2);
-        }
-
-        // Función para renderizar una fila en el detalle de venta
-        function agregarFilaDetalle(bookId, title, price) {
-            const existingRow = detalleTableBody.querySelector(`tr[data-id="${bookId}"]`);
-
-            if (existingRow) {
-                const inputCantidad = existingRow.querySelector('.input-cantidad');
-                inputCantidad.value = parseInt(inputCantidad.value) + 1;
-                actualizarFila(existingRow);
-            } else {
-                const newRow = document.createElement('tr');
-                newRow.dataset.id = bookId;
-                newRow.dataset.price = price;
-                newRow.dataset.rowSubtotal = price;
-
-                newRow.innerHTML = `
+                    newRow.innerHTML = `
                     <td>${title}</td>
                     <td>
                         <input type="number" value="1" min="1" class="form-control input-anime input-cantidad" style="width: 70px;">
@@ -542,122 +549,122 @@
                         <button type="button" class="btn btn-sm btn-danger btn-remove-item"><i class="fas fa-trash"></i></button>
                     </td>
                 `;
-                detalleTableBody.appendChild(newRow);
+                    detalleTableBody.appendChild(newRow);
 
-                // Añadir listener de cambio de cantidad
-                newRow.querySelector('.input-cantidad').addEventListener('change', function() {
-                    actualizarFila(newRow);
-                });
+                    // Añadir listener de cambio de cantidad
+                    newRow.querySelector('.input-cantidad').addEventListener('change', function () {
+                        actualizarFila(newRow);
+                    });
 
-                // Añadir listener para eliminar item
-                newRow.querySelector('.btn-remove-item').addEventListener('click', function() {
-                    newRow.remove();
-                    recalcularTotales();
-                });
+                    // Añadir listener para eliminar item
+                    newRow.querySelector('.btn-remove-item').addEventListener('click', function () {
+                        newRow.remove();
+                        recalcularTotales();
+                    });
+                }
+                recalcularTotales();
             }
-            recalcularTotales();
-        }
 
-        // Función para actualizar una fila al cambiar la cantidad
-        function actualizarFila(row) {
-            const quantity = parseInt(row.querySelector('.input-cantidad').value) || 0;
-            const price = parseFloat(row.dataset.price) || 0;
+            // Función para actualizar una fila al cambiar la cantidad
+            function actualizarFila(row) {
+                const quantity = parseInt(row.querySelector('.input-cantidad').value) || 0;
+                const price = parseFloat(row.dataset.price) || 0;
 
-            const newSubtotal = quantity * price;
+                const newSubtotal = quantity * price;
 
-            // Actualizar atributos y display
-            row.dataset.rowSubtotal = newSubtotal.toFixed(2);
-            row.querySelector('.row-subtotal-display').textContent = newSubtotal.toFixed(2);
+                // Actualizar atributos y display
+                row.dataset.rowSubtotal = newSubtotal.toFixed(2);
+                row.querySelector('.row-subtotal-display').textContent = newSubtotal.toFixed(2);
 
-            recalcularTotales();
-        }
+                recalcularTotales();
+            }
 
-        // Listener para los botones de seleccionar libro (Añadir a la venta)
-        document.querySelectorAll('.btn-select-book').forEach(button => {
-            button.addEventListener('click', function() {
-                const bookRow = this.closest('tr');
-                const bookId = bookRow.dataset.id;
-                const title = bookRow.dataset.titulo || bookRow.querySelector('td:nth-child(3)').textContent.trim();
+            // Listener para los botones de seleccionar libro (Añadir a la venta)
+            document.querySelectorAll('.btn-select-book').forEach(button => {
+                button.addEventListener('click', function () {
+                    const bookRow = this.closest('tr');
+                    const bookId = bookRow.dataset.id;
+                    const title = bookRow.dataset.titulo || bookRow.querySelector('td:nth-child(3)').textContent.trim();
 
-                // Obtenemos el precio del atributo data-precio del TR
-                let price = parseFloat(bookRow.dataset.precio);
+                    // Obtenemos el precio del atributo data-precio del TR
+                    let price = parseFloat(bookRow.dataset.precio);
 
-                if (isNaN(price)) {
-                    // Si no está en el TR, lo buscamos en el TD que tiene data-price (Columna 6)
-                    let priceElement = bookRow.querySelector('td[data-price]');
-                    if (priceElement) {
-                        price = parseFloat(priceElement.dataset.price);
-                    } else {
-                        console.error('No se pudo obtener el precio del libro:', bookId);
-                        alert('Error: Precio no encontrado para este e-manga.');
+                    if (isNaN(price)) {
+                        // Si no está en el TR, lo buscamos en el TD que tiene data-price (Columna 6)
+                        let priceElement = bookRow.querySelector('td[data-price]');
+                        if (priceElement) {
+                            price = parseFloat(priceElement.dataset.price);
+                        } else {
+                            console.error('No se pudo obtener el precio del libro:', bookId);
+                            alert('Error: Precio no encontrado para este e-manga.');
+                            return;
+                        }
+                    }
+
+                    if (price <= 0 || isNaN(price)) {
+                        alert('Error: El precio del e-manga debe ser mayor a cero.');
                         return;
                     }
-                }
 
-                if (price <= 0 || isNaN(price)) {
-                    alert('Error: El precio del e-manga debe ser mayor a cero.');
+                    agregarFilaDetalle(bookId, title, price);
+                });
+            });
+
+            // Inicializar los totales al cargar el modal
+            recalcularTotales();
+
+            // Listener para enviar el formulario (simulado)
+            document.getElementById('formNuevaVenta').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const clienteId = document.getElementById('clienteSelect').value;
+                if (!clienteId) {
+                    alert('Por favor, selecciona un cliente.');
                     return;
                 }
 
-                agregarFilaDetalle(bookId, title, price);
-            });
-        });
-
-        // Inicializar los totales al cargar el modal
-        recalcularTotales();
-
-        // Listener para enviar el formulario (simulado)
-        document.getElementById('formNuevaVenta').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const clienteId = document.getElementById('clienteSelect').value;
-            if (!clienteId) {
-                alert('Por favor, selecciona un cliente.');
-                return;
-            }
-
-            const items = [];
-            detalleTableBody.querySelectorAll('tr').forEach(row => {
-                items.push({
-                    libroId: row.dataset.id,
-                    cantidad: parseInt(row.querySelector('.input-cantidad').value),
-                    precioUnitario: parseFloat(row.dataset.price),
-                    subtotalItem: parseFloat(row.dataset.rowSubtotal)
+                const items = [];
+                detalleTableBody.querySelectorAll('tr').forEach(row => {
+                    items.push({
+                        libroId: row.dataset.id,
+                        cantidad: parseInt(row.querySelector('.input-cantidad').value),
+                        precioUnitario: parseFloat(row.dataset.price),
+                        subtotalItem: parseFloat(row.dataset.rowSubtotal)
+                    });
                 });
+
+                if (items.length === 0) {
+                    alert('Por favor, agrega al menos un e-manga al detalle de venta.');
+                    return;
+                }
+
+                // Recalculamos una última vez para asegurar los datos más frescos
+                recalcularTotales();
+
+                // Obtenemos los valores finales después del recálculo
+                const totalBruto = parseFloat(document.getElementById('totalBrutoDisplay').textContent);
+                const descuentoAplicado = parseFloat(document.getElementById('descuentoAplicadoDisplay').textContent);
+                const subtotal = parseFloat(document.getElementById('subtotalDisplay').textContent);
+                const totalFinal = parseFloat(document.getElementById('totalFinalDisplay').textContent);
+
+                // Objeto de la venta a enviar
+                const ventaData = {
+                    clienteId: clienteId,
+                    totalBruto: totalBruto.toFixed(2),
+                    descuentoMontoInput: parseFloat(descuentoMontoInput.value) || 0, // Valor ingresado
+                    descuentoTipo: descuentoTipoSelect.value,
+                    descuentoAplicado: descuentoAplicado.toFixed(2), // Monto real aplicado
+                    subtotal: subtotal.toFixed(2),
+                    igv: IGV_FIJO.toFixed(2),
+                    total: totalFinal.toFixed(2),
+                    detalles: items
+                };
+
+                console.log('Datos de Venta de E-Mangas a Enviar:', ventaData);
+                alert('Venta de E-Mangas simulada lista para enviar al backend (Controlador). Revisa la consola para ver los datos de la transacción.');
             });
-
-            if (items.length === 0) {
-                alert('Por favor, agrega al menos un e-manga al detalle de venta.');
-                return;
-            }
-
-            // Recalculamos una última vez para asegurar los datos más frescos
-            recalcularTotales();
-
-            // Obtenemos los valores finales después del recálculo
-            const totalBruto = parseFloat(document.getElementById('totalBrutoDisplay').textContent);
-            const descuentoAplicado = parseFloat(document.getElementById('descuentoAplicadoDisplay').textContent);
-            const subtotal = parseFloat(document.getElementById('subtotalDisplay').textContent);
-            const totalFinal = parseFloat(document.getElementById('totalFinalDisplay').textContent);
-
-            // Objeto de la venta a enviar
-            const ventaData = {
-                clienteId: clienteId,
-                totalBruto: totalBruto.toFixed(2),
-                descuentoMontoInput: parseFloat(descuentoMontoInput.value) || 0, // Valor ingresado
-                descuentoTipo: descuentoTipoSelect.value,
-                descuentoAplicado: descuentoAplicado.toFixed(2), // Monto real aplicado
-                subtotal: subtotal.toFixed(2),
-                igv: IGV_FIJO.toFixed(2),
-                total: totalFinal.toFixed(2),
-                detalles: items
-            };
-
-            console.log('Datos de Venta de E-Mangas a Enviar:', ventaData);
-            alert('Venta de E-Mangas simulada lista para enviar al backend (Controlador). Revisa la consola para ver los datos de la transacción.');
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>

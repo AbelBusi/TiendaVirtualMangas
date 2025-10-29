@@ -1,13 +1,17 @@
 package com.example.wbm.controller.store;
 
+import com.example.wbm.implementation.DetalleVentaServicioImpl;
 import com.example.wbm.implementation.LibroServicioImpl;
 import com.example.wbm.implementation.UsuarioServicioImpl;
+import com.example.wbm.implementation.VentaServicioImpl;
 import com.example.wbm.model.dto.DetalleVentaDTO;
 import com.example.wbm.model.dto.LibroDTO;
 import com.example.wbm.model.dto.UsuarioSesionDTO;
 import com.example.wbm.model.dto.VentaDTO;
+import com.example.wbm.model.entity.DetalleVenta;
 import com.example.wbm.model.entity.Libro;
 import com.example.wbm.model.entity.Usuario;
+import com.example.wbm.model.entity.Venta;
 import com.example.wbm.model.mapStructure.ILibroMapper;
 import com.example.wbm.services.ILibroServicio; // Importa tu servicio
 import jakarta.servlet.http.HttpSession;
@@ -18,7 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // Necesario para pasar datos a Thymeleaf
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,6 +37,8 @@ public class TiendaController {
     private final LibroServicioImpl libroServicioImpl;
     private final ILibroMapper libroMapper;
     private final UsuarioServicioImpl usuarioServicio;
+    private final VentaServicioImpl ventaServicio;
+    private final DetalleVentaServicioImpl detalleVentaServicio;
     private final Logger loggger = LoggerFactory.getLogger(TiendaController.class);
 
     List<DetalleVentaDTO> detalles = new ArrayList<>();
@@ -87,6 +95,7 @@ public class TiendaController {
         DetalleVentaDTO detalleOrden = new DetalleVentaDTO();
         LibroDTO producto = new LibroDTO();
         double sumaTotal = 0;
+        double igv =0.05;
         LibroDTO libroTRaido = libroServicioImpl.leerLibroPorId(idLibro);
 
         loggger.info("cantidad: {}", cantidad);
@@ -110,7 +119,9 @@ public class TiendaController {
         }
 
         sumaTotal = detalles.stream().mapToDouble(dt -> dt.getTotal()).sum();
-        pedido.setTotal(sumaTotal);
+        pedido.setSubTotal(sumaTotal);
+        pedido.setIgv(igv);
+        pedido.setTotal(sumaTotal*igv);
         model.addAttribute("carrito", detalles);
         model.addAttribute("pedido", pedido);
 
@@ -127,8 +138,11 @@ public class TiendaController {
         }
         double sumaTotal=0;
         detalles=ordenNueva;
+        double igv =0.05;
         sumaTotal = detalles.stream().mapToDouble(dt -> dt.getTotal()).sum();
-        pedido.setTotal(sumaTotal);
+        pedido.setSubTotal(sumaTotal);
+        pedido.setIgv(igv);
+        pedido.setTotal(sumaTotal*igv+sumaTotal);
         model.addAttribute("carrito", detalles);
         model.addAttribute("pedido", pedido);
 
@@ -154,6 +168,32 @@ public class TiendaController {
         model.addAttribute("usuario", usuario);
 
         return "/carrito/resumenVenta";
+    }
+
+    @GetMapping("/guardarPedido")
+    public String guardarPedido(HttpSession session) {
+
+        LocalDateTime fechaPedido = LocalDateTime.now();
+        pedido.setFechaVenta(fechaPedido);
+        pedido.setEstado(1);
+        pedido.setNumeroVenta(ventaServicio.generarNumeroPedido());
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        pedido.setUsuario(usuario);
+
+        // 🟢 Guardar la venta y obtener el DTO persistido (con idVenta)
+        VentaDTO ventaGuardada = ventaServicio.crearVenta(pedido);
+
+        // 🟢 Asociar los detalles con la venta guardada
+        for (DetalleVentaDTO dt : detalles) {
+            dt.setVenta(ventaGuardada);
+            detalleVentaServicio.crearDetalleVenta(dt);
+        }
+
+        // Limpiar carrito
+        detalles.clear();
+
+        return "redirect:/";
     }
 
 

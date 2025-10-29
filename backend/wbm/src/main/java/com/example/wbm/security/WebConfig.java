@@ -7,17 +7,36 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // Esta ruta debe coincidir con el th:src de tu HTML: /media/images/store/**
-    private static final String HANDLER_PATH = "/media/images/store/**";
+    private static final String STORE_HANDLER_PATH = "/media/images/store/**";
+    private static final String STORE_UPLOAD_DIR = "file:./uploads/images/store/";
 
-    // Esta ruta debe coincidir con la UPLOAD_DIR de tu servicio (anteponiendo "file:./")
-    // Esto apunta a la carpeta 'uploads/images/store' en la raíz de tu proyecto
-    private static final String UPLOAD_DIR_FS_LOCATION = "file:./uploads/images/store/";
+    private static final String ICONOS_HANDLER_PATH = "/media/images/iconos/**";
+    private static final String ICONOS_UPLOAD_DIR = "file:./uploads/images/iconos/";
+
+    private static final String SLIDER_HANDLER_PATH = "/media/images/slider/**";
+    private static final String SLIDER_UPLOAD_DIR = "file:./uploads/images/slider/";
+
+    private static final String SLIDER_THUMB_HANDLER_PATH = "/media/images/sliderTomo/**";
+    private static final String SLIDER_THUMB_UPLOAD_DIR = "file:./uploads/images/sliderTomo/";
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Mapea la URL pública a la ubicación física de los archivos
-        registry.addResourceHandler(HANDLER_PATH)
-                .addResourceLocations(UPLOAD_DIR_FS_LOCATION);
+        registry.addResourceHandler("/media/images/store/**")
+                .addResourceLocations("file:./uploads/images/store/");
+
+        registry.addResourceHandler("/media/images/iconos/**")
+                .addResourceLocations("file:./uploads/images/iconos/");
+
+        registry.addResourceHandler("/media/images/slider/**")
+                .addResourceLocations("file:./uploads/images/slider/");
+
+        registry.addResourceHandler("/media/images/sliderTomo/**")
+                .addResourceLocations("file:./uploads/images/sliderTomo/");
+
+        // Este último es opcional (sirve como respaldo general)
+        registry.addResourceHandler("/media/images/**")
+                .addResourceLocations("file:./uploads/images/");
     }
+
 }

@@ -25,6 +25,7 @@ public class DetalleVentaServicioImpl implements IDetalleVentaServicio {
     public DetalleVenta crearDetalleVenta(DetalleVentaDTO detalleVentaDTO) {
 
         DetalleVenta detalleVenta = detalleVentaMapper.toEntity(detalleVentaDTO);
+        detalleVenta.setEstado(1);
 
         return detalleVentaRepositorio.save(detalleVenta);
 
