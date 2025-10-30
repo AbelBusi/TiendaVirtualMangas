@@ -2,6 +2,7 @@ package com.example.wbm.model.dto;
 
 import com.example.wbm.model.entity.Libro;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 
@@ -14,7 +15,9 @@ import lombok.*;
 public class DetalleVentaDTO {
 
     private Integer idDetalle;
+
     private VentaDTO venta;
+
     private LibroDTO libro;
     private String nombreLibro;
     private String portada;

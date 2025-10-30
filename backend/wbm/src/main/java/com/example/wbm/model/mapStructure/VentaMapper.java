@@ -9,10 +9,10 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface VentaMapper {
 
-    // Ignora los detalles para evitar LazyInitializationException
-    @Mapping(target = "detalleVentas", ignore = true)
+    @Mapping(target = "detalleVentas", ignore = true) // 👈 ¡Volver a IGNORAR!
     VentaDTO toDto(Venta venta);
 
+    @Mapping(target = "detalleVentas", source = "detalleVentas") // ¡Ahora sí mapeamos!
     Venta toEntity(VentaDTO ventaDTO);
 
     // Métodos personalizados (por si aún los usas)

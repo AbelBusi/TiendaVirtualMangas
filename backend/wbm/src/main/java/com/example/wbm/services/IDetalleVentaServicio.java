@@ -14,6 +14,6 @@ public interface IDetalleVentaServicio {
 
     boolean detalleVentaExistente(String detalleVenta);
 
-    List<DetalleVentaDTO> leerDetalleVentas();
+    List<DetalleVentaDTO> leerDetalleVentas( Integer idDetalleVenta);
 
 }

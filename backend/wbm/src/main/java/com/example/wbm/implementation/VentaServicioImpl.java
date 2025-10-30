@@ -1,8 +1,6 @@
 package com.example.wbm.implementation;
 
-import com.example.wbm.model.dto.DetalleVentaDTO;
 import com.example.wbm.model.dto.VentaDTO;
-import com.example.wbm.model.entity.DetalleVenta;
 import com.example.wbm.model.entity.Venta;
 import com.example.wbm.model.mapStructure.VentaMapper;
 import com.example.wbm.repository.IDetalleVentaRepositorio;
@@ -15,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -112,5 +111,14 @@ public class VentaServicioImpl implements IVentaServicio {
                 .toList();
     }
 
+
+    @Transactional(readOnly = true) // Importante mantener @Transactional
+    public VentaDTO obtenerVentaPorId(Integer idVenta) {
+
+        Venta venta = ventaRepositorio.findByIdWithDetailsAndUser(idVenta)
+                .orElseThrow(() -> new NoSuchElementException("Venta con ID " + idVenta + " no encontrada"));
+
+        return ventaMapper.toDto(venta);
+    }
 
 }

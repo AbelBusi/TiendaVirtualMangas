@@ -181,20 +181,16 @@ public class TiendaController {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         pedido.setUsuario(usuario);
 
-        // 🟢 Guardar la venta y obtener el DTO persistido (con idVenta)
         VentaDTO ventaGuardada = ventaServicio.crearVenta(pedido);
 
-        // 🟢 Asociar los detalles con la venta guardada
         for (DetalleVentaDTO dt : detalles) {
             dt.setVenta(ventaGuardada);
             detalleVentaServicio.crearDetalleVenta(dt);
         }
 
-        // Limpiar carrito
         detalles.clear();
 
         return "redirect:/";
     }
-
 
 }

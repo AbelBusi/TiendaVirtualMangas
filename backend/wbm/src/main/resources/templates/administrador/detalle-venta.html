@@ -1,123 +1,13 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalle de Venta - Dashboard</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/assets/css/app.css}">
-  <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
-  <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
-
-  <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
-
-</head>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: #fff;
-    }
-
-    /* Estilo general para las tarjetas de información */
-    .info-card {
-        background-color: rgba(255, 255, 255, 0.08); /* Más opaco para mejor contraste */
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: #fff;
-        backdrop-filter: blur(3px); /* Efecto cristal para el fondo */
-    }
-
-    /* Estilos para las pestañas (Tabs) */
-    .nav-tabs .nav-link {
-        color: #f8f9fa;
-        border: none;
-        border-top-left-radius: 0.5rem;
-        border-top-right-radius: 0.5rem;
-        border-bottom: 3px solid transparent;
-        transition: all 0.3s;
-        background-color: rgba(255, 255, 255, 0.05);
-        margin-right: 5px;
-    }
-
-    .nav-tabs .nav-link.active {
-        color: #000;
-        background-color: #ffe082; /* Color principal */
-        border-bottom: 3px solid #ffe082;
-        font-weight: 700;
-    }
-    .nav-tabs .nav-link:hover:not(.active) {
-        background-color: rgba(255, 255, 255, 0.15);
-    }
-
-
-    /* Mejoras en las tablas internas */
-    #detalleProductosTable tbody tr {
-        color: #f1f1f1;
-    }
-
-    #detalleProductosTable thead th {
-        color: #ffe082;
-    }
-
-    /* Estilo para los botones de acción dentro del detalle */
-    .btn-action-detail {
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-    .btn-action-panel {
-        font-size: 0.8rem;
-        padding: 5px 10px;
-    }
-
-    /* Estilo para el panel de solo lectura */
-    .read-only-panel {
-        padding: 15px;
-        border: 1px dashed rgba(255, 255, 255, 0.3);
-        border-radius: 6px;
-        margin-bottom: 15px;
-    }
-
-    .data-key {
-        font-weight: 600;
-        color: #ffe082;
-    }
-
-    /* Total final destacado */
-    .total-final-box {
-        background-color: rgba(76, 175, 80, 0.2);
-        padding: 15px;
-        border-radius: 8px;
-        border: 1px solid #4CAF50;
-    }
-
-    /* Estilo para el Modal sobre el fondo oscuro */
-    .modal-content.info-modal {
-        background-color: rgba(33, 37, 41, 0.95);
-        border: 1px solid #ffe082;
-    }
-    .form-control, .form-select {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    .form-control:focus, .form-select:focus {
-        background-color: rgba(255, 255, 255, 0.2);
-        border-color: #ffe082;
-        box-shadow: 0 0 0 0.25rem rgba(255, 224, 130, 0.25);
-    }
-</style>
+<head th:replace="~{administrador/admin-ventas :: head}"></head>
 
 <body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
+
 <div id="app">
   <div th:replace="~{components/header :: siderAdmin}"></div>
+
   <div id="main">
     <header class="mb-3">
       <a href="#" class="burger-btn d-block d-xl-none">
@@ -129,7 +19,8 @@
       <div class="page-title">
         <div class="row">
           <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3 class="text-warning"><i class="fas fa-receipt"></i> DETALLE DE VENTA #<span id="idVentaDisplay">12345</span></h3>
+            <h3 class="text-white">DETALLE DE VENTA #<span th:text="${venta.numeroVenta}"></span></h3>
+            <a th:href="@{/administrador/ventas}" class="btn btn-sm btn-light mt-2"><i class="fas fa-arrow-left"></i> Volver a Ventas</a>
           </div>
           <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -143,269 +34,60 @@
         </div>
       </div>
 
-
-      <section class="section mt-4">
+      <section class="section mt-3">
         <div class="card bg-transparent border-0">
-          <div class="card-content">
-
-            <ul class="nav nav-tabs" id="detalleVentaTabs" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="paso1-tab" data-bs-toggle="tab" data-bs-target="#paso1" type="button" role="tab" aria-controls="paso1" aria-selected="true">
-                  <i class="fas fa-chart-line"></i> Resumen & Acciones
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="paso2-tab" data-bs-toggle="tab" data-bs-target="#paso2" type="button" role="tab" aria-controls="paso2" aria-selected="false">
-                  <i class="fas fa-shopping-basket"></i> Productos Comprados
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="paso3-tab" data-bs-toggle="tab" data-bs-target="#paso3" type="button" role="tab" aria-controls="paso3" aria-selected="false">
-                  <i class="fas fa-id-card"></i> Datos del Cliente
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="paso4-tab" data-bs-toggle="tab" data-bs-target="#paso4" type="button" role="tab" aria-controls="paso4" aria-selected="false">
-                  <i class="fas fa-credit-card"></i> Transacción de Pago
-                </button>
-              </li>
-            </ul>
-
-            <div class="tab-content" id="detalleVentaTabsContent">
-
-              <div class="tab-pane fade show active" id="paso1" role="tabpanel" aria-labelledby="paso1-tab">
-                <div class="card info-card shadow-lg">
-                  <div class="card-body">
-                    <h5 class="card-title text-warning mb-4"><i class="fas fa-gavel"></i> Información General y Opciones</h5>
-
-                    <div class="row">
-                      <div class="col-md-7 mb-4">
-                        <h6>Datos Principales</h6>
-                        <hr class="text-warning">
-
-                        <div id="panelDatosGenerales" class="read-only-panel">
-                          <dl class="row">
-                            <dt class="col-sm-5 data-key">Fecha y Hora:</dt>
-                            <dd class="col-sm-7 data-value" data-field="fecha">2025-10-19 19:10</dd>
-
-                            <dt class="col-sm-5 data-key">Tipo de Venta:</dt>
-                            <dd class="col-sm-7 data-value" data-field="tipo">Online</dd>
-
-                            <dt class="col-sm-5 data-key">Total Neto:</dt>
-                            <dd class="col-sm-7 data-value" data-field="neto">$150.00</dd>
-
-                            <dt class="col-sm-5 data-key">Impuestos (IVA):</dt>
-                            <dd class="col-sm-7 data-value" data-field="iva">$30.00</dd>
-                          </dl>
-                          <button class="btn btn-sm btn-warning btn-action-panel mt-2" data-bs-toggle="collapse" data-bs-target="#formEditGeneral"><i class="fas fa-edit"></i> Editar Datos</button>
-                        </div>
-
-                        <div class="collapse" id="formEditGeneral">
-                          <form action="/administrador/ventas/actualizar/general/12345" method="post" class="p-3 info-card">
-                            <input type="hidden" name="idVenta" value="12345">
-                            <div class="mb-3">
-                              <label for="fechaVenta" class="form-label data-key">Fecha y Hora:</label>
-                              <input type="datetime-local" class="form-control" id="fechaVenta" name="fechaVenta" value="2025-10-19T19:10" required>
-                            </div>
-                            <div class="mb-3">
-                              <label for="tipoVenta" class="form-label data-key">Tipo de Venta:</label>
-                              <select class="form-select" id="tipoVenta" name="tipoVenta">
-                                <option value="Online" selected>Online</option>
-                                <option value="Local">Local</option>
-                              </select>
-                            </div>
-                            <button type="submit" class="btn btn-warning btn-action-detail mt-2"><i class="fas fa-save"></i> Guardar Cambios</button>
-                            <button type="button" class="btn btn-secondary btn-action-detail mt-2" data-bs-toggle="collapse" data-bs-target="#formEditGeneral"><i class="fas fa-times"></i> Cancelar</button>
-                          </form>
-                        </div>
-
-                        <div class="total-final-box mt-4">
-                          <h5 class="m-0"><strong class="text-white">TOTAL FINAL:</strong> <span class="text-success fw-bold fs-4">$180.00</span></h5>
-                        </div>
-                      </div>
-
-                      <div class="col-md-5 mb-4 border-start border-secondary ps-4">
-                        <h6><i class="fas fa-tools"></i> Acciones de Gestión</h6>
-                        <hr class="text-warning">
-
-                        <p class="data-key">Estado Actual:</p>
-                        <span class="badge bg-success fs-6 mb-3" id="estadoVenta">Completada</span>
-
-                        <form action="/administrador/ventas/cambiarEstado/12345" method="post" id="formCambiarEstado">
-                          <input type="hidden" name="nuevoEstado" value="0">
-                          <button type="submit" class="btn btn-danger btn-action-detail w-100 mb-3" id="btnCambiarEstado">
-                            <i class="fas fa-times-circle"></i> Anular Venta
-                          </button>
-                        </form>
-
-                        <a href="#" class="btn btn-info btn-action-detail w-100 mt-2" target="_blank">
-                          <i class="fas fa-file-pdf"></i> Generar Factura
-                        </a>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
+          <div class="card-body">
+            <div class="row mb-4">
+              <div class="col-md-4">
+                <p class="text-white"><strong>ID Venta:</strong> <span th:text="${venta.idVenta}"></span></p>
               </div>
-
-              <div class="tab-pane fade" id="paso2" role="tabpanel" aria-labelledby="paso2-tab">
-                <div class="card info-card shadow-lg">
-                  <div class="card-body">
-                    <h5 class="card-title text-warning mb-4"><i class="fas fa-shopping-basket"></i> Resumen de Artículos</h5>
-
-                    <div class="d-flex justify-content-end mb-3">
-                      <button class="btn btn-success btn-action-detail" data-bs-toggle="modal" data-bs-target="#agregarProductoModal">
-                        <i class="fas fa-plus"></i> Agregar Producto
-                      </button>
-                    </div>
-
-                    <div class="table-responsive">
-                      <table id="detalleProductosTable" class="table table-transparent table-striped">
-                        <thead>
-                        <tr>
-                          <th>PRODUCTO</th>
-                          <th>CANTIDAD</th>
-                          <th>PRECIO UNITARIO</th>
-                          <th>SUBTOTAL</th>
-                          <th>ACCIONES</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-linea-id="1" data-producto-nombre="Funko Pop Luffy Gear 5" data-cantidad="1" data-precio="50.00">
-                          <td>Funko Pop Luffy Gear 5</td>
-                          <td>1</td>
-                          <td>$50.00</td>
-                          <td>$50.00</td>
-                          <td>
-                            <button class="btn btn-sm btn-warning me-2 btn-editar-linea" data-bs-toggle="modal" data-bs-target="#editarLineaProductoModal"><i class="fas fa-edit"></i> Editar</button>
-                            <button class="btn btn-sm btn-danger btn-eliminar-linea"><i class="fas fa-trash-alt"></i> Eliminar</button>
-                          </td>
-                        </tr>
-                        <tr data-linea-id="2" data-producto-nombre="Manga One Piece Vol. 100" data-cantidad="3" data-precio="10.00">
-                          <td>Manga One Piece Vol. 100</td>
-                          <td>3</td>
-                          <td>$10.00</td>
-                          <td>$30.00</td>
-                          <td>
-                            <button class="btn btn-sm btn-warning me-2 btn-editar-linea" data-bs-toggle="modal" data-bs-target="#editarLineaProductoModal"><i class="fas fa-edit"></i> Editar</button>
-                            <button class="btn btn-sm btn-danger btn-eliminar-linea"><i class="fas fa-trash-alt"></i> Eliminar</button>
-                          </td>
-                        </tr>
-                        <tr class="fw-bold">
-                          <td colspan="3" class="text-end text-warning">SUBTOTAL NETO:</td>
-                          <td class="text-warning">$150.00</td>
-                          <td></td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
+              <div class="col-md-4">
+                <p class="text-white"><strong>Cliente:</strong> <span th:text="${venta.usuario.persona.nombre + ' ' + venta.usuario.persona.apellidos}"></span></p>
               </div>
-
-              <div class="tab-pane fade" id="paso3" role="tabpanel" aria-labelledby="paso3-tab">
-                <div class="card info-card shadow-lg">
-                  <div class="card-body">
-                    <h5 class="card-title text-warning mb-4"><i class="fas fa-user-circle"></i> Datos del Comprador</h5>
-
-                    <div id="panelDatosCliente" class="read-only-panel">
-                      <dl class="row">
-                        <dt class="col-sm-3 data-key">Nombre:</dt>
-                        <dd class="col-sm-9 data-value">Nami-chan</dd>
-                        <dt class="col-sm-3 data-key">Email:</dt>
-                        <dd class="col-sm-9 data-value">nami@strawhats.com</dd>
-                        <dt class="col-sm-3 data-key">Teléfono:</dt>
-                        <dd class="col-sm-9 data-value">+1 (999) 999-9999</dd>
-                        <dt class="col-sm-3 data-key">Dirección:</dt>
-                        <dd class="col-sm-9 data-value">Grand Line, Weatheria</dd>
-                      </dl>
-                      <button class="btn btn-sm btn-warning btn-action-panel mt-2" data-bs-toggle="collapse" data-bs-target="#formEditCliente"><i class="fas fa-edit"></i> Editar Datos</button>
-                    </div>
-
-                    <div class="collapse" id="formEditCliente">
-                      <form action="/administrador/ventas/actualizar/cliente/12345" method="post" class="p-3 info-card">
-                        <div class="row">
-                          <div class="col-md-6 mb-3">
-                            <label for="clienteNombre" class="form-label data-key">Nombre:</label>
-                            <input type="text" class="form-control" id="clienteNombre" name="nombre" value="Nami-chan" required>
-                          </div>
-                          <div class="col-md-6 mb-3">
-                            <label for="clienteEmail" class="form-label data-key">Email:</label>
-                            <input type="email" class="form-control" id="clienteEmail" name="email" value="nami@strawhats.com" required>
-                          </div>
-                          <div class="col-md-6 mb-3">
-                            <label for="clienteTelefono" class="form-label data-key">Teléfono:</label>
-                            <input type="tel" class="form-control" id="clienteTelefono" name="telefono" value="+1 (999) 999-9999">
-                          </div>
-                          <div class="col-md-6 mb-3">
-                            <label for="clienteDireccion" class="form-label data-key">Dirección:</label>
-                            <input type="text" class="form-control" id="clienteDireccion" name="direccion" value="Grand Line, Weatheria" required>
-                          </div>
-                        </div>
-                        <button type="submit" class="btn btn-warning btn-action-detail mt-3"><i class="fas fa-save"></i> Guardar Cliente</button>
-                        <button type="button" class="btn btn-secondary btn-action-detail mt-3" data-bs-toggle="collapse" data-bs-target="#formEditCliente"><i class="fas fa-times"></i> Cancelar</button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
+              <div class="col-md-4">
+                <p class="text-white"><strong>Fecha Venta:</strong> <span th:text="${#temporals.format(venta.fechaVenta, 'dd/MM/yyyy HH:mm')}"></span></p>
               </div>
+            </div>
 
-              <div class="tab-pane fade" id="paso4" role="tabpanel" aria-labelledby="paso4-tab">
-                <div class="card info-card shadow-lg">
-                  <div class="card-body">
-                    <h5 class="card-title text-warning mb-4"><i class="fas fa-credit-card"></i> Registro de la Transacción</h5>
+            <h4 class="card-title text-white mt-4 mb-3"><i class="fas fa-list-alt"></i> Productos Vendidos</h4>
 
-                    <div id="panelDatosPago" class="read-only-panel">
-                      <dl class="row">
-                        <dt class="col-sm-4 data-key">Método de Pago:</dt>
-                        <dd class="col-sm-8 data-value">Tarjeta de Débito (VISA)</dd>
-                        <dt class="col-sm-4 data-key">Referencia/Transacción:</dt>
-                        <dd class="col-sm-8 data-value">VISA-00987654321</dd>
-                        <dt class="col-sm-4 data-key">Monto Pagado:</dt>
-                        <dd class="col-sm-8 data-value">$180.00</dd>
-                        <dt class="col-sm-4 data-key">Estado del Pago:</dt>
-                        <dd class="col-sm-8 data-value">
-                          <span class="badge bg-success">Confirmado</span>
-                        </dd>
-                      </dl>
-                      <button class="btn btn-sm btn-warning btn-action-panel mt-2" data-bs-toggle="collapse" data-bs-target="#formEditPago"><i class="fas fa-edit"></i> Editar Pago</button>
-                    </div>
-
-                    <div class="collapse" id="formEditPago">
-                      <form action="/administrador/ventas/actualizar/pago/12345" method="post" class="p-3 info-card">
-                        <div class="row">
-                          <div class="col-md-6 mb-3">
-                            <label for="pagoMetodo" class="form-label data-key">Método de Pago:</label>
-                            <select class="form-select" id="pagoMetodo" name="metodoPago">
-                              <option value="Tarjeta" selected>Tarjeta de Débito (VISA)</option>
-                              <option value="Efectivo">Efectivo</option>
-                              <option value="Transferencia">Transferencia Bancaria</option>
-                            </select>
-                          </div>
-                          <div class="col-md-6 mb-3">
-                            <label for="pagoReferencia" class="form-label data-key">Referencia/Transacción:</label>
-                            <input type="text" class="form-control" id="pagoReferencia" name="referencia" value="VISA-00987654321" required>
-                          </div>
-                          <div class="col-md-6 mb-3">
-                            <label for="pagoMonto" class="form-label data-key">Monto Pagado:</label>
-                            <input type="number" step="0.01" class="form-control" id="pagoMonto" name="monto" value="180.00" required>
-                          </div>
-                          <div class="col-md-6 mb-3">
-                            <label for="pagoEstado" class="form-label data-key">Estado del Pago:</label>
-                            <select class="form-select" id="pagoEstado" name="estadoPago">
-                              <option value="Confirmado" selected>Confirmado</option>
-                              <option value="Pendiente">Pendiente</option>
-                              <option value="Rechazado">Rechazado</option>
-                            </select>
-                          </div>
-                        </div>
-                        <button type="submit" class="btn btn-warning btn-action-detail mt-3"><i class="fas fa-save"></i> Guardar Detalles de Pago</button>
-                        <button type="button" class="btn btn-secondary btn-action-detail mt-3" data-bs-toggle="collapse" data-bs-target="#formEditPago"><i class="fas fa-times"></i> Cancelar</button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="table-responsive">
+              <table class="table table-transparent table-striped">
+                <thead>
+                <tr>
+                  <th>Portada</th>
+                  <th>E-Manga</th>
+                  <th>Precio U.</th>
+                  <th>Cantidad</th>
+                  <th>Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="detalle : ${detalles}">
+                  <td>
+                    <img th:src="@{'/media/images/store/' + ${detalle.libro.portadaUrl}}" alt="Portada" style="width: 50px; height: 75px; object-fit: cover;">
+                  </td>
+                  <td th:text="${detalle.libro.titulo}"></td>
+                  <td th:text="${#numbers.formatDecimal(detalle.precio, 0, 'COMMA', 2, 'POINT')}"></td>
+                  <td th:text="${detalle.cantidad}"></td>
+                  <td th:text="${#numbers.formatDecimal(detalle.total, 0, 'COMMA', 2, 'POINT')}"></td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th colspan="4" class="text-end text-white">Sub Total:</th>
+                  <th class="text-white" th:text="${#numbers.formatDecimal(venta.subTotal, 0, 'COMMA', 2, 'POINT')}">0.00</th>
+                </tr>
+                <tr>
+                  <th colspan="4" class="text-end text-white">IGV:</th>
+                  <th class="text-white" th:text="${#numbers.formatDecimal(venta.igv, 0, 'COMMA', 2, 'POINT')}">0.00</th>
+                </tr>
+                <tr>
+                  <th colspan="4" class="text-end fw-bold text-white">TOTAL VENTA:</th>
+                  <th class="text-warning fw-bold" th:text="${#numbers.formatDecimal(venta.total, 0, 'COMMA', 2, 'POINT')}">0.00</th>
+                </tr>
+                </tfoot>
+              </table>
             </div>
 
           </div>
@@ -413,199 +95,11 @@
       </section>
     </div>
 
-    <footer>
-      <div class="footer clearfix mb-0 text-muted">
-        <div class="float-start">
-          <p>2021 &copy; Mazer</p>
-        </div>
-        <div class="float-end">
-          <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a></p>
-        </div>
-      </div>
-    </footer>
+    <footer th:replace="~{administrador/admin-ventas :: footer}"></footer>
   </div>
 </div>
 
-<div class="modal fade" id="agregarProductoModal" tabindex="-1" aria-labelledby="agregarProductoLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content info-modal">
-      <div class="modal-header border-0">
-        <h5 class="modal-title fw-bold text-warning" id="agregarProductoLabel"><i class="fas fa-plus-circle"></i> Agregar Nuevo Producto</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="productoSelect" class="form-label data-key">Producto</label>
-            <select class="form-select" id="productoSelect" required>
-              <option value="">Seleccione un producto</option>
-              <option value="1">Funko Pop Luffy Gear 5</option>
-              <option value="2">Manga One Piece Vol. 100</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="cantidad" class="form-label data-key">Cantidad</label>
-            <input type="number" class="form-control" id="cantidad" min="1" value="1" required>
-          </div>
-          <div class="mb-3">
-            <label for="precioUnitario" class="form-label data-key">Precio Unitario</label>
-            <input type="number" step="0.01" class="form-control" id="precioUnitario" value="0.00" required>
-          </div>
-          <button type="submit" class="btn btn-success btn-action-detail w-100 fw-bold"><i class="fas fa-save"></i> Agregar Línea</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+<div th:replace="~{administrador/admin-ventas :: scripts}"></div>
 
-<div class="modal fade" id="editarLineaProductoModal" tabindex="-1" aria-labelledby="editarLineaProductoLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content info-modal">
-      <div class="modal-header border-0">
-        <h5 class="modal-title fw-bold text-warning" id="editarLineaProductoLabel"><i class="fas fa-edit"></i> Editar Línea: <span id="modalProductoNombre"></span></h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <form id="formEditarLinea">
-          <input type="hidden" id="modalLineaId" name="lineaId">
-
-          <div class="mb-3">
-            <label for="modalCantidad" class="form-label data-key">Cantidad</label>
-            <input type="number" class="form-control" id="modalCantidad" name="cantidad" min="1" required>
-          </div>
-          <div class="mb-3">
-            <label for="modalPrecioUnitario" class="form-label data-key">Precio Unitario</label>
-            <input type="number" step="0.01" class="form-control" id="modalPrecioUnitario" name="precioUnitario" required>
-          </div>
-          <button type="submit" class="btn btn-warning btn-action-detail w-100 fw-bold"><i class="fas fa-save"></i> Guardar Cambios</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
-<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/assets/js/main.js}"></script>
-
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // --- Lógica para el cambio de estado (Paso 1) ---
-            const estadoVentaSpan = document.getElementById('estadoVenta');
-            const btnCambiarEstado = document.getElementById('btnCambiarEstado');
-            const formCambiarEstado = document.getElementById('formCambiarEstado');
-            const inputNuevoEstado = formCambiarEstado.querySelector('input[name="nuevoEstado"]');
-
-            function actualizarBotonYEstado() {
-                const esCompletada = estadoVentaSpan.textContent.trim() === 'Completada';
-
-                if (esCompletada) {
-                    btnCambiarEstado.className = 'btn btn-danger btn-action-detail w-100 mb-3';
-                    btnCambiarEstado.innerHTML = '<i class="fas fa-times-circle"></i> Anular Venta';
-                    inputNuevoEstado.value = '0';
-                    estadoVentaSpan.className = 'badge bg-success fs-6';
-                } else {
-                    btnCambiarEstado.className = 'btn btn-info btn-action-detail w-100 mb-3';
-                    btnCambiarEstado.innerHTML = '<i class="fas fa-check-circle"></i> Restaurar Venta';
-                    inputNuevoEstado.value = '1';
-                    estadoVentaSpan.className = 'badge bg-danger fs-6';
-                }
-            }
-
-            formCambiarEstado.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const nuevoEstado = inputNuevoEstado.value;
-                const esAnular = nuevoEstado === '0';
-                const mensaje = esAnular ? '¿Estás seguro de ANULAR esta venta? Esto afectará los inventarios.' : '¿Estás seguro de RESTAURAR esta venta?';
-
-                if (confirm(mensaje)) {
-                    // Simulación de cambio (En Thymeleaf, esto se manejaría en el controlador)
-                    if (esAnular) {
-                        estadoVentaSpan.textContent = 'Anulada';
-                    } else {
-                        estadoVentaSpan.textContent = 'Completada';
-                    }
-                    alert(`Venta #${document.getElementById('idVentaDisplay').textContent} actualizada.`);
-                    actualizarBotonYEstado();
-                }
-            });
-            actualizarBotonYEstado();
-
-            // --- Lógica para la Edición de Líneas de Producto (Paso 2) ---
-            const editarLineaModal = new bootstrap.Modal(document.getElementById('editarLineaProductoModal'));
-            const tableBody = document.querySelector('#detalleProductosTable tbody');
-            const modalProductoNombre = document.getElementById('modalProductoNombre');
-            const modalLineaId = document.getElementById('modalLineaId');
-            const modalCantidad = document.getElementById('modalCantidad');
-            const modalPrecioUnitario = document.getElementById('modalPrecioUnitario');
-            const formEditarLinea = document.getElementById('formEditarLinea');
-
-            // 1. Manejar el clic en el botón "Editar" de la tabla
-            tableBody.addEventListener('click', function(e) {
-                if (e.target.closest('.btn-editar-linea')) {
-                    const row = e.target.closest('tr');
-                    const lineaId = row.getAttribute('data-linea-id');
-                    const productoNombre = row.getAttribute('data-producto-nombre');
-                    const cantidad = row.getAttribute('data-cantidad');
-                    const precio = row.getAttribute('data-precio');
-
-                    // Rellenar el modal con los datos de la fila
-                    modalProductoNombre.textContent = productoNombre;
-                    modalLineaId.value = lineaId;
-                    modalCantidad.value = cantidad;
-                    modalPrecioUnitario.value = precio;
-
-                    // Mostrar el modal (ya se hace con data-bs-target, pero es bueno tener la referencia)
-                    editarLineaModal.show();
-                }
-
-                // 2. Manejar el clic en el botón "Eliminar" (Simulación)
-                if (e.target.closest('.btn-eliminar-linea')) {
-                    const row = e.target.closest('tr');
-                    const lineaId = row.getAttribute('data-linea-id');
-                    if (confirm(`¿Estás seguro de eliminar la línea de producto ID ${lineaId}?`)) {
-                        // Simulación de DELETE
-                        row.remove();
-                        alert('Línea de producto eliminada (simulado).');
-                        // En Thymeleaf, aquí se haría una llamada AJAX o se enviaría un formulario
-                    }
-                }
-            });
-
-            // 3. Manejar el envío del formulario de edición de línea (Simulación)
-            formEditarLinea.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const id = modalLineaId.value;
-                const nuevaCantidad = modalCantidad.value;
-                const nuevoPrecio = parseFloat(modalPrecioUnitario.value).toFixed(2);
-
-                // Buscar la fila correspondiente en la tabla (simulación de UPDATE)
-                const fila = document.querySelector(`tr[data-linea-id="${id}"]`);
-                if (fila) {
-                    const celdas = fila.querySelectorAll('td');
-                    const nuevoSubtotal = (nuevaCantidad * nuevoPrecio).toFixed(2);
-
-                    celdas[1].textContent = nuevaCantidad; // Cantidad
-                    celdas[2].textContent = `$${nuevoPrecio}`; // Precio Unitario
-                    celdas[3].textContent = `$${nuevoSubtotal}`; // Subtotal
-
-                    // Actualizar los atributos de la fila para futuras ediciones
-                    fila.setAttribute('data-cantidad', nuevaCantidad);
-                    fila.setAttribute('data-precio', nuevoPrecio);
-
-                    // Aquí se calcularía el nuevo total general (fuera del alcance de la simulación)
-                }
-
-                alert(`Línea de Venta ID ${id} actualizada a: ${nuevaCantidad} unidades @ $${nuevoPrecio} c/u.`);
-                editarLineaModal.hide();
-                // Aquí se haría el envío real del formulario (AJAX/Fetch)
-            });
-        });
-    </script>
 </body>
-
 </html>
