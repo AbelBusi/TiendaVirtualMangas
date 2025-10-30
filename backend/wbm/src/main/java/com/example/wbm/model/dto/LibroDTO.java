@@ -21,13 +21,14 @@ public class LibroDTO {
     private LocalDateTime fechaPublicacion;
     private String editorial;
     private String genero;
-    private Integer tipoLibro; // FK: id_tipo
+    private Integer tipoLibro;
     private Integer numPaginas;
     private String isbn;
     private String idioma;
-    private String portadaUrl; // Ruta de la imagen, ej: /media/images/store/portada_nombre.jpg
+    private String portadaUrl;
     private BigDecimal precio;
     private Integer estado;
+    private Integer stock;
 
     private String nombreTipoLibro;
 

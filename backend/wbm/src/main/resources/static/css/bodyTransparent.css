@@ -78,26 +78,43 @@
 
 /* Fondo estilo glass transparente con borde anime */
 .modal-anime {
-    background: rgba(15, 15, 25, 0.75);
+    background: rgba(15, 15, 25, 0.78);
     backdrop-filter: blur(15px);
     border-radius: 20px;
-    color: #fff;
+    color: #f1f1f1;
+    border: 1.5px solid rgba(239, 184, 16, 0.3);
+    box-shadow: 0 0 25px rgba(239, 184, 16, 0.08);
+    padding: 1.5rem;
     position: relative;
     overflow: hidden;
 }
 
-/* Borde "anime" que brilla */
-
-
-/* Inputs con efecto futurista */
+/* Inputs con estilo limpio y visible */
 .input-anime {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(239, 184, 16, 0.4);
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(239, 184, 16, 0.5);
     color: #fff;
     border-radius: 10px;
-    transition: all 0.3s;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.95rem;
+    outline: none;
 }
 
+/* Mejora visual al enfocar el input */
+.input-anime:focus {
+    border-color: #efb810;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 6px rgba(239, 184, 16, 0.6);
+}
+
+/* Etiquetas legibles */
+label {
+    color: #efb810;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
 
 /* Botón estilo anime */
 .btn-anime {
@@ -105,15 +122,40 @@
     color: #000;
     border-radius: 12px;
     border: none;
-    padding: 0.7rem 1.2rem;
+    padding: 0.75rem 1.3rem;
     letter-spacing: 0.5px;
-    box-shadow: 0 0 12px rgba(239, 184, 16, 0.7);
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 0 14px rgba(239, 184, 16, 0.5);
 }
 
+/* Estado de enfoque o clic */
+.btn-anime:active,
+.btn-anime:focus {
+    outline: none;
+    box-shadow: 0 0 18px rgba(239, 184, 16, 0.7);
+}
 
 /* Botón cerrar amarillo */
 .btn-close-yellow {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23efb810'%3e%3cpath d='M.293 1.293a1 1 0 011.414 0L8 7.586l6.293-6.293a1 1 0 111.414 1.414L9.414 9l6.293 6.293a1 1 0 01-1.414 1.414L8 10.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 9 .293 2.707a1 1 0 010-1.414z'/%3e%3c/svg%3e");
     filter: drop-shadow(0 0 4px #efb810);
+    opacity: 0.9;
 }
+
+/* Pequeños textos o descripciones */
+.text-anime {
+    color: #d9d9d9;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Títulos dentro del modal */
+.modal-anime h2,
+.modal-anime h3 {
+    color: #efb810;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
 

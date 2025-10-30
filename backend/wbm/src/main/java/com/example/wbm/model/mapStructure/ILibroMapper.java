@@ -29,7 +29,8 @@ public interface ILibroMapper {
             @Mapping(source = "idioma", target = "idioma"),
             @Mapping(source = "portadaUrl", target = "portadaUrl"),
             @Mapping(source = "precio", target = "precio"),
-            @Mapping(source = "estado", target = "estado")
+            @Mapping(source = "estado", target = "estado"),
+            @Mapping(source = "stock", target = "stock")
     })
     LibroDTO toDto(Libro libro);
 

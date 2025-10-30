@@ -115,13 +115,18 @@
                                         <input type="number" step="0.01" class="form-control input-anime" th:field="*{precio}" required>
                                     </div>
                                     <div class="col-md-4 mb-3">
+                                        <label class="form-label">Stock Inicial</label>
+                                        <input type="number" class="form-control input-anime" th:field="*{stock}" required min="0">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label">Fecha Publicación</label>
                                         <input type="datetime-local" class="form-control input-anime" th:field="*{fechaPublicacion}" required>
                                     </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Portada (Subir Archivo)</label>
-                                        <input type="file" name="file" id="fileGuardar" class="form-control input-anime" required accept="image/*">
-                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Portada (Subir Archivo)</label>
+                                    <input type="file" name="file" id="fileGuardar" class="form-control input-anime" required accept="image/*">
                                 </div>
 
                                 <button type="submit" class="btn btn-anime w-100 fw-bold mt-3">Agregar Libro</button>
@@ -201,14 +206,19 @@
                                         <input type="number" step="0.01" class="form-control input-anime" id="editPrecio" name="precio" required>
                                     </div>
                                     <div class="col-md-4 mb-3">
+                                        <label class="form-label">Stock</label>
+                                        <input type="number" class="form-control input-anime" id="editStock" name="stock" required min="0">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label">Fecha Publicación</label>
                                         <input type="datetime-local" class="form-control input-anime" id="editFechaPublicacion" name="fechaPublicacion" required>
                                     </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Cambiar Portada (Opcional)</label>
-                                        <input type="file" name="file" id="fileEditar" class="form-control input-anime" accept="image/*">
-                                        <small class="text-muted">Dejar vacío para mantener la imagen actual.</small>
-                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Cambiar Portada (Opcional)</label>
+                                    <input type="file" name="file" id="fileEditar" class="form-control input-anime" accept="image/*">
+                                    <small class="text-muted">Dejar vacío para mantener la imagen actual.</small>
                                 </div>
 
                                 <button type="submit" class="btn btn-anime w-100 fw-bold mt-3">Guardar Cambios</button>
@@ -228,6 +238,7 @@
                                         <div class="mb-2"><strong>ISBN:</strong> <span id="viewIsbn"></span></div>
                                         <div class="mb-2"><strong>Páginas:</strong> <span id="viewNPaginas"></span></div>
                                         <div class="mb-2"><strong>Precio:</strong> <span id="viewPrecio"></span></div>
+                                        <div class="mb-2"><strong>Stock:</strong> <span id="viewStock"></span></div>
                                         <div class="mb-2"><strong>Estado:</strong> <span id="viewEstado"></span></div>
                                     </div>
                                 </div>
@@ -240,6 +251,7 @@
                 </div>
             </div>
 
+            ---
             <section class="section mt-3">
                 <div class="row" id="table-head">
                     <div class="col-12">
@@ -258,26 +270,27 @@
                                             <th>Autor</th>
                                             <th>Género</th>
                                             <th>Precio</th>
-                                            <th>Estado</th>
+                                            <th>Stock Actual</th> <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="libro : ${libros}"
                                             th:attr="data-id=${libro.idLibro},
-                                                     data-titulo=${libro.titulo},
-                                                     data-autor=${libro.autor},
-                                                     data-descripcion=${libro.descripcion},
-                                                     data-fecha=${#temporals.format(libro.fechaPublicacion, 'yyyy-MM-dd''T''HH:mm:ss')},
-                                                     data-editorial=${libro.editorial},
-                                                     data-genero=${libro.genero},
-                                                     data-tipo=${libro.tipoLibro},
-                                                     data-npaginas=${libro.numPaginas},
-                                                     data-isbn=${libro.isbn},
-                                                     data-idioma=${libro.idioma},
-                                                     data-portada=${libro.portadaUrl},
-                                                     data-precio=${libro.precio},
-                                                     data-estado=${libro.estado}">
+                                         data-titulo=${libro.titulo},
+                                         data-autor=${libro.autor},
+                                         data-descripcion=${libro.descripcion},
+                                         data-fecha=${#temporals.format(libro.fechaPublicacion, 'yyyy-MM-dd''T''HH:mm:ss')},
+                                         data-editorial=${libro.editorial},
+                                         data-genero=${libro.genero},
+                                         data-tipo=${libro.tipoLibro},
+                                         data-npaginas=${libro.numPaginas},
+                                         data-isbn=${libro.isbn},
+                                         data-idioma=${libro.idioma},
+                                         data-portada=${libro.portadaUrl},
+                                         data-precio=${libro.precio},
+                                         data-stock=${libro.stock},
+                                         data-estado=${libro.estado}">
                                             <td th:text="${libro.idLibro}"></td>
                                             <td>
                                                 <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}" alt="Portada" style="width: 50px; height: 75px; object-fit: cover;">
@@ -285,7 +298,18 @@
                                             <td th:text="${libro.titulo}"></td>
                                             <td th:text="${libro.autor}"></td>
                                             <td th:text="${libro.genero}"></td>
+
                                             <td th:text="'S/ ' + ${#numbers.formatDecimal(libro.precio, 1, 2)}"></td>
+
+                                            <td>
+                                                <div th:class="${libro.stock < 5} ? 'fw-bold text-danger' : 'fw-bold'">
+                                                    <span th:text="${libro.stock}"></span>
+                                                    <span th:if="${libro.stock < 5}" class="ms-2 badge bg-danger">
+                                            <i class="fas fa-exclamation-triangle"></i> ¡Casi Agotado!
+                                        </span>
+                                                </div>
+                                            </td>
+
                                             <td th:text="${libro.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
                                             <td>
                                                 <button class="btn btn-sm btn-primary btn-editar-libro">
@@ -312,7 +336,7 @@
                     </div>
                 </div>
             </section>
-
+            ---
         </div>
     </div>
 </div>
@@ -341,6 +365,7 @@ $(document).ready(function () {
     $('#librosTable').DataTable({
         dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
         buttons: [
+            // AÑADIDO columna de Stock (índice 6) a la exportación
             { extend: 'excelHtml5', className: 'btn btn-success', text: '<i class="fas fa-file-excel"></i> Excel', exportOptions: { columns: [0, 2, 3, 4, 5, 6] } },
             { extend: 'pdfHtml5', className: 'btn btn-danger', text: '<i class="fas fa-file-pdf"></i> PDF', exportOptions: { columns: [0, 2, 3, 4, 5, 6] } },
             { extend: 'print', className: 'btn btn-primary', text: '<i class="fas fa-print"></i> Imprimir', exportOptions: { columns: [0, 2, 3, 4, 5, 6] } }
@@ -362,6 +387,19 @@ $(document).ready(function () {
     // Desactivar enforceFocus para el modal de edición/ver
     $('#modalLibro').on('shown.bs.modal', function () {
         $(document).off('focusin.modal');
+        // Inicializar select2 en el modal de edición/ver también, si es necesario
+        $('#editTipoLibro').select2({
+            dropdownParent: $('#modalLibro'),
+            placeholder: "Seleccione una categoría",
+            width: '100%'
+        });
+    });
+
+    // Inicializar select2 en el modal de edición/ver
+    $('#editTipoLibro').select2({
+        dropdownParent: $('#modalLibro'),
+        placeholder: "Seleccione una categoría",
+        width: '100%'
     });
 
     // Función auxiliar para obtener el nombre de TipoLibro dado el ID (desde el select de edición)
@@ -387,16 +425,18 @@ $(document).ready(function () {
         $('#editDescripcion').val(rowData.descripcion);
         $('#editFechaPublicacion').val(rowData.fecha);
         $('#editEditorial').val(rowData.editorial);
-        // CORRECCIÓN: Llenar el campo Género
         $('#editGenero').val(rowData.genero);
         $('#editIsbn').val(rowData.isbn);
         $('#editIdioma').val(rowData.idioma);
-        $('#editNumPaginas').val(rowData.npaginas); // Usando 'npaginas' del th:attr
+        $('#editNumPaginas').val(rowData.npaginas);
         $('#editPrecio').val(parseFloat(rowData.precio).toFixed(2));
+        // Llenar el nuevo campo de Stock
+        $('#editStock').val(rowData.stock); // Usando 'stock' del th:attr
+
         $('#editEstadoLibro').val(rowData.estado);
         $('#editPortadaUrl').val(rowData.portada);
 
-        // Seleccionar el TipoLibro correcto en el select
+        // Seleccionar el TipoLibro correcto en el select (Debe estar inicializado con select2)
         $('#editTipoLibro').val(rowData.tipo).trigger('change');
 
         const modalLibroBS = new bootstrap.Modal(document.getElementById('modalLibro'));
@@ -415,12 +455,15 @@ $(document).ready(function () {
         $('#viewPortada').attr('src', '/media/images/store/' + rowData.portada);
         $('#viewTitulo').text(rowData.titulo);
         $('#viewAutor').text(rowData.autor);
-        $('#viewGenero').text(rowData.genero); // Añadido a la vista
+        $('#viewGenero').text(rowData.genero);
         $('#viewEditorial').text(rowData.editorial);
         $('#viewTipoLibro').text(getTipoLibroNombre(rowData.tipo));
         $('#viewIsbn').text(rowData.isbn);
         $('#viewNPaginas').text(rowData.npaginas);
         $('#viewPrecio').text('S/ ' + parseFloat(rowData.precio).toFixed(2));
+        // Llenar el campo de Stock en la vista
+        $('#viewStock').text(rowData.stock);
+
         $('#viewEstado').text(rowData.estado == 1 ? 'Activo' : 'Inactivo');
         $('#viewDescripcion').text(rowData.descripcion);
 

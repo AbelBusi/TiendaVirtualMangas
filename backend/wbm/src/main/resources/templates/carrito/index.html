@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>WEbStorm</title>
-    <meta name='viewport' content='user-scalable=no, width=device-width, initial-scale=1'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous">
-
-    <!-- Font Awesome 6 (CDN) -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Spring eCommerce - Carrito</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-
     <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="stylesheet" th:href="@{/css/carrusel.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
@@ -25,88 +18,151 @@
     <link rel="stylesheet" th:href="@{/css/apiContainer.css}">
     <link rel="stylesheet" th:href="@{/css/api.css}">
 
+    <style>
+    /* 🎨 Estilos del carrito mejorados */
+    .carrito-card {
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      background: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .carrito-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+    }
+
+    .carrito-titulo {
+      font-weight: 700;
+      color: #2b2b2b;
+      letter-spacing: .5px;
+    }
+
+    .table thead {
+      background-color: #111827;
+      color: #fff;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f9fafb;
+      transition: 0.3s;
+    }
+
+    .table td, .table th {
+      vertical-align: middle;
+    }
+
+    .btn-danger {
+      border-radius: 12px;
+      padding: 5px 12px;
+    }
+
+    .btn-dark {
+      border-radius: 15px;
+      font-weight: 600;
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .subtotal-card {
+      background-color: #f8f9fa;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .subtotal-card h2 {
+      font-size: 1.5rem;
+      color: #111827;
+      margin-bottom: 20px;
+    }
+
+    .breadcrumb {
+      background: none;
+      padding: 0;
+    }
+
+    @media (max-width: 768px) {
+      .table img {
+        width: 40px;
+        height: 60px;
+      }
+    }
+  </style>
 </head>
 
-
 <body>
+<div th:replace="~{components/header :: mainHeader}"></div>
 
+<div class="container mt-5 mb-5">
+    <div class="text-center mb-4">
+        <h1 class="carrito-titulo">🛒 Tu Carrito de Compras</h1>
+        <p class="text-muted">Revisa los productos antes de finalizar tu compra.</p>
+    </div>
 
-    <div th:replace="~{components/header :: mainHeader}"></div>
-
-    <!-- Page Content -->
-    <div class="container mt-4">
-
-        <!-- Título -->
-        <h1 class="mt-4 mb-3">
-            Spring eCommerce <small>Carrito</small>
-        </h1>
-
-        <!-- Breadcrumb -->
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active">Carrito</li>
-        </ol>
-
-        <!-- Contenido principal -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">Portada</th>
-                                <th scope="col">Libro</th>
-                                <th scope="col">Precio</th>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Acción</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="detalleOrden:${carrito}">
-                                <td>
-                                    <img th:src="@{'/media/images/store/' + ${detalleOrden.portada}}" alt="Portada" style="width: 50px; height: 75px; object-fit: cover;">
-                                </td>
-                                <td th:text="${detalleOrden.nombreLibro}"></td>
-                                <td th:text="${detalleOrden.precio}"></td>
-                                <td th:text="${detalleOrden.cantidad}"></td>
-                                <td th:text="${detalleOrden.total}"></td>
-                                <td><a th:href="@{/tienda/eliminar/carrito/{id} (id=${detalleOrden.libro.idLibro})}" class="btn btn-danger">Quitar</a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <h2 class="card-title">SUBTOTAL</h2>
-
-                        <ul class="list-group">
-                            <a th:href="@{/tienda/ordenResumen}" class="btn btn-dark" >Ver Orden</a>
-                        </ul>
-                    </div>
-
+    <div class="card carrito-card">
+        <div class="card-body">
+            <div class="row">
+                <!-- Tabla de productos -->
+                <div class="col-lg-9 col-md-8">
+                    <table class="table align-middle">
+                        <thead>
+                        <tr>
+                            <th>Portada</th>
+                            <th>Libro</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="detalleOrden : ${carrito}">
+                            <td>
+                                <img th:src="@{'/media/images/store/' + ${detalleOrden.portada}}" alt="Portada"
+                                     class="rounded shadow-sm" style="width: 60px; height: 90px; object-fit: cover;">
+                            </td>
+                            <td th:text="${detalleOrden.nombreLibro}" class="fw-semibold"></td>
+                            <td th:text="${detalleOrden.precio}"></td>
+                            <td th:text="${detalleOrden.cantidad}"></td>
+                            <td th:text="${detalleOrden.total}" class="fw-bold"></td>
+                            <td>
+                                <a th:href="@{/tienda/eliminar/carrito/{id}(id=${detalleOrden.libro.idLibro})}"
+                                   class="btn btn-danger btn-sm">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
+
+                <!-- Resumen -->
+                <div class="col-lg-3 col-md-4 mt-3 mt-md-0">
+                    <div class="subtotal-card">
+                        <h2>Subtotal</h2>
+                        <p class="fs-5 fw-semibold text-success" th:text="${#numbers.formatDecimal(total, 1, 'COMMA', 2, 'POINT')}"></p>
+                        <a th:href="@{/tienda/ordenResumen}" class="btn btn-dark">
+                            Ver Orden <i class="fa-solid fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
+</div>
 
-    <div th:replace="~{components/footer :: footerReplace}"></div>
+<div th:replace="~{components/footer :: footerReplace}"></div>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-    <script th:src="@{/js/apiPrueba.js}"></script>
-    <script th:src="@{/js/slider.js}"></script>
-    <script th:src="@{/js/movimiento.js}"></script>
-    <script th:src="@{/js/canva.js}"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/apiPrueba.js}"></script>
+<script th:src="@{/js/slider.js}"></script>
+<script th:src="@{/js/movimiento.js}"></script>
+<script th:src="@{/js/canva.js}"></script>
 </body>
-
 </html>
