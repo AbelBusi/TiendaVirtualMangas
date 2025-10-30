@@ -23,5 +23,10 @@ public interface IVentaRepositorio extends JpaRepository<Venta,Integer> {
             "JOIN FETCH u.persona p " +
             "WHERE v.idVenta = :idVenta")
     Optional<Venta> findByIdWithDetailsAndUser(@Param("idVenta") Integer idVenta);
-
+    @Query("SELECT DISTINCT v FROM Venta v " +
+            "JOIN FETCH v.detalleVentas dv " +
+            "JOIN FETCH dv.libro l " +
+            "WHERE v.usuario.idUsuario = :idUsuario " +
+            "ORDER BY v.fechaVenta DESC") // Opcional: ordenar por fecha
+    List<Venta> findByUsuario_IdUsuarioWithDetalles(@Param("idUsuario") Integer idUsuario);
 }

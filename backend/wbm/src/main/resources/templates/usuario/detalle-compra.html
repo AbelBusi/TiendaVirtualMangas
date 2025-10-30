@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Detalles</title>
+  <meta name='viewport' content='user-scalable=no, width=device-width, initial-scale=1'>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" th:href="@{/css/carrusel.css}">
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
+  <link rel="stylesheet" th:href="@{/css/letras.css}">
+  <link rel="stylesheet" th:href="@{/css/card.css}">
+  <link rel="stylesheet" th:href="@{/css/botones.css}">
+  <link rel="stylesheet" th:href="@{/css/apiContainer.css}">
+  <link rel="stylesheet" th:href="@{/css/api.css}">
+  <style>
+        .star-rating { color: gold; }
+        /* Estilo para simular el desplazamiento vertical en las tarjetas - Se recomienda JS/CSS para un carrusel vertical real */
+        .card-carousel-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div th:replace="~{components/header :: mainHeader}"></div>
+
+<div class="container my-5">
+  <h1 class="mb-4">Detalle del Pedido N° <span th:text="${venta.numeroVenta}">0000000001</span></h1>
+
+  <div class="row">
+    <div class="col-md-8">
+      <h3>Productos Adquiridos</h3>
+      <table class="table table-striped">
+        <thead class="table-dark">
+        <tr>
+          <th></th>
+          <th>Libro</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="detalle : ${venta.detalleVentas}">
+          <td><img th:src="@{/media/images/libros/{portada}(portada=${detalle.portada})}"
+                   alt="Portada" style="width: 50px; height: auto;"></td>
+          <td th:text="${detalle.nombreLibro}">Nombre del Libro</td>
+          <td th:text="${detalle.cantidad}">1</td>
+          <td th:text="${#numbers.formatCurrency(detalle.precio)}">$100.00</td>
+          <td th:text="${#numbers.formatCurrency(detalle.total)}">$100.00</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-4">
+      <h3>Resumen del Pedido</h3>
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Fecha de Compra</span>
+          <strong th:text="${#temporals.format(venta.fechaVenta, 'dd/MM/yyyy HH:mm')}">20/05/2024</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Subtotal</span>
+          <strong th:text="${#numbers.formatCurrency(venta.subTotal)}">S/450.00</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Impuesto (IGV)</span>
+          <strong th:text="${#numbers.formatCurrency(venta.igv)}">S/50.00</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between bg-light">
+          <strong>Total Pagado</strong>
+          <strong th:text="${#numbers.formatCurrency(venta.total)}">S/500.00</strong>
+        </li>
+      </ul>
+
+      <a th:href="@{/usuario/miscompras}" class="btn btn-secondary w-100">Volver a Mis Compras</a>
+    </div>
+  </div>
+
+</div>
+
+<div th:replace="~{components/footer :: footerReplace}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

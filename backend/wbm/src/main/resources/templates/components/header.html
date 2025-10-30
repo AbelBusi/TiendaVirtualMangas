@@ -107,10 +107,10 @@
                                 </h6>
                             </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" th:href="@{/perfil}"><i class="fas fa-user-cog me-2"></i> Perfil</a></li>
+                            <li><a class="dropdown-item" th:href="@{/usuario/miscompras}"><i class="fas fa-user-cog me-2"></i> Mis compras</a></li>
                             <li><a class="dropdown-item" th:href="@{/tienda/mostrarCarrito}"><i class="fas fa-cog me-2"></i> Carrito</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" th:href="@{/logout}">
+                            <li><a class="dropdown-item text-danger" th:href="@{/inicio/cerrarSesion}">
                                 <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión</a>
                             </li>
                         </ul>
@@ -128,8 +128,20 @@
                 <div class="d-flex justify-content-between">
                     <div class="logo">
                         <a th:href="@{/administrador}">Web Store Manga</a>
-                        <p><i class="fas fa-user"></i></i> Usuario</p>
 
+                        <div th:if="${sesion != null}">
+                            <p class="mb-0 mt-2" style="font-size: 0.9em;">
+                                <i class="fas fa-user-circle me-1"></i> Usuario:
+                                <strong th:text="${sesion.nombre}">Admin Nombre</strong>
+                            </p>
+                            <p class="mb-0" style="font-size: 0.9em;">
+                                <i class="fas fa-id-badge me-1"></i> Rol:
+                                <strong th:text="${sesion.perfiles[0].rol.nombre}">Rol Administrador</strong>
+                            </p>
+                        </div>
+                        <div th:unless="${sesion != null}">
+                            <p><i class="fas fa-user"></i> Usuario Desconocido</p>
+                        </div>
                     </div>
                     <div class="toggler">
                         <a th:href="@{/administrador}" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -232,7 +244,12 @@
                         </ul>
                     </li>
 
-
+                    <li class="sidebar-item mt-4">
+                        <a th:href="@{/inicio/cerrarSesion}" class='sidebar-link text-danger fw-bold'>
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Cerrar Sesión</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
@@ -240,6 +257,5 @@
     </div>
 
 </div>
-
 </body>
 </html>

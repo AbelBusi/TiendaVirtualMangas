@@ -121,4 +121,17 @@ public class VentaServicioImpl implements IVentaServicio {
         return ventaMapper.toDto(venta);
     }
 
+    @Transactional(readOnly = true)
+    public List<VentaDTO> leerVentasPorUsuarioId(Integer idUsuario) {
+        // 💡 CORRECCIÓN: Usar el método que incluye JOIN FETCH para los detalles
+        List<Venta> ventas = ventaRepositorio.findByUsuario_IdUsuarioWithDetalles(idUsuario);
+
+        if (ventas == null || ventas.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return ventas.stream()
+                .map(ventaMapper::toDto)
+                .toList();
+    }
+
 }

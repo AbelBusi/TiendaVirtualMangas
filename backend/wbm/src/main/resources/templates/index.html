@@ -84,43 +84,12 @@
 
 <div th:replace="~{components/header :: mainHeader}"></div>
 
-<div class="slider">
-    <div class="list">
-        <div class="item" th:each="i : ${#numbers.sequence(1, 4)}">
-            <img th:src="@{'/media/images/slider/carrusel-' + ${i} + '.webp'}"
-                 onerror="this.onerror=null; this.src='/media/images/slider/carrusel-' + this.getAttribute('data-index') + '.jpg'"
-                 th:attr="data-index=${i}"
-                 alt="Carrusel Item">
+<div class="slider"> <div class="list"> <div class="item"> <img th:src="@{/media/images/slider/1382261.png}" alt=""> <div class="content"> <div class="title">El alpinista</div> <div class="type">Accion</div> <div class="description"> One Piece es el manga más vendido de la revista Weekly Shōnen Jump (la más importante, reconocida y vendida del medio), de la Editorial Shueisha, y de toda la historia de Japón </div> <div class="button"> <button onclick="window.location.href='../store/libro.html'">VER MÁS</button> </div> </div> </div> <div class="item"> <img th:src="@{/media/images/slider/1167472.jpg}" alt=""> <div class="content"> <div class="title">One Piece</div> <div class="type">Aventura</div> <div class="description"> One Piece es el manga más vendido de la revista Weekly Shōnen Jump (la más importante, reconocida y vendida del medio), de la Editorial Shueisha, y de toda la historia de Japón </div> <div class="button"> <button onclick="window.location.href='../store/libro.html'">VER MÁS</button> </div> </div> </div> <div class="item"> <img th:src="@{/media/images/slider/1008869.png}" alt=""> <div class="content"> <div class="title">ONE PIECE</div> <div class="type">PLANT</div> <div class="description"> One Piece es el manga más vendido de la revista Weekly Shōnen Jump (la más importante, reconocida y vendida del medio), de la Editorial Shueisha, y de toda la historia de Japón </div> <div class="button"> <button onclick="window.location.href='../store/libro.html'">VER MÁS</button> </div> </div> </div> <div class="item"> <img th:src="@{/media/images/slider/657917.png}" alt=""> <div class="content"> <div class="title">ONE PIECE</div> <div class="type">NATURE</div> <div class="description"> One Piece es el manga más vendido de la revista Weekly Shōnen Jump (la más importante, reconocida y vendida del medio), de la Editorial Shueisha, y de toda la historia de Japón </div> <div class="button"> <button onclick="window.location.href='../store/libro.html'">VER MÁS</button> </div> </div> </div> </div> <div class="thumbnail"> <div class="item"> <img th:src="@{/media/images/sliderTomo/THE-CLIMBER-4.jpg}" alt=""> </div> <div class="item"> <img th:src="@{/media/images/sliderTomo/tomoMnagaPortada.webp}" alt=""> </div> <div class="item"> <img th:src="@{/media/images/sliderTomo/tomoNazoNaKanojo.jpg}" alt=""> </div> <div class="item"> <img th:src="@{/media/images/sliderTomo/stGatePortada.webp}" alt=""> </div> </div> <div class="nextPrevArrows"> <button class="prev"> < </button> <button class="next"> > </button> </div> </div>
 
-            <div class="content">
-                <div class="title">Título dinámico #<span th:text="${i}"></span></div>
-                <div class="type">Tipo</div>
-                <div class="description">Descripción del item <span th:text="${i}"></span>.</div>
-                <div class="button">
-                    <button onclick="window.location.href='/tienda/libros'">VER MÁS</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="thumbnail">
-        <div class="item" th:each="i : ${#numbers.sequence(1, 4)}">
-            <img th:src="@{'/media/images/sliderTomo/thumb-' + ${i} + '.webp'}"
-                 onerror="this.onerror=null; this.src='/media/images/sliderTomo/thumb-' + this.getAttribute('data-index') + '.jpg'"
-                 th:attr="data-index=${i}"
-                 alt="Thumbnail Item">
-        </div>
-    </div>
-
-    <div class="nextPrevArrows">
-        <button class="prev">&lt;</button>
-        <button class="next">&gt;</button>
-    </div>
-</div>
 
 <div class="container my-5">
 
-    <h2 class="text-center mb-4 fw-bold">🏆 Nuestros Mangas Más Vendidos</h2>
+    <h2 class="text-center mb-4 fw-bold"> Nuestros Mangas Más Vendidos</h2>
     <p class="text-center text-muted mb-5">Elige los títulos más populares y aclamados por la comunidad.</p>
 
     <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-4 mb-5">
@@ -144,12 +113,6 @@
 
                 <div class="card-footer bg-white border-0 p-3 pt-0">
                     <div class="d-grid gap-2">
-                        <button
-                                type="button"
-                                class="btn btn-dark btn-sm fw-bold"
-                                th:onclick="'window.location.href=\'' + @{/carrito/agregar/{idLibro}(idLibro=${libro.idLibro})} + '\';'">
-                            <i class="fa fa-shopping-cart me-1"></i> Añadir
-                        </button>
                         <a th:href="@{/tienda/libros/{idLibro}(idLibro=${libro.idLibro})}" class="btn btn-outline-secondary btn-sm">
                             <i class="fa fa-info-circle me-1"></i> Ver Detalles
                         </a>
@@ -161,7 +124,7 @@
 
     ---
 
-    <h2 class="text-center mt-5 mb-4 fw-bold text-primary">⭐ Recomendados por la Comunidad</h2>
+    <h2 class="text-center mt-5 mb-4 fw-bold text-primary"> Recomendados por la Comunidad</h2>
     <p class="text-center text-muted mb-5">Descubre los títulos con las mejores reseñas y puntuaciones.</p>
 
     <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-4 mb-5">
@@ -209,7 +172,7 @@
 
     <hr>
     <div class="my-5">
-        <h2 class="text-center mb-4 fw-bold text-danger">🚨 ¡Últimas Novedades Destacadas!</h2>
+        <h2 class="text-center mb-4 fw-bold text-danger"> ¡Últimas Novedades Destacadas!</h2>
         <p class="text-center text-muted mb-5">No te pierdas los lanzamientos más recientes, con movimiento automático.</p>
 
         <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
@@ -260,7 +223,7 @@
     <hr>
 
     <div class="my-5 text-center">
-        <h2 class="mb-4 fw-bold text-success">🏷️ Explora por Categoría</h2>
+        <h2 class="mb-4 fw-bold text-success">🏷 Explora por Categoría</h2>
         <p class="text-muted mb-4">Encuentra tu próxima lectura filtrando por género.</p>
         <div class="d-flex flex-wrap justify-content-center gap-3">
             <a href="#" class="btn btn-lg btn-outline-dark rounded-pill shadow-sm">
@@ -290,7 +253,7 @@
 
     <section class="py-5">
         <div class="text-center mb-5">
-            <h2 class="display-5 fw-bolder mb-2 text-dark">✨ El Rincón del Otaku: **Anime & Manga al Día**</h2>
+            <h2 class="display-5 fw-bolder mb-2 text-dark"> El Rincón del Otaku: **Anime & Manga al Día**</h2>
             <p class="lead text-muted">Sumérgete en el mundo geek con datos curiosos y recomendaciones.</p>
         </div>
 

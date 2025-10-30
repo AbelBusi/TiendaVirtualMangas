@@ -28,4 +28,13 @@ public class InicioController {
         return "index";
     }
 
+    @GetMapping("/cerrarSesion")
+    public String cerrarSesion(HttpSession session){
+
+        session.removeAttribute("usuarioSesion");
+
+        return "redirect:/inicio";
+
+    }
+
 }

@@ -40,7 +40,7 @@ public class TiendaController {
     private final VentaServicioImpl ventaServicio;
     private final DetalleVentaServicioImpl detalleVentaServicio;
     private final Logger loggger = LoggerFactory.getLogger(TiendaController.class);
-
+    private static final double TASA_IGV = 0.18;
     List<DetalleVentaDTO> detalles = new ArrayList<>();
     VentaDTO pedido = new VentaDTO();
 
@@ -87,69 +87,85 @@ public class TiendaController {
     }
 
     @PostMapping("/carrito")
-    public String addCarrito(@RequestParam Integer idLibro, @RequestParam Integer cantidad, Model model,HttpSession session) {
+    public String addCarrito(@RequestParam Integer idLibro, @RequestParam Integer cantidad, Model model, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         model.addAttribute("sesion", usuario);
 
         DetalleVentaDTO detalleOrden = new DetalleVentaDTO();
-        LibroDTO producto = new LibroDTO();
-        double sumaTotal = 0;
-        double igv =0.05;
-        LibroDTO libroTRaido = libroServicioImpl.leerLibroPorId(idLibro);
+        LibroDTO producto;
+
+        LibroDTO libroTraido = libroServicioImpl.leerLibroPorId(idLibro);
 
         loggger.info("cantidad: {}", cantidad);
 
-        producto =libroTRaido;
+        producto = libroTraido;
+
+        double precioUnitario = producto.getPrecio().doubleValue();
+        double totalDetalle = precioUnitario * cantidad;
+
         detalleOrden.setCantidad(cantidad);
-        detalleOrden.setPrecio(producto.getPrecio().doubleValue());
+        detalleOrden.setPrecio(precioUnitario);
         detalleOrden.setNombreLibro(producto.getTitulo());
         detalleOrden.setPortada(producto.getPortadaUrl());
-        detalleOrden.setTotal(producto.getPrecio().doubleValue() * cantidad);
+        detalleOrden.setTotal(totalDetalle); // El total del detalle es (precio * cantidad)
         detalleOrden.setLibro(producto);
 
-        //Validacion para que el producto no se sobrecargue muchas veces
+        // Validación para que el producto no se sobrecargue muchas veces
         Integer idproducto = producto.getIdLibro();
 
-        boolean ingresar = detalles.stream().anyMatch(p -> p.getLibro().getIdLibro() == idproducto);
+        boolean ingresar = detalles.stream().anyMatch(p -> p.getLibro().getIdLibro().equals(idproducto));
         if (!ingresar) {
-
             detalles.add(detalleOrden);
-
+        } else {
+            // Opcional: Si ya existe, incrementar la cantidad en lugar de ignorarlo.
+            // Esto requiere buscar y actualizar el detalle existente.
         }
 
-        sumaTotal = detalles.stream().mapToDouble(dt -> dt.getTotal()).sum();
-        pedido.setSubTotal(sumaTotal);
-        pedido.setIgv(igv);
-        pedido.setTotal(sumaTotal*igv);
+        // --- CÁLCULOS CORREGIDOS ---
+        calcularTotales();
+        // --------------------------
+
         model.addAttribute("carrito", detalles);
         model.addAttribute("pedido", pedido);
 
         return "/carrito/index";
     }
-
     @GetMapping("/eliminar/carrito/{id}")
-    public String eliminarLibroCarrito(@PathVariable Integer id,Model model){
+    public String eliminarLibroCarrito(@PathVariable Integer id, Model model, HttpSession session) {
+
+        // El bucle de eliminación que tenías es correcto
         List<DetalleVentaDTO> ordenNueva = new ArrayList<>();
-        for (DetalleVentaDTO detalleVentaDTO:detalles){
-            if(detalleVentaDTO.getLibro().getIdLibro()!=id){
+        for (DetalleVentaDTO detalleVentaDTO : detalles) {
+            if (!detalleVentaDTO.getLibro().getIdLibro().equals(id)) {
                 ordenNueva.add(detalleVentaDTO);
             }
         }
-        double sumaTotal=0;
-        detalles=ordenNueva;
-        double igv =0.05;
-        sumaTotal = detalles.stream().mapToDouble(dt -> dt.getTotal()).sum();
-        pedido.setSubTotal(sumaTotal);
-        pedido.setIgv(igv);
-        pedido.setTotal(sumaTotal*igv+sumaTotal);
+        detalles = ordenNueva;
+
+        // --- CÁLCULOS CORREGIDOS ---
+        calcularTotales();
+        // --------------------------
+
         model.addAttribute("carrito", detalles);
         model.addAttribute("pedido", pedido);
+        model.addAttribute("sesion", session.getAttribute("usuarioSesion")); // Necesario si la vista lo requiere
 
         return "/carrito/index";
-
     }
 
+    private void calcularTotales() {
+        double subTotalCalculado = detalles.stream()
+                .mapToDouble(DetalleVentaDTO::getTotal)
+                .sum();
+
+        double igvCalculado = subTotalCalculado * TASA_IGV;
+        double totalCalculado = subTotalCalculado + igvCalculado;
+
+        pedido.setSubTotal(subTotalCalculado);
+        pedido.setIgv(igvCalculado);
+        pedido.setTotal(totalCalculado);
+    }
     @GetMapping("/mostrarCarrito")
     public String mostrarCarrito(Model model, HttpSession session){
         model.addAttribute("carrito", detalles);

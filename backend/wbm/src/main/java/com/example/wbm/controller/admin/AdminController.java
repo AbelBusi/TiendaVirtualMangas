@@ -146,8 +146,10 @@ public class AdminController {
         return "/administrador/admin-personas";
     }
 
+// AdminController.java
+
     @PostMapping("/personas/guardar")
-    public String guardarPersona(@ModelAttribute("guardarPersona") CDPersonaDTO personaDTO) {
+    public String guardarPersona(@ModelAttribute CDPersonaDTO personaDTO) {
         personaServicio.crear(personaDTO);
         return "redirect:/administrador/personas";
     }
