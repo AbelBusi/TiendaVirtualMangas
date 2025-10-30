@@ -1,6 +1,8 @@
 package com.example.wbm.controller.user; // Asegúrate de que este sea el paquete correcto
 
+import com.example.wbm.implementation.DetalleVentaServicioImpl;
 import com.example.wbm.implementation.VentaServicioImpl;
+import com.example.wbm.model.dto.DetalleVentaDTO;
 import com.example.wbm.model.dto.VentaDTO;
 import com.example.wbm.model.entity.Usuario;
 import jakarta.servlet.http.HttpSession; // Importante: usar la interfaz correcta (jakarta o javax)
@@ -21,6 +23,7 @@ import java.util.List;
 public class usuarioController {
 
     private final VentaServicioImpl ventaServicio;
+    private final DetalleVentaServicioImpl detalleVentaServicio;
 
     /**
      * Obtiene el ID del usuario actualmente logueado desde la HttpSession.
@@ -71,12 +74,16 @@ public class usuarioController {
 
             // IMPORTANTE: Verificar que la venta pertenezca al usuario logueado
             if (venta.getUsuario() == null || !venta.getUsuario().getIdUsuario().equals(idUsuario)) {
-                // Si intenta ver una venta que no es suya o la venta no tiene usuario (error de datos)
                 redirectAttributes.addFlashAttribute("alerta", "Acceso denegado. No puedes ver el detalle de ese pedido.");
                 return "redirect:/usuario/miscompras";
             }
 
+            // 💡 SOLUCIÓN: Cargar los detalles de la venta por separado
+            List<DetalleVentaDTO> detalles = detalleVentaServicio.leerDetalleVentas(idVenta);
+
             model.addAttribute("venta", venta);
+            // 💡 AGREGAR ESTA LÍNEA al modelo
+            model.addAttribute("detalles", detalles);
 
             return "/usuario/detalle-compra";
 

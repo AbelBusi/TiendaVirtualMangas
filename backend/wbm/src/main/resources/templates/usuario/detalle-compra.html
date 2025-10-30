@@ -53,9 +53,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="detalle : ${venta.detalleVentas}">
-          <td><img th:src="@{/media/images/libros/{portada}(portada=${detalle.portada})}"
-                   alt="Portada" style="width: 50px; height: auto;"></td>
+        <tr th:each="detalle : ${detalles}">
+          <td>
+            <img th:src="@{'/media/images/store/' + ${detalle.libro.portadaUrl}}" alt="Portada"
+                 class="rounded shadow-sm" style="width: 60px; height: 90px; object-fit: cover;">
+          </td>
           <td th:text="${detalle.nombreLibro}">Nombre del Libro</td>
           <td th:text="${detalle.cantidad}">1</td>
           <td th:text="${#numbers.formatCurrency(detalle.precio)}">$100.00</td>
