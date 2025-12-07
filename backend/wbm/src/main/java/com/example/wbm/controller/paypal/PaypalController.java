@@ -31,8 +31,8 @@ public class PaypalController {
 
         try {
 
-            String cancelUrl = "http://localhost:8089/paypal/payment/cancel";
-            String successUrl = "http://localhost:8089/paypal/payment/success";
+            String cancelUrl = "http://localhost:8089/webStoreManga/paypal/payment/cancel";
+            String successUrl = "http://localhost:8089/webStoreManga/paypal/payment/success";
 
             Payment payment = paypalService.createPayment(
                     10.0,
