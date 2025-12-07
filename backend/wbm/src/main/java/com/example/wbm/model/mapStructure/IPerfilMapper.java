@@ -9,7 +9,6 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface IPerfilMapper {
 
-    // Mapea Perfil + Usuario + Persona + Rol + Permiso a CDPerfilDTO
     @Mappings({
             // Usuario
             @Mapping(source = "usuario.idUsuario", target = "idUsuario"),
@@ -46,21 +45,15 @@ public interface IPerfilMapper {
     })
     CDPerfilDTO toCDDto(Perfil perfil);
 
-    // Si quieres al revés (CDPerfilDTO -> Perfil con Usuario, Persona, Rol y Permiso)
     @Mappings({
-            // Usuario -> solo mapeamos id, los demás campos se pueden ignorar o mapear según necesidad
             @Mapping(target = "usuario.idUsuario", source = "idUsuario"),
 
-            // Persona -> solo id
             @Mapping(target = "usuario.persona.idPersona", source = "idPersona"),
 
-            // Rol -> solo id
             @Mapping(target = "rol.idRol", source = "idRol"),
 
-            // Permiso -> solo id
             @Mapping(target = "permiso.idPermiso", source = "idPermiso"),
 
-            // Perfil
             @Mapping(target = "idPerfil", source = "idPerfil"),
             @Mapping(target = "fechaAsignacion", source = "fechaAsignacion"),
             @Mapping(target = "estado", source = "estado")

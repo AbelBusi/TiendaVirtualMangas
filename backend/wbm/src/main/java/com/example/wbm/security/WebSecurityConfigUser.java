@@ -29,15 +29,13 @@ public class WebSecurityConfigUser {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		http
-				.csrf(csrf -> csrf.disable()) // Dejado si es estrictamente necesario, pero se recomienda no deshabilitarlo
+				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests((requests) -> requests
-						// Permisos públicos
 						.requestMatchers("/assets/**", "/css/**", "/js/**", "/media/**").permitAll()
-						.requestMatchers("/ingresar", "/ingresar/**", "/inicio/**","/tienda","/tienda/**","/revista","/revista/**"
+						.requestMatchers("/ingresar", "/ingresar/**", "/inicio/**","/tienda","/tienda/**","/paypal","/paypal/**","/revista","/revista/**"
 						,"/contactanos","/contactanos/**","/usuario","/usuarios/**").permitAll()
 						.requestMatchers("/inicio/**").hasAuthority("ROLE_USUARIO")
 
-						// CORRECCIÓN CLAVE: Se usa "ROLE_ADMINISTRADOR" que es el que se crea en CustomUserDetails
 						.requestMatchers("/administrador/**").hasAuthority("ROLE_ADMINISTRADOR")
 
 						.anyRequest().authenticated()

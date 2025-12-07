@@ -31,7 +31,6 @@ public class VentasController {
     private final DetalleVentaServicioImpl detalleVentaServicio;
 
 
-    // Instancia de ObjectMapper para convertir Java Object a JSON String
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
@@ -51,17 +50,15 @@ public class VentasController {
         return "administrador/admin-ventas";
     }
 
-// Controlador VentasController.java
 
     @GetMapping("/detalle/{idVenta}")
     public String verDetalleVenta(Model model, @PathVariable Integer idVenta) {
         VentaDTO venta = ventaServicio.obtenerVentaPorId(idVenta);
 
-        // 💡 SOLUCIÓN ALTERNATIVA: Usar el servicio de detalles para cargar los datos explícitamente
         List<DetalleVentaDTO> detalles = detalleVentaServicio.leerDetalleVentas(idVenta);
 
         model.addAttribute("venta", venta);
-        model.addAttribute("detalles", detalles); // <-- Carga los detalles usando el servicio
+        model.addAttribute("detalles", detalles);
 
         return "administrador/detalle-venta";
     }

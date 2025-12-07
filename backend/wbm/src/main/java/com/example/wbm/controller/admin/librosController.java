@@ -65,11 +65,10 @@ public class librosController {
         return "redirect:/administrador/tiposLibro";
     }
 
-    // ... (Métodos para tiposLibro: tiposLibro, guardarTipoLibro, editarTipoLibro, cambiarEstadoTipoLibro - se omiten por brevedad) ...
 
     @GetMapping("/libros")
     public String libros(Model model){
-        // 1. DTOs para el Formulario de AGREGAR (Asegúrate de que 'guardarLibro' siempre esté en el modelo)
+
         if (!model.containsAttribute("guardarLibro")) {
             LibroDTO guardarLibro = LibroDTO.builder()
                     .estado(1)
@@ -93,23 +92,19 @@ public class librosController {
     @PostMapping("/libros/guardar")
     public String guardarLibro(
             @Valid @ModelAttribute("guardarLibro") LibroDTO libroDTO,
-            BindingResult bindingResult, // <--- 1. Capturamos los errores de validación
+            BindingResult bindingResult,
             @RequestParam("file") MultipartFile file,
-            Model model, // Usamos Model si volvemos a la vista (errores)
-            RedirectAttributes ra) { // Usamos RedirectAttributes si redirigimos (éxito)
+            Model model,
+            RedirectAttributes ra) {
 
-        // 2. Comprobamos si hay errores de validación
         if (bindingResult.hasErrors()) {
 
-            // Si hay errores, debemos recargar todas las listas y DTOs necesarias
-            // para que la página 'admin-libro' no se caiga.
             List<LibroDTO> libros = libroServicio.leerLibros();
             model.addAttribute("libros", libros);
 
             List<TipoLibroDTO> tiposLibro = tipoLibroServicio.leerTiposLibro();
             model.addAttribute("tiposLibro", tiposLibro);
 
-            // Recargamos el DTO de editar, ya que no tiene relación con el error
             LibroDTO editarLibro = LibroDTO.builder().build();
             model.addAttribute("editarLibro", editarLibro);
 
@@ -131,8 +126,8 @@ public class librosController {
     @PostMapping("/libros/editar")
     public String editarLibro(
             @Valid @ModelAttribute("editarLibro") LibroDTO libroDTO,
-            BindingResult bindingResult, // <--- Añadido BindingResult
-            @RequestParam(value = "file", required = false) MultipartFile file, // <-- Archivo opcional
+            BindingResult bindingResult,
+            @RequestParam(value = "file", required = false) MultipartFile file,
             Model model,
             RedirectAttributes ra) {
 

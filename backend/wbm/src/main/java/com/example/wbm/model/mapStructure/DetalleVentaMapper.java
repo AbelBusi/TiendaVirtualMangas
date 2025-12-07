@@ -16,7 +16,6 @@ public interface DetalleVentaMapper {
 
     DetalleVenta toEntity(DetalleVentaDTO detalleVentaDTO);
 
-    // 👇 Métodos auxiliares para mapear TipoLibro ↔ Integer
     default Integer map(TipoLibro tipoLibro) {
         return tipoLibro != null ? tipoLibro.getIdTipoLibro() : null;
     }

@@ -87,7 +87,6 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
 
         Usuario usuario = usuarioOpt.get();
-        // Solo modificamos campos de Usuario
         usuario.setNombre(cdUsuarioDTO.getNombre());
         usuario.setCorreo(cdUsuarioDTO.getCorreo());
         usuario.setPassword(cdUsuarioDTO.getPassword());
@@ -118,7 +117,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     public CDUsuarioDTO leerUsuarioPorId(Integer idUsuario) {
         Usuario usuario = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        return usuarioMapper.toCDDto(usuario);  // <-- aquí usas tu mapper
+        return usuarioMapper.toCDDto(usuario);
     }
 
     @Transactional(readOnly = true)
@@ -126,7 +125,6 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         Usuario usuario = usuarioRepository.findByIdConPersona(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Fuerza la carga de la persona dentro de la sesión
         if (usuario.getPersona() != null) {
             usuario.getPersona().getIdPersona();
         }

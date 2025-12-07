@@ -26,7 +26,6 @@ public class IngresarController {
     private final RegistrarUsuarioServicioImpl registrarUsuarioServicio;
     private final PersonaMapper personaMapper;
 
-    //Se usara el Logger para poder darle un seguimiento y debug
     private final Logger logger = LoggerFactory.getLogger(IngresarController.class);
 
     @GetMapping("")

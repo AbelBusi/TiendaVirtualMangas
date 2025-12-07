@@ -13,11 +13,6 @@ public interface ILibroServicio {
 
     LibroDTO leerLibroPorId(Integer idLibro);
 
-    // Se recomienda usar String para la URL o un objeto MultipartFile para el archivo
-// Dentro de ILibroServicio.java
-
-// ... otros métodos
-
     FormResponseSuccessDTO guardarLibroConImagen(LibroDTO libroDTO, MultipartFile file);
 
     FormResponseSuccessDTO editarLibroConImagen(LibroDTO libroDTO, MultipartFile file);
@@ -26,6 +21,6 @@ public interface ILibroServicio {
 
     boolean tituloExistente(String titulo);
 
-    List<Libro> leerLibrosActivos(); // Nuevo método
+    List<Libro> leerLibrosActivos();
 
 }

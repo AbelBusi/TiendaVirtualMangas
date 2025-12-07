@@ -56,13 +56,11 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Asegúrate de que esta lista de autoridades ya esté definida en la clase
         List<Perfil> perfils = usuario.getPerfiles();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         for (Perfil perfil : perfils) {
             if (perfil.getRol() != null) {
-                // ESTO ES CLAVE: Convierte el rol de la BD (ej: "administrador") a Spring Security (ej: "ROLE_ADMINISTRADOR")
                 String roleName = "ROLE_" + perfil.getRol().getNombre().toUpperCase();
                 authorities.add(new SimpleGrantedAuthority(roleName));
             }

@@ -74,7 +74,7 @@ public class VentaServicioImpl implements IVentaServicio {
     public VentaDTO crearVenta(VentaDTO ventaDTO) {
         Venta venta = ventaMapper.toEntity(ventaDTO);
         Venta guardada = ventaRepositorio.save(venta);
-        return ventaMapper.toDto(guardada); // <- ahora devuelves la versión persistida
+        return ventaMapper.toDto(guardada);
     }
 
 
@@ -112,7 +112,7 @@ public class VentaServicioImpl implements IVentaServicio {
     }
 
 
-    @Transactional(readOnly = true) // Importante mantener @Transactional
+    @Transactional(readOnly = true)
     public VentaDTO obtenerVentaPorId(Integer idVenta) {
 
         Venta venta = ventaRepositorio.findByIdWithDetailsAndUser(idVenta)
@@ -123,7 +123,6 @@ public class VentaServicioImpl implements IVentaServicio {
 
     @Transactional(readOnly = true)
     public List<VentaDTO> leerVentasPorUsuarioId(Integer idUsuario) {
-        // 💡 CORRECCIÓN: Usar el método que incluye JOIN FETCH para los detalles
         List<Venta> ventas = ventaRepositorio.findByUsuario_IdUsuarioWithDetalles(idUsuario);
 
         if (ventas == null || ventas.isEmpty()) {

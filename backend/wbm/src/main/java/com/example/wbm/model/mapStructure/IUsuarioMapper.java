@@ -20,7 +20,6 @@ public interface IUsuarioMapper {
 
     Usuario toEntitySession(UsuarioSesionDTO usuarioDTO);
 
-    // Mapea Usuario + Persona a CDUsuarioDTO
     @Mapping(source = "persona.idPersona", target = "idPersona")
     @Mapping(source = "persona.dni", target = "dni")
     @Mapping(source = "persona.nombre", target = "nombrePersona")
@@ -32,7 +31,6 @@ public interface IUsuarioMapper {
     @Mapping(source = "persona.estado", target = "estadoPersona")
     CDUsuarioDTO toCDDto(Usuario usuario);
 
-    // Si quieres al revés (CDUsuarioDTO -> Usuario con Persona)
     @Mapping(target = "persona.idPersona", source = "idPersona")
     @Mapping(target = "persona.dni", source = "dni")
     @Mapping(target = "persona.nombre", source = "nombrePersona")

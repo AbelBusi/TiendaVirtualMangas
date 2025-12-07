@@ -43,24 +43,20 @@ public class DetalleVentaServicioImpl implements IDetalleVentaServicio {
     @Transactional(readOnly = true)
     public List<DetalleVentaDTO> leerDetalleVentas(Integer idVenta) {
 
-        // 💡 USAR el método con JOIN FETCH
         List<DetalleVenta> detalleVentas = detalleVentaRepositorio.findByVenta_IdVentaWithLibro(idVenta);
 
         if (detalleVentas == null || detalleVentas.isEmpty()) {
             return new ArrayList<>();
         }
-        // El mapeo se realiza ahora que 'libro' está cargado.
         return detalleVentas.stream()
                 .map(detalleVentaMapper::toDto)
                 .toList();
     }
 
-    @Transactional(readOnly = true) // Es solo lectura, optimiza la transacción
+    @Transactional(readOnly = true)
     public List<DetalleVentaDTO> leerTodosLosDetalles() {
-        // 1. Obtener todas las entidades DetalleVenta de la base de datos
         List<DetalleVenta> detalleVentas = detalleVentaRepositorio.findAll();
 
-        // 2. Mapear la lista de Entidades a DTOs
         if (detalleVentas == null || detalleVentas.isEmpty()) {
             return new ArrayList<>();
         }

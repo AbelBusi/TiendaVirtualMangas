@@ -23,7 +23,6 @@ public class TipoLibroServicioImpl implements ITipoLibroServicio {
 
     @Transactional(readOnly = true)
     @Override
-    // NOTA: Se ha corregido el nombre del método de 'leerRoles' a 'leerTiposLibro'
     public List<TipoLibroDTO> leerTiposLibro() {
         List<TipoLibro> tipoLibros = tipoLibroRepository.findAll();
 

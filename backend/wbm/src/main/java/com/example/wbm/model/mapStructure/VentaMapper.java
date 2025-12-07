@@ -9,13 +9,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface VentaMapper {
 
-    @Mapping(target = "detalleVentas", ignore = true) // 👈 ¡Volver a IGNORAR!
+    @Mapping(target = "detalleVentas", ignore = true)
     VentaDTO toDto(Venta venta);
 
-    @Mapping(target = "detalleVentas", source = "detalleVentas") // ¡Ahora sí mapeamos!
+    @Mapping(target = "detalleVentas", source = "detalleVentas")
     Venta toEntity(VentaDTO ventaDTO);
 
-    // Métodos personalizados (por si aún los usas)
     default Integer map(TipoLibro tipoLibro) {
         return tipoLibro != null ? tipoLibro.getIdTipoLibro() : null;
     }

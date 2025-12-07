@@ -19,7 +19,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 										Authentication authentication) throws ServletException, IOException {
 
-		String contextPath = request.getContextPath(); // Ej: /webStoreManga
+		String contextPath = request.getContextPath();
 		String targetUrl;
 
 		boolean isAdmin = authentication.getAuthorities().stream()
@@ -31,13 +31,10 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 				.anyMatch(authority -> authority.equals(ROLE_USUARIO));
 
 		if (isAdmin) {
-			// Redirige a panel administrador
 			targetUrl = contextPath + "/administrador";
 		} else if (isUser) {
-			// Redirige a página principal del usuario
 			targetUrl = contextPath + "/inicio";
 		} else {
-			// En caso de que el usuario no tenga rol asignado
 			targetUrl = contextPath + "/ingresar?error=rol_no_asignado";
 		}
 

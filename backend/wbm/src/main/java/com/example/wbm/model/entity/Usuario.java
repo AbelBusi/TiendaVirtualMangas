@@ -56,7 +56,6 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario",fetch = FetchType.LAZY)
     private List<Perfil> perfiles;
 
-    //Se devolvera un estado true o false si es que se encuentra el rol del usuario
     public boolean hasRole(String roleName) {
 
         Iterator<Perfil> iterator=this.perfiles.iterator();

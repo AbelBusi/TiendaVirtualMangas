@@ -30,8 +30,7 @@ public class LibroServicioImpl implements ILibroServicio {
     private final ILibroMapper libroMapper;
     private final ITipoLibroRepository tipoLibroRepository;
 
-    // CAMBIO CLAVE EN EL SERVICIO
-    private static final String UPLOAD_DIR = "uploads/images/store/";// Inyectar Repositorio de la FK
+    private static final String UPLOAD_DIR = "uploads/images/store/";
 
     @Transactional(readOnly = true)
     @Override
@@ -60,29 +59,22 @@ public class LibroServicioImpl implements ILibroServicio {
     @Override
     public FormResponseSuccessDTO guardarLibroConImagen(LibroDTO libroDTO, MultipartFile file) {
 
-        // 1. Manejo del Archivo (Imagen)
         try {
-            // Generar nombre único para evitar conflictos
             String originalFilename = file.getOriginalFilename();
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String uniqueFilename = UUID.randomUUID().toString() + extension;
 
-            // Ruta completa donde se guardará
             Path copyLocation = Paths.get(UPLOAD_DIR + uniqueFilename);
 
-            // Guardar el archivo físicamente
             Files.copy(file.getInputStream(), copyLocation);
 
-            // Guardar la URL relativa en el DTO/Entidad
             libroDTO.setPortadaUrl(uniqueFilename);
 
         } catch (IOException e) {
-            // Manejo de error si la subida falla
             e.printStackTrace();
             return new FormResponseSuccessDTO("Error al guardar la imagen. Libro no creado.", false);
         }
 
-        // 2. Lógica de negocio (igual a la anterior)
         if(tituloExistente(libroDTO.getTitulo())){
             return new FormResponseSuccessDTO("El título del libro ya existe", false);
         }
@@ -112,10 +104,8 @@ public class LibroServicioImpl implements ILibroServicio {
 
         Libro libroExistente = libroOpt.get();
 
-        // 1. Manejo del Archivo (Imagen)
         if (file != null && !file.isEmpty()) {
             try {
-                // Generar nombre único y guardar nuevo archivo
                 String originalFilename = file.getOriginalFilename();
                 String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
                 String uniqueFilename = UUID.randomUUID().toString() + extension;
@@ -123,21 +113,17 @@ public class LibroServicioImpl implements ILibroServicio {
                 Path copyLocation = Paths.get(UPLOAD_DIR + uniqueFilename);
                 Files.copy(file.getInputStream(), copyLocation, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 
-                // Actualizar la URL de la portada con la nueva
                 libroDTO.setPortadaUrl(uniqueFilename);
 
-                // OPCIONAL: Lógica para eliminar el archivo viejo (se recomienda implementar esto)
 
             } catch (IOException e) {
                 e.printStackTrace();
                 return new FormResponseSuccessDTO("Error al actualizar la imagen.", false);
             }
         } else {
-            // Si NO se sube un nuevo archivo, mantener la URL que ya existía en la base de datos
             libroDTO.setPortadaUrl(libroExistente.getPortadaUrl());
         }
 
-        // 2. Lógica de negocio para el resto de la edición
         Libro libroGuardar = libroMapper.toEntity(libroDTO);
 
         Optional<TipoLibro> tipoLibroOpt = tipoLibroRepository.findById(libroDTO.getTipoLibro());
@@ -179,7 +165,6 @@ public class LibroServicioImpl implements ILibroServicio {
 
     @Override
     public List<Libro> leerLibrosActivos() {
-        // Llama al método del repositorio para obtener solo los libros con estado = 1
         return libroRepository.findByEstadoIsTrue();
     }
 

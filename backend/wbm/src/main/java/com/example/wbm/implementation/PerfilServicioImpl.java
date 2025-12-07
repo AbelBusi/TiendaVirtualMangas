@@ -57,24 +57,20 @@ public class PerfilServicioImpl implements IPerfilServicio {
 
         Perfil perfil = perfilOpt.get();
 
-        // 1. BUSCAR Y ASIGNAR NUEVO ROL
         Optional<Rol> rolOpt = rolRepository.findById(cdPerfilDTO.getIdRol());
         if (rolOpt.isEmpty()) {
             return new FormResponseSuccessDTO("Rol ID " + cdPerfilDTO.getIdRol() + " no encontrado", false);
         }
-        perfil.setRol(rolOpt.get()); // <-- CLAVE: Asignar la nueva entidad Rol
+        perfil.setRol(rolOpt.get());
 
-        // 2. BUSCAR Y ASIGNAR NUEVO PERMISO
         Optional<Permiso> permisoOpt = permisoRepository.findById(cdPerfilDTO.getIdPermiso());
         if (permisoOpt.isEmpty()) {
             return new FormResponseSuccessDTO("Permiso ID " + cdPerfilDTO.getIdPermiso() + " no encontrado", false);
         }
-        perfil.setPermiso(permisoOpt.get()); // <-- CLAVE: Asignar la nueva entidad Permiso
+        perfil.setPermiso(permisoOpt.get());
 
-        // 3. ASIGNAR ESTADO (que ya tenías)
         perfil.setEstado(cdPerfilDTO.getEstado());
 
-        // El Usuario se mantiene inalterado, ya que el idUsuario no se toca en la edición.
 
         perfilRepository.save(perfil);
 
