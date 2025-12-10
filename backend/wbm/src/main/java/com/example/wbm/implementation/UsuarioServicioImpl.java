@@ -89,8 +89,6 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         Usuario usuario = usuarioOpt.get();
         usuario.setNombre(cdUsuarioDTO.getNombre());
         usuario.setCorreo(cdUsuarioDTO.getCorreo());
-        usuario.setPassword(cdUsuarioDTO.getPassword());
-        usuario.setEstado(cdUsuarioDTO.getEstado());
 
         usuarioRepository.save(usuario);
 

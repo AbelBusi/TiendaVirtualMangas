@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Manga Store</title>
+    <title>Manga Store | Catálogo de Libros</title>
     <meta name='viewport' content='user-scalable=no, width=device-width, initial-scale=1'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          crossorigin="anonymous">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
     <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
 
     <link rel="stylesheet" th:href="@{/css/carrusel.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
@@ -26,270 +21,370 @@
     <link rel="stylesheet" th:href="@{/css/libroDetalle.css}">
     <link rel="stylesheet" th:href="@{/css/botones.css}">
 
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --accent-color: #28a745;
+            --text-dark: #343a40;
+            --bg-light: #f8f9fa;
+        }
 
+        .text-custom-primary { color: var(--primary-color) !important; }
+        .btn-primary-custom {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .btn-primary-custom:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
 
+        /* CARD COMPACTA: Diseño */
+        .imageCard {
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-product-compact {
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #dee2e6;
+            border-radius: 0;
+        }
+        .card-product-compact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        .card-footer-compact {
+            padding: 0.5rem 0.75rem;
+            border-top: none;
+        }
+
+        /* SIDEBAR DE FILTROS (STICKY) */
+        #filterSidebar {
+            position: sticky;
+            top: 80px; /* Se queda fijo debajo del header */
+            height: fit-content;
+            padding: 0;
+            border-radius: 0.25rem;
+            z-index: 10;
+        }
+
+        /* Eliminamos los estilos de #searchBarFixedWrapper y #mainSearchBarContainer */
+
+        /* Ajustes para la galería */
+        #mangaGallery {
+             padding-top: 1rem;
+        }
+
+        /* Ocultar Sidebar en móviles */
+        @media (max-width: 991.98px) {
+            #filterSidebar {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- Carrito de Compras -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header border-bottom">
-        <h5 id="offcanvasRightLabel" class="fw-bold">Carrito de Compras</h5>
+        <h5 id="offcanvasRightLabel" class="fw-bold text-dark">Carrito de Compras</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-
     <div class="offcanvas-body d-flex flex-column">
-
-        <!-- Producto (Ejemplo estático) -->
-        <div class="card mb-3 shadow-sm border-0 rounded-3">
+        <div class="card mb-3 shadow-sm border rounded-3">
             <div class="row g-0 align-items-center">
                 <div class="col-4">
                     <img th:src="@{/media/images/mangas/Haruka_17_09.jpg}" class="img-fluid rounded-start"
-                         alt="Portada libro">
+                         alt="Portada libro" style="object-fit: cover; height: 100%;">
                 </div>
                 <div class="col-8">
                     <div class="card-body p-2">
                         <h6 class="card-title fw-semibold mb-1">Doraemon Vol. 1</h6>
                         <p class="text-muted small mb-2">Precio: <span class="fw-bold text-dark">S/ 25.00</span></p>
                         <div class="input-group input-group-sm">
-                            <span class="input-group-text cantidadCaja">Cantidad</span>
-                            <input type="number" class="form-control cantidad" value="1" min="1">
+                            <span class="input-group-text">Cant.</span>
+                            <input type="number" class="form-control" value="1" min="1">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Total (Ejemplo estático) -->
         <div class="mt-auto border-top pt-3">
             <div class="d-flex justify-content-between mb-3">
                 <span class="fw-semibold">Total:</span>
-                <span class="fw-bold fs-5 textoPrecio" id="totalCarrito">S/ 25.00</span>
+                <span class="fw-bold fs-5 text-dark" id="totalCarrito">S/ 25.00</span>
             </div>
             <div class="d-grid">
-                <a class="card-linkA" th:href="@{/tienda/pagar}"><i class="fa fa-circle-info me-1"></i> Finalizar
+                <a class="btn btn-success fw-bold" th:href="@{/tienda/pagar}"><i class="bi bi-bag-check me-1"></i> Finalizar
                     compra</a>
             </div>
         </div>
-
     </div>
 </div>
 
 <div th:replace="~{components/header :: mainHeader}"></div>
 
+<div class="offcanvas offcanvas-start" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title fw-bold" id="filterOffcanvasLabel"><i class="bi bi-funnel me-2"></i> Filtrar Productos</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-3">
+        <div class="accordion accordion-flush" id="mobileAccordionFilters">
 
-<section class="py-5">
-
-    <div class="container-fluid py-4">
-
-        <!-- Búsqueda General -->
-        <div class="row">
-            <div class="col-md-5 mx-auto">
-                <div class="input-group">
-                    <input class="form-control border-end-0 border" type="search" placeholder="Buscar por título o autor..."
-                           id="searchInput"> <!-- ID añadido -->
-                    <button class="btn btn-outline-secondary bg-white border-start-0" id="searchButton" type="button">
-                        <i class="fa fa-search"></i>
+            <div class="accordion-item card shadow-sm mb-3">
+                <h2 class="accordion-header" id="mobileHeadingBusqueda">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#mobileCollapseBusqueda" aria-expanded="true" aria-controls="mobileCollapseBusqueda">
+                        Buscar
                     </button>
+                </h2>
+                <div id="mobileCollapseBusqueda" class="accordion-collapse collapse show" aria-labelledby="mobileHeadingBusqueda" data-bs-parent="#mobileAccordionFilters">
+                    <div class="accordion-body p-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Título, Autor..." id="searchInputMobile">
+                            <button class="btn btn-primary-custom" type="button" id="searchButtonMobile"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div class="accordion-item card shadow-sm mb-3">
+                <h2 class="accordion-header" id="mobileHeadingCategoria">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mobileCollapseCategoria" aria-expanded="false" aria-controls="mobileCollapseCategoria">
+                        Género
+                    </button>
+                </h2>
+                <div id="mobileCollapseCategoria" class="accordion-collapse collapse" aria-labelledby="mobileHeadingCategoria" data-bs-parent="#mobileAccordionFilters">
+                    <div class="accordion-body p-3">
+                        <div class="form-check" th:each="libro : ${librosActivos}">
+                            <input class="form-check-input filter-checkbox-category-mobile" type="checkbox"
+                                   th:value="${libro.nombreTipoLibro}"
+                                   th:id="'mob-cat-' + ${libro.nombreTipoLibro}">
+                            <label class="form-check-label small" th:for="'mob-cat-' + ${libro.nombreTipoLibro}" th:text="${libro.nombreTipoLibro}">
+                                Shonen
+                            </label>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary w-100 mt-3" id="clearCategoryFilterMobile">Limpiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item card shadow-sm mb-3">
+                <h2 class="accordion-header" id="mobileHeadingPrecio">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mobileCollapsePrecio" aria-expanded="false" aria-controls="mobileCollapsePrecio">
+                        Precio
+                    </button>
+                </h2>
+                <div id="mobileCollapsePrecio" class="accordion-collapse collapse" aria-labelledby="mobileHeadingPrecio" data-bs-parent="#mobileAccordionFilters">
+                    <div class="accordion-body p-3">
+                        <select class="form-select form-select-sm filter-select-mobile" id="filterPrecioMobile">
+                            <option value="0-9999" selected>Cualquier precio</option>
+                            <option value="0-10">Menos de S/ 10</option>
+                            <option value="10-20">S/ 10 - S/ 20</option>
+                            <option value="20-50">S/ 20 - S/ 50</option>
+                            <option value="50-100">S/ 50 - S/ 100</option>
+                            <option value="100-9999">Más de S/ 100</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item card shadow-sm mb-3">
+                <h2 class="accordion-header" id="mobileHeadingOrdenar">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mobileCollapseOrdenar" aria-expanded="false" aria-controls="mobileCollapseOrdenar">
+                        Ordenar por
+                    </button>
+                </h2>
+                <div id="mobileCollapseOrdenar" class="accordion-collapse collapse" aria-labelledby="mobileHeadingOrdenar" data-bs-parent="#mobileAccordionFilters">
+                    <div class="accordion-body p-3">
+                        <select class="form-select form-select-sm" id="sortSelectMobile">
+                            <option value="relevance" selected>Relevancia</option>
+                            <option value="price_asc">Precio (Menor a Mayor)</option>
+                            <option value="price_desc">Precio (Mayor a Menor)</option>
+                            <option value="name_asc">Título (A-Z)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <div class="text-center mt-4">
-            <button class="btn carrito btn-lg px-4" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#filtrosCollapse" aria-expanded="false" aria-controls="filtrosCollapse">
-                <i class="fa fa-sliders me-2"></i> Mostrar / Ocultar Filtros
+        <div class="d-grid p-2 mt-4">
+            <button class="btn btn-primary-custom fw-bold btn-lg" id="applyFiltersBtnMobile" data-bs-dismiss="offcanvas">
+                <i class="bi bi-check-circle me-1"></i> Aplicar Filtros
             </button>
         </div>
+    </div>
+</div>
 
-        <!-- Filtros Avanzados -->
-        <div class="collapse mt-4" id="filtrosCollapse">
-            <div class="row">
-                <div class="col-md-10 mx-auto">
-                    <div class="p-4 border rounded shadow-sm bg-light">
+<section class="py-4 bg-white">
+    <div class="container-fluid">
 
-                        <h4 class="fw-bold mb-4 text-center">Filtros Avanzados</h4>
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-dark">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-dark">Comics y Mangas</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Catálogo</li>
+            </ol>
+        </nav>
 
-                        <div class="row g-4">
-                            <!-- Categoría (Usaremos este para filtrar) -->
-                            <div class="col-md-6 col-lg-4">
-                                <label class="form-label fw-bold">Categoría</label>
-                                <select class="form-select form-select-lg filter-select" id="filterCategoria">
-                                    <option value="todos" selected>Todos</option>
-                                    <!-- CORRECCIÓN CLAVE: Se cambió 'libro.categoria' por 'libro.nombreTipoLibro'
-                                         para coincidir con el campo usado en la tabla inferior y resolver el error.
-                                         OJO: Esta implementación genera opciones duplicadas si no usas una lista de categorías distinta.
-                                    -->
-                                    <option th:each="libro : ${librosActivos}"
-                                            th:value="${libro.nombreTipoLibro}"
-                                            th:text="${libro.nombreTipoLibro}">
-                                        Shonen
-                                    </option>
-                                </select>
-                            </div>
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+            <h1 class="text-dark fw-light mb-0">CATÁLOGO DE LIBROS</h1>
+            <span class="fw-semibold small text-muted d-block d-md-block d-lg-none" id="resultsCountMobile">
+                Mostrando <span th:text="${#lists.size(librosActivos)}">50</span> productos.
+            </span>
+        </div>
 
-                            <!-- Precio (Usaremos este para filtrar por rango) -->
-                            <div class="col-md-6 col-lg-4">
-                                <label class="form-label fw-bold">Precio</label>
-                                <select class="form-select form-select-lg filter-select" id="filterPrecio"> <!-- ID y Clase añadidos -->
-                                    <option value="0-9999" selected>Todos</option>
-                                    <option value="0-10">Menos de S/ 10</option>
-                                    <option value="10-20">S/ 10 - S/ 20</option>
-                                    <option value="20-50">S/ 20 - S/ 50</option>
-                                    <option value="50-100">S/ 50 - S/ 100</option>
-                                    <option value="100-9999">Más de S/ 100</option>
-                                </select>
-                            </div>
+        <div class="row g-4">
 
-                            <!-- Valoración (Dejado para extensión futura) -->
-                            <div class="col-md-6 col-lg-4">
-                                <label class="form-label fw-bold">Valoración</label>
-                                <select class="form-select form-select-lg">
-                                    <option>Todos</option>
-                                    <option>⭐⭐⭐⭐⭐</option>
-                                    <!-- ... otras opciones ... -->
-                                </select>
-                            </div>
+            <div class="col-lg-3 col-xl-2 d-none d-lg-block">
+                <div class="card shadow-sm border" id="filterSidebar">
 
-                            <!-- Estado (Dejado para extensión futura) -->
-                            <div class="col-md-6 col-lg-4">
-                                <label class="form-label fw-bold">Estado</label>
-                                <select class="form-select form-select-lg">
-                                    <option>Todos</option>
-                                    <!-- ... otras opciones ... -->
-                                </select>
-                            </div>
+                    <div class="filter-header p-3">
+                        <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-sliders me-2"></i> Filtros</h5>
+                        <hr class="my-2">
+                        <div class="fw-semibold small text-muted">
+                            <span id="resultsCountDesktop">Mostrando <span th:text="${#lists.size(librosActivos)}">50</span> productos.</span>
+                        </div>
+                    </div>
 
-                            <!-- Idioma (Dejado para extensión futura) -->
-                            <div class="col-md-6 col-lg-4">
-                                <label class="form-label fw-bold">Idioma</label>
-                                <select class="form-select form-select-lg">
-                                    <option>Todos</option>
-                                    <!-- ... otras opciones ... -->
-                                </select>
-                            </div>
+                    <div class="accordion accordion-flush" id="accordionFilters">
 
-                            <!-- Año (Dejado para extensión futura) -->
-                            <div class="col-md-6 col-lg-4">
-                                <label class="form-label fw-bold">Año de publicación</label>
-                                <select class="form-select form-select-lg">
-                                    <option>Todos</option>
-                                    <!-- ... otras opciones ... -->
-                                </select>
-                            </div>
-
-                            <!-- Editorial (Dejado para extensión futura) -->
-                            <div class="col-md-6 col-lg-4">
-                                <label class="form-label fw-bold">Editorial</label>
-                                <select class="form-select form-select-lg">
-                                    <option>Todos</option>
-                                    <!-- ... otras opciones ... -->
-                                </select>
-                            </div>
-
-                            <!-- Formato (Dejado para extensión futura) -->
-                            <div class="col-md-6 col-lg-4">
-                                <label class="form-label fw-bold">Formato</label>
-                                <select class="form-select form-select-lg">
-                                    <option>Todos</option>
-                                    <!-- ... otras opciones ... -->
-                                </select>
-                            </div>
-
-                            <!-- Extras (Dejado para extensión futura) -->
-                            <div class="col-12">
-                                <label class="form-label fw-bold">Extras</label>
-                                <div class="d-flex flex-wrap gap-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input filter-checkbox" type="checkbox" id="filtro-ofertas" value="ofertas">
-                                        <label class="form-check-label" for="filtro-ofertas">Ofertas</label>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingBusqueda">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBusqueda" aria-expanded="true" aria-controls="collapseBusqueda">
+                                    Buscar
+                                </button>
+                            </h2>
+                            <div id="collapseBusqueda" class="accordion-collapse collapse show" aria-labelledby="headingBusqueda" data-bs-parent="#accordionFilters">
+                                <div class="accordion-body p-2">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" placeholder="Título o Autor..." id="searchInputDesktop">
+                                        <button class="btn btn-primary-custom" type="button" id="searchButtonDesktop"><i class="bi bi-search"></i></button>
                                     </div>
-                                    <!-- ... otros checkboxes ... -->
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Botón grande para aplicar filtros -->
-                            <div class="col-12 mt-4">
-                                <button class="btn carrito btn-lg w-100 py-3 fw-bold" id="applyFiltersBtn">
-                                    <i class="fa fa-filter me-2"></i> Aplicar Filtros
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingCategoria">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategoria" aria-expanded="false" aria-controls="collapseCategoria">
+                                    Género
                                 </button>
+                            </h2>
+                            <div id="collapseCategoria" class="accordion-collapse collapse" aria-labelledby="headingCategoria" data-bs-parent="#accordionFilters">
+                                <div class="accordion-body p-2">
+                                    <div class="form-check" th:each="libro : ${librosActivos}">
+                                        <input class="form-check-input filter-checkbox-category" type="checkbox"
+                                               th:value="${libro.nombreTipoLibro}"
+                                               th:id="'cat-' + ${libro.nombreTipoLibro}">
+                                        <label class="form-check-label small" th:for="'cat-' + ${libro.nombreTipoLibro}" th:text="${libro.nombreTipoLibro}">
+                                            Shonen
+                                        </label>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-secondary w-100 mt-2" id="clearCategoryFilter">Limpiar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingPrecio">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrecio" aria-expanded="false" aria-controls="collapsePrecio">
+                                    Precio
+                                </button>
+                            </h2>
+                            <div id="collapsePrecio" class="accordion-collapse collapse" aria-labelledby="headingPrecio" data-bs-parent="#accordionFilters">
+                                <div class="accordion-body p-2">
+                                    <select class="form-select form-select-sm filter-select" id="filterPrecio">
+                                        <option value="0-9999" selected>Cualquier precio</option>
+                                        <option value="0-10">Menos de S/ 10</option>
+                                        <option value="10-20">S/ 10 - S/ 20</option>
+                                        <option value="20-50">S/ 20 - S/ 50</option>
+                                        <option value="50-100">S/ 50 - S/ 100</option>
+                                        <option value="100-9999">Más de S/ 100</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOrdenar">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOrdenar" aria-expanded="false" aria-controls="collapseOrdenar">
+                                    Ordenar por
+                                </button>
+                            </h2>
+                            <div id="collapseOrdenar" class="accordion-collapse collapse" aria-labelledby="headingOrdenar" data-bs-parent="#accordionFilters">
+                                <div class="accordion-body p-2">
+                                    <select class="form-select form-select-sm" id="sortSelectDesktop">
+                                        <option value="relevance" selected>Relevancia</option>
+                                        <option value="price_asc">Precio (Menor a Mayor)</option>
+                                        <option value="price_desc">Precio (Mayor a Menor)</option>
+                                        <option value="name_asc">Título (A-Z)</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Secciones de Categorías (Dejamos igual) -->
-        <div class="container my-5">
-            <h3 class="text-center textTitle mb-4">
-                <i class="fas fa-list-alt me-2"></i> Categorías de Manga
-            </h3>
-            <!-- ... Índice A-Z y Ejemplo de categorías ... -->
-            <div class="d-flex flex-wrap justify-content-center mb-4 gap-2">
-                <a href="#cat-A" class="btn btn-outline-dark btn-sm">A</a>
-                <!-- ... letras ... -->
-                <a href="#cat-Z" class="btn btn-outline-dark btn-sm">Z</a>
-            </div>
-
-            <div class="row g-3 text-center">
-                <div class="col-6 col-md-3" id="cat-A">
-                    <div class="border p-3 rounded shadow-sm bg-light">
-                        <i class="fas fa-dragon fa-2x mb-2"></i>
-                        <h6>Acción</h6>
-                    </div>
-                </div>
-                <!-- ... otras categorías estáticas ... -->
-                <div class="col-6 col-md-3" id="cat-S">
-                    <div class="border p-3 rounded shadow-sm bg-light">
-                        <i class="fas fa-star fa-2x mb-2"></i>
-                        <h6>Shonen</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-
-    <!-- Galería de Productos Dinámica -->
-    <div class="container-fluid containerCard espacioContainer">
-        <h1 class="text-center textTitle">Mangas más vendidos</h1>
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-4 container-fluid">
-
-            <div class="col sombraDivCard" th:each="libro : ${librosActivos}">
-                <div class="card cardIndividual">
-
-                    <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
-                         class="imageCard"
-                         th:alt="${libro.titulo}">
-
-                    <div class="card-body pEntrar">
-                        <h5 class="card-title text-center" th:text="${libro.titulo}">Título del Libro</h5>
-
-                        <p class="card-text" th:text="${#strings.substring(libro.descripcion, 0, #strings.length(libro.descripcion) > 100 ? 100 : #strings.length(libro.descripcion)) + (#strings.length(libro.descripcion) > 100 ? '...' : '')}">
-                            Descripción corta del libro.
-                        </p>
-                    </div>
-
-                    <div class="card-footer d-flex justify-content-around">
-                        <span class="fw-bold align-self-center">S/ <span th:text="${#numbers.formatDecimal(libro.precio, 1, 2)}">25.00</span></span>
-
-                        <button class="card-link" type="button" data-bs-target="#offcanvasRight"
-                                aria-controls="offcanvasRight" th:data-libro-id="${libro.idLibro}">
-                            <i class="fa fa-cart-plus me-1"> </i>Agregar
+                    <div class="d-grid p-3 border-top">
+                        <button class="btn btn-primary-custom fw-bold btn-sm" id="applyFiltersBtn">
+                            <i class="bi bi-check-circle me-1"></i> Aplicar
                         </button>
-                        <button
-                                type="button"
-                                class="card-link btn btn-light"
-                                th:onclick="'window.location.href=\'' + @{/tienda/libros/{idLibro}(idLibro=${libro.idLibro})} + '\';'">
-                            <i class="fa fa-info-circle me-1"></i>
-                        </button>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-lg-9 col-xl-10 col-12">
 
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <button class="btn btn-outline-secondary d-lg-none me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas">
+                        <i class="bi bi-funnel me-1"></i> Filtrar & Buscar
+                    </button>
+                    <div class="d-none d-lg-block d-xl-block">
+                        <div class="fw-semibold small text-muted">
+                            Ordenar por: <span class="fw-bold" id="currentSortDesktop">Relevancia</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-4 row-cols-xl-5 g-3" id="mangaGallery">
+
+                    <div class="col" th:each="libro : ${librosActivos}"
+                         th:data-category="${libro.nombreTipoLibro}"
+                         th:data-price="${libro.precio}"
+                         th:data-name="${libro.titulo}"
+                         th:data-is-offer="false">
+
+                        <div class="card h-100 card-product-compact shadow-sm border-0">
+
+                            <a th:href="@{/tienda/libros/{idLibro}(idLibro=${libro.idLibro})}" class="text-decoration-none text-dark">
+                                <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
+                                     class="card-img-top imageCard"
+                                     th:alt="${libro.titulo}">
+                            </a>
+
+                            <div class="card-body d-flex flex-column p-2 pt-1">
+                                <h6 class="card-title fw-semibold mb-1 small text-truncate" th:text="${libro.titulo}">Título del Libro</h6>
+                                <p class="card-text small text-muted mb-2 text-truncate" th:text="${libro.autor}">Autor</p>
+
+                                <div class="mt-auto">
+                                    <span class="fw-bolder fs-6 text-dark">S/ <span th:text="${#numbers.formatDecimal(libro.precio, 1, 2)}">25.00</span></span>
+                                </div>
+                            </div>
+
+                            <div class="card-footer-compact d-flex justify-content-center bg-white border-top">
+                                <button class="btn btn-sm btn-primary-custom w-100" type="button" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" th:data-libro-id="${libro.idLibro}">
+                                    <i class="bi bi-cart-plus me-1"> </i> Añadir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 text-center mt-5" id="noResultsMessage" style="display:none;">
+                        <h3 class="text-muted">😢 No encontramos productos.</h3>
+                        <p>Ajusta tus filtros y tu búsqueda.</p>
                     </div>
                 </div>
             </div>
@@ -297,110 +392,18 @@
     </div>
 </section>
 
-
-
-<div class="container my-5">
-    <h2 class="text-center textTitle mb-4">Mangas populares por autores</h2>
-    <div class="table-responsive">
-        <table id="tablaMangas" class="table table-striped table-hover align-middle text-center" style="width:100%">
-            <thead class="bg-dark text-white">
-            <tr>
-                <th>Portada</th>
-                <th>Título</th>
-                <th>Autor(a)</th>
-                <th>Categoría</th>
-                <th>Precio</th>
-                <th>Unidades Vendidas</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="libro : ${librosActivos}">
-                <td>
-                    <img th:src="@{'/media/images/store/' + ${libro.portadaUrl}}"
-                         th:alt="${libro.titulo}"
-                         class="img-fluid"
-                         style="width: 50px; height: 75px; object-fit: cover;">
-                </td>
-
-                <td th:text="${libro.titulo}"></td>
-
-                <td th:text="${libro.autor}"></td>
-
-                <td th:text="${libro.nombreTipoLibro}"></td>
-
-                <td th:text="'S/ ' + ${#numbers.formatDecimal(libro.precio, 1, 2)}"></td>
-
-                <td>--</td>
-
-                <td>
-                    <button class="btn btn-sm btn-outline-primary" data-libro-id="#">
-                        <i class="fa fa-cart-plus"></i>
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
 <div th:replace="~{components/footer :: footerReplace}"></div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        xintegrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
 
 
-<script>
-        $(document).ready(function () {
-            $('#tablaMangas').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/2.0.8/i18n/es-ES.json"
-                },
-                "responsive": true
-            });
-        });
-    </script>
 
-<script>
-        // Seleccionamos todos los botones de agregar al carrito
-        const cartButtons = document.querySelectorAll(".card-link[data-bs-target='#offcanvasRight']");
 
-        cartButtons.forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                e.preventDefault(); // Evita abrir el offcanvas inmediatamente
-
-                // Mostrar alerta con SweetAlert2
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Producto agregado!',
-                    text: 'Se ha agregado al carrito correctamente.',
-                    confirmButtonText: 'Ver carrito'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Abrir offcanvas manualmente
-                        const offcanvasEl = document.querySelector(btn.dataset.bsTarget);
-                        const bsOffcanvas = new bootstrap.Offcanvas(offcanvasEl);
-                        bsOffcanvas.show();
-                    }
-                });
-            });
-        });
-
-    </script>
-
-<script th:src="@{/js/movimiento.js}"></script>
+<script th:src="@{/js/manga1.js}"></script>
 
 
 </body>
-
 </html>

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -149,14 +150,28 @@ public class AdminController {
 // AdminController.java
 
     @PostMapping("/personas/guardar")
-    public String guardarPersona(@ModelAttribute CDPersonaDTO personaDTO) {
-        personaServicio.crear(personaDTO);
+    public String guardarPersona(
+            @ModelAttribute CDPersonaDTO personaDTO,
+            RedirectAttributes redirectAttributes) {
+
+        FormResponseSuccessDTO respuesta = personaServicio.crear(personaDTO);
+
+        redirectAttributes.addFlashAttribute("msg", respuesta.getMensaje());
+        redirectAttributes.addFlashAttribute("success", respuesta.getMensaje());
+
         return "redirect:/administrador/personas";
     }
 
     @PostMapping("/personas/editar")
-    public String editarPersona(@ModelAttribute("editarPersona") CDPersonaDTO personaDTO) {
-        personaServicio.editarPersona(personaDTO);
+    public String editarPersona(
+            @ModelAttribute("editarPersona") CDPersonaDTO personaDTO,
+            RedirectAttributes redirectAttributes) {
+
+        FormResponseSuccessDTO respuesta = personaServicio.editarPersona(personaDTO);
+
+        redirectAttributes.addFlashAttribute("msg", respuesta.getMensaje());
+        redirectAttributes.addFlashAttribute("success", respuesta.getMensaje());
+
         return "redirect:/administrador/personas";
     }
 

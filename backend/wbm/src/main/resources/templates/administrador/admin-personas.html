@@ -32,6 +32,24 @@ body {
     background-position: center; /* centrada */
     background-repeat: no-repeat;
     color: #fff;
+    .modal-content {
+    background-color: #ffffff !important;
+    color: #000 !important;
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+    color: #000 !important;
+}
+
+.modal .form-label,
+.modal input,
+.modal select,
+.modal .invalid-feedback {
+    color: #000 !important;
+}
+
 }
 
 
@@ -81,46 +99,73 @@ body {
               <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-              <form th:action="@{/administrador/personas/editar}" method="post">
-                <input type="hidden" name="idPersona">
+              <!-- IMPORTANTE: id="formEditarPersona" -->
+              <form id="formEditarPersona" th:action="@{/administrador/personas/editar}" method="post" class="needs-validation" novalidate>
+                <input type="hidden" id="edit-idPersona" name="idPersona">
 
                 <div class="mb-3">
                   <label class="form-label">DNI</label>
-                  <input type="text" class="form-control input-anime" name="dni" required>
+                  <input type="number" class="form-control input-anime" id="edit-dni" name="dni" required minlength="8" maxlength="8">
+                  <div class="invalid-feedback">
+                    Se debe ingresar un dni existente. El DNI debe tener 8 dígitos de forma obligatoria.
+                  </div>
                 </div>
+
                 <div class="mb-3">
                   <label class="form-label">Nombre</label>
-                  <input type="text" class="form-control input-anime" name="nombre" required>
+                  <input type="text" class="form-control input-anime" id="edit-nombre" name="nombre" required maxlength="45">
+                  <div class="invalid-feedback">
+                    Se debe ingresar el nombre de la persona. Máximo 45 caracteres.
+                  </div>
                 </div>
+
                 <div class="mb-3">
                   <label class="form-label">Apellidos</label>
-                  <input type="text" class="form-control input-anime" name="apellidos" required>
+                  <input type="text" class="form-control input-anime" id="edit-apellidos" name="apellidos" required maxlength="45">
+                  <div class="invalid-feedback">
+                    Se debe ingresar los apellidos de la persona. Máximo 45 caracteres.
+                  </div>
                 </div>
+
                 <div class="mb-3">
                   <label class="form-label">Edad</label>
-                  <input type="date" class="form-control input-anime" name="edad" required>
+                  <input type="date" class="form-control input-anime" id="edit-edad" name="edad" required>
+                  <div class="invalid-feedback">
+                    Se debe ingresar la edad de la persona.
+                  </div>
                 </div>
+
                 <div class="mb-3">
                   <label class="form-label">Dirección</label>
-                  <input type="text" class="form-control input-anime" name="direccion" required>
+                  <input type="text" class="form-control input-anime" id="edit-direccion" name="direccion" required maxlength="45">
+                  <div class="invalid-feedback">
+                    Se debe ingresar la dirección de la persona. Máximo 45 caracteres.
+                  </div>
                 </div>
+
                 <div class="mb-3">
                   <label class="form-label">Teléfono</label>
-                  <input type="text" class="form-control input-anime" name="telefono" required>
+                  <input type="number" class="form-control input-anime" id="edit-telefono" name="telefono" required maxlength="20">
+                  <div class="invalid-feedback">
+                    Se debe ingresar el teléfono de la persona. Máximo 20 caracteres.
+                  </div>
                 </div>
+
                 <div class="mb-3">
                   <label class="form-label">País</label>
-                  <input type="text" class="form-control input-anime" name="pais" required>
+                  <input type="text" class="form-control input-anime" id="edit-pais" name="pais" required maxlength="45">
+                  <div class="invalid-feedback">
+                    Se debe ingresar el país de la persona. Máximo 45 caracteres.
+                  </div>
                 </div>
-                <input type="hidden" name="estado">
+
+                <input type="hidden" id="edit-estado" name="estado">
 
                 <button type="submit" class="btn btn-anime w-100 fw-bold">Guardar cambios</button>
-              </form>
-            </div>
+              </form>            </div>
           </div>
         </div>
       </div>
-
 
       <!-- Modal para agregar persona -->
       <div class="modal fade" id="agregarPersonaModal" tabindex="-1" aria-labelledby="agregarPersonaLabel" aria-hidden="true">
@@ -131,55 +176,72 @@ body {
               <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-              <form th:action="@{/administrador/personas/guardar}" th:object="${guardarPersona}" method="post">
+              <form th:action="@{/administrador/personas/guardar}" th:object="${guardarPersona}" method="post" class="needs-validation" novalidate>
 
-                <!-- Campo DNI con botón de búsqueda -->
                 <div class="mb-3">
                   <label for="dni" class="form-label">DNI</label>
-                  <div class="input-group">
-                    <input type="text" class="form-control input-anime" id="dni" th:field="*{dni}" maxlength="8" required>
-                    <button type="button" class="btn btn-warning fw-bold" id="buscarDni">Buscar</button>
+                  <input type="number" class="form-control input-anime" id="dni" th:field="*{dni}" maxlength="8" required>
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">
+                    Se debe ingresar un dni existente. El DNI debe tener 8 dígitos de forma obligatoria.
                   </div>
                 </div>
 
                 <div class="mb-3">
                   <label for="nombre" class="form-label">Nombre</label>
-                  <input type="text" class="form-control input-anime" th:field="*{nombre}" id="nombre" required>
+                  <input type="text" class="form-control input-anime" th:field="*{nombre}" required maxlength="45">
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+                    Se debe ingresar el nombre de la persona. Máximo 45 caracteres.
+                  </div>
                 </div>
 
                 <div class="mb-3">
                   <label for="apellidos" class="form-label">Apellidos</label>
-                  <input type="text" class="form-control input-anime" th:field="*{apellidos}" id="apellidos" required>
+                  <input type="text" class="form-control input-anime" th:field="*{apellidos}" required maxlength="45">
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}">
+                    Se debe ingresar los apellidos de la persona. Máximo 45 caracteres.
+                  </div>
                 </div>
 
                 <div class="mb-3">
                   <label for="edad" class="form-label">Edad</label>
                   <input type="date" class="form-control input-anime" th:field="*{edad}" required>
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}">
+                    Se debe ingresar la edad de la persona.
+                  </div>
                 </div>
 
                 <div class="mb-3">
                   <label for="direccion" class="form-label">Dirección</label>
-                  <input type="text" class="form-control input-anime" th:field="*{direccion}" required>
+                  <input type="text" class="form-control input-anime" th:field="*{direccion}" required maxlength="45">
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}">
+                    Se debe ingresar la dirección de la persona. Máximo 45 caracteres.
+                  </div>
                 </div>
 
                 <div class="mb-3">
                   <label for="telefono" class="form-label">Teléfono</label>
-                  <input type="text" class="form-control input-anime" th:field="*{telefono}" required>
+                  <input type="number" class="form-control input-anime" th:field="*{telefono}" required maxlength="20">
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}">
+                    Se debe ingresar el teléfono de la persona. Máximo 20 caracteres.
+                  </div>
                 </div>
 
                 <div class="mb-3">
                   <label for="pais" class="form-label">País</label>
-                  <input type="text" class="form-control input-anime" th:field="*{pais}" required>
+                  <input type="text" class="form-control input-anime" th:field="*{pais}" required maxlength="45">
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}">
+                    Se debe ingresar el país de la persona. Máximo 45 caracteres.
+                  </div>
                 </div>
 
                 <input type="hidden" th:field="*{estado}" th:value="1">
 
                 <button type="submit" class="btn btn-anime w-100 fw-bold">Agregar</button>
-              </form>
-            </div>
+              </form>            </div>
           </div>
         </div>
       </div>
+
 
       <!-- Tabla de personas -->
       <section class="section mt-3">
@@ -245,6 +307,29 @@ body {
   </div>
 </div>
 
+<div class="modal fade" id="modalMensaje" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header"
+           th:classappend="${success} ? 'bg-success text-white' : 'bg-danger text-white'">
+        <h5 class="modal-title">Aviso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <p th:text="${msg}">Mensaje aquí</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
 <script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
 <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/assets/js/main.js}"></script>
@@ -264,83 +349,84 @@ body {
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
-
 <script>
-$(document).ready(function () {
-    // Inicializamos DataTables
-    const table = $('#personasTable').DataTable({
-        dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
-        buttons: [
-            { extend: 'excelHtml5', text: '<i class="fas fa-file-excel"></i> Excel', className: 'btn buttons-excel' },
-            { extend: 'pdfHtml5', text: '<i class="fas fa-file-pdf"></i> PDF', className: 'btn buttons-pdf' },
-            { extend: 'print', text: '<i class="fas fa-print"></i> Imprimir', className: 'btn buttons-print' }
-        ],
-order: [ [2, "asc"] ],
-        language: {
-            search: "Buscar:",
-            lengthMenu: "Mostrar _MENU_ registros",
-            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            paginate: { previous: "⬅", next: "➡" }
-        }
-    });
+document.addEventListener("DOMContentLoaded", () => {
+    const mensaje = /*[[${msg}]]*/ null;
 
-    // Delegación de eventos: funciona con DataTables
-    $('#personasTable tbody').on('click', '.btn-warning', function () {
-        const row = $(this).closest('tr');
-
-        const id = row.data('id'); // dataset id
-        const dni = row.find('td:eq(1)').text().trim();
-        const nombre = row.find('td:eq(2)').text().trim();
-        const apellidos = row.find('td:eq(3)').text().trim();
-        const edad = row.find('td:eq(4)').text().trim();
-        const direccion = row.find('td:eq(5)').text().trim();
-        const telefono = row.find('td:eq(6)').text().trim();
-        const pais = row.find('td:eq(7)').text().trim();
-        const estado = row.find('td:eq(8)').text().trim() === 'Activo' ? 1 : 0;
-
-        // Rellenamos el modal
-        const modal = document.getElementById('editarPersonaModal');
-        modal.querySelector('input[name="idPersona"]').value = id;
-        modal.querySelector('input[name="dni"]').value = dni;
-        modal.querySelector('input[name="nombre"]').value = nombre;
-        modal.querySelector('input[name="apellidos"]').value = apellidos;
-        modal.querySelector('input[name="edad"]').value = edad;
-        modal.querySelector('input[name="direccion"]').value = direccion;
-        modal.querySelector('input[name="telefono"]').value = telefono;
-        modal.querySelector('input[name="pais"]').value = pais;
-        modal.querySelector('input[name="estado"]').value = estado;
-
-        // Mostramos el modal
-        new bootstrap.Modal(modal).show();
-    });
+    if (mensaje !== null) {
+        const modal = new bootstrap.Modal(document.getElementById("modalMensaje"));
+        modal.show();
+    }
 });
 </script>
 
 <script>
-  document.getElementById("buscarDni").addEventListener("click", async () => {
-    const dni = document.getElementById("dni").value.trim();
-    if (dni.length !== 8) {
-      alert("El DNI debe tener 8 dígitos.");
-      return;
+  $(document).ready(function () {
+
+    // Función genérica de validación
+    function validarCampo(input) {
+        const valor = input.value.trim();
+        let valido = true;
+
+        switch (input.name) {
+            case 'dni':
+                valido = /^\d{8}$/.test(valor); // exactamente 8 dígitos
+                break;
+            case 'telefono':
+                valido = /^\d{9}$/.test(valor); // exactamente 9 dígitos
+                break;
+            case 'nombre':
+            case 'apellidos':
+            case 'direccion':
+            case 'pais':
+                valido = valor.length > 2; // mínimo 3 caracteres
+                break;
+            case 'edad':
+                valido = valor !== ''; // date obligatorio
+                break;
+            default:
+                valido = input.checkValidity();
+        }
+
+        if (valido) {
+            input.classList.remove('is-invalid');
+            input.classList.add('is-valid');
+        } else {
+            input.classList.remove('is-valid');
+            input.classList.add('is-invalid');
+        }
+
+        return valido;
     }
 
-    try {
-      const res = await fetch(`/dni/${dni}`);
-      if (!res.ok) throw new Error("No se encontró información para el DNI ingresado.");
+    // Validación en tiempo real
+    $('form input').on('input blur', function () {
+        validarCampo(this);
+    });
 
-      const data = await res.json();
+    // Validación al enviar formularios
+    $('form').on('submit', function (event) {
+        let valido = true;
+        const inputs = this.querySelectorAll('input[required]');
 
-      // Ajusta estos nombres según la respuesta de tu API
-      document.getElementById("nombre").value = data.nombres || "";
-      document.getElementById("apellidos").value =
-        `${data.apellidoPaterno || ""} ${data.apellidoMaterno || ""}`.trim();
+        inputs.forEach(input => {
+            if (!validarCampo(input)) {
+                valido = false;
+            }
+        });
 
-    } catch (error) {
-      alert("No se encontró información para el DNI ingresado.");
-      console.error(error);
-    }
-  });
+        if (!valido) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    });
+
+});
 </script>
+
+<script th:src="@{/js/personas.js}"></script>
+
+<script th:src="@{/js/personaTable.js}"></script>
 
 </body>
 

@@ -104,27 +104,12 @@
                                 <input type="hidden" id="editIdUsuario" name="idUsuario">
                                 <input type="hidden" id="editEstado" name="estado">
                                 <div class="mb-3">
-                                    <label class="form-label">Persona</label>
-                                    <select class="form-select input-anime" id="editPersona" name="idPersona" disabled>
-                                        <option th:each="persona : ${personasDisponibles}"
-                                                th:value="${persona.idPersona}"
-                                                th:text="'ID: ' + ${persona.idPersona} + ', Nombre: ' + ${persona.nombre} + ' ' + ${persona.apellidos} + ', DNI: (' + ${persona.dni} + ')'">
-                                        </option>
-                                    </select>
-
-
-                                </div>
-                                <div class="mb-3">
                                     <label class="form-label">Nombre de usuario</label>
                                     <input type="text" class="form-control input-anime" id="editNombre" name="nombre" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Correo</label>
                                     <input type="email" class="form-control input-anime" id="editCorreo" name="correo" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control input-anime" id="editPassword" name="password" readonly placeholder="No editable">
                                 </div>
                                 <button type="submit" class="btn btn-anime w-100 fw-bold">Guardar Cambios</button>
                             </form>
@@ -246,7 +231,7 @@ $('#usuariosTable').DataTable({
           titleAttr: 'Imprimir'
         }
     ],
-    order: [ [1, 'asc'] ],
+    order: [ [0, 'asc'] ],
     language: {
         search: "Buscar:",
         lengthMenu: "Mostrar _MENU_ registros",
