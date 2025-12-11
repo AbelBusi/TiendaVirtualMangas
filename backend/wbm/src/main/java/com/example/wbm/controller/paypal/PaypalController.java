@@ -26,20 +26,24 @@ public class PaypalController {
         return "/paypal/index";
     }
 
+    /**
+     * Inicia el proceso de creación de pago en PayPal.
+     * Recibe el total del pedido desde el formulario HTML.
+     */
     @PostMapping("/payment/create")
-    public RedirectView createPayment(){
+    public RedirectView createPayment(@RequestParam("total") double total){ // <-- MODIFICACIÓN: Recibe el total
 
         try {
 
             String cancelUrl = "http://localhost:8089/webStoreManga/paypal/payment/cancel";
-            String successUrl = "http://localhost:8089/webStoreManga/paypal/payment/success";
+            String successUrl = "http://localhost:8089/webStoreManga/paypal/payment/success"; // Sigue apuntando aquí
 
             Payment payment = paypalService.createPayment(
-                    10.0,
+                    total, // <-- Se usa el total dinámico
                     "USD",
                     "paypal",
                     "sale",
-                    "Payment description",
+                    "Payment for WebStoreManga Order", // Descripción del pago
                     cancelUrl,
                     successUrl
             );
@@ -47,19 +51,23 @@ public class PaypalController {
             for (Links links: payment.getLinks()){
                 if(links.getRel().equals("approval_url")){
 
-                    return new RedirectView(links.getHref());
+                    return new RedirectView(links.getHref()); // Redirige a PayPal
 
                 }
             }
 
         }catch (PayPalRESTException e){
-            logger.error("Error occurred: {}",e);
+            logger.error("Error occurred during PayPal payment creation: {}",e);
         }
 
         return new RedirectView("/payment/error");
 
     }
 
+    /**
+     * Se llama después de que el usuario aprueba el pago en PayPal.
+     * Si el pago es exitoso, redirige al endpoint para guardar el pedido.
+     */
     @GetMapping("/payment/success")
     public String paymentSuccess(@RequestParam("paymentId") String paymentId,
                                  @RequestParam("PayerID") String payerId){
@@ -67,17 +75,22 @@ public class PaypalController {
         try {
 
             Payment payment = paypalService.executePayment(paymentId,payerId);
+
+            logger.info("PayPal Payment State: {}", payment.getState());
+
             if(payment.getState().equals("approved")){
 
-                return "/paypal/paymentSuccess";
+                // <-- MODIFICACIÓN CRUCIAL: Redirige al controlador que guarda el pedido
+                return "redirect:/tienda/guardarPedido";
 
             }
 
         }catch (PayPalRESTException e){
-            logger.info("Error occurred: {}",e);
+            logger.error("Error occurred during PayPal payment execution: {}",e);
         }
 
-        return "/paypal/paymentSuccess";
+        // Si el estado no es 'approved' o hay una excepción, muestra la página de error
+        return "/paypal/paymentError";
 
     }
 
