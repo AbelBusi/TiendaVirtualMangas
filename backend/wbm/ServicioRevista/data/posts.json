@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "title": "Majin Tantei Nogami Neuro",
+    "date": "Enero 15, 2024",
+    "author": "Autor Anime",
+    "paragraph1": "Un detective con poderes sobrenaturales... Neuro combina ingenio y humor para resolver los casos más extraños.",
+    "quote": "El misterio más grande de todos es la maldad inherente en el corazón humano.",
+    "separator": true
+  },
+  {
+    "id": 2,
+    "title": "Elfen Lied",
+    "date": "Diciembre 10, 2023",
+    "author": "Autor Manga",
+    "paragraph1": "Historia dramática y emotiva... Elfen Lied combina acción y tragedia, explorando temas profundos como la identidad y la moralidad.",
+    "paragraph2": "La serie es conocida por su estilo visual distintivo y su fuerte impacto emocional en el espectador."
+  },
+  {
+    "id": 3,
+    "title": "Hunter x Hunter",
+    "date": "Enero 20, 2024",
+    "author": "Fan Anime",
+    "paragraph1": "Gon Freecss emprende un viaje para convertirse en Cazador y encontrar a su padre. La serie destaca por su complejidad narrativa y desarrollo de personajes.",
+    "list": [
+      "Acción intensa y estrategia avanzada (Nen)",
+      "Personajes memorables y complejos",
+      "Mundos imaginativos y detallados"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Frieren: Beyond Journey's End",
+    "date": "Febrero 5, 2024",
+    "author": "Especialista JRPG",
+    "paragraph1": "Una elfina maga que reflexiona sobre el significado del tiempo y las relaciones humanas después de derrotar al Rey Demonio. Es una obra melancólica y bellamente ejecutada.",
+    "paragraph2": "A pesar de su ritmo pausado, cada episodio ofrece lecciones profundas sobre la vida, la pérdida y la amistad, destacando por su banda sonora."
+  }
+]

@@ -1,4 +1,4 @@
-package com.example.wbm.security; // Asegúrate de usar tu paquete de configuración
+package com.example.wbm.security; // Ajusta el paquete según tu proyecto
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -19,24 +19,22 @@ public class WebConfig implements WebMvcConfigurer {
     private static final String SLIDER_THUMB_HANDLER_PATH = "/media/images/sliderTomo/**";
     private static final String SLIDER_THUMB_UPLOAD_DIR = "file:./uploads/images/sliderTomo/";
 
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/media/images/store/**")
-                .addResourceLocations("file:./uploads/images/store/");
+        registry.addResourceHandler(STORE_HANDLER_PATH)
+                .addResourceLocations(STORE_UPLOAD_DIR);
 
-        registry.addResourceHandler("/media/images/iconos/**")
-                .addResourceLocations("file:./uploads/images/iconos/");
+        registry.addResourceHandler(ICONOS_HANDLER_PATH)
+                .addResourceLocations(ICONOS_UPLOAD_DIR);
 
-        registry.addResourceHandler("/media/images/slider/**")
-                .addResourceLocations("file:./uploads/images/slider/");
+        registry.addResourceHandler(SLIDER_HANDLER_PATH)
+                .addResourceLocations(SLIDER_UPLOAD_DIR);
 
-        registry.addResourceHandler("/media/images/sliderTomo/**")
-                .addResourceLocations("file:./uploads/images/sliderTomo/");
+        registry.addResourceHandler(SLIDER_THUMB_HANDLER_PATH)
+                .addResourceLocations(SLIDER_THUMB_UPLOAD_DIR);
 
-        // Este último es opcional (sirve como respaldo general)
+        // Respaldo general para cualquier imagen dentro de /uploads/images/
         registry.addResourceHandler("/media/images/**")
                 .addResourceLocations("file:./uploads/images/");
     }
-
 }

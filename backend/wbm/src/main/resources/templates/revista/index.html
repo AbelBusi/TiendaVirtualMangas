@@ -7,14 +7,13 @@
     <title>WEbStorm</title>
     <meta name='viewport' content='user-scalable=no, width=device-width, initial-scale=1'>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    <link href="//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css">
 
     <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
-
     <link rel="stylesheet" th:href="@{/css/carrusel.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
@@ -24,157 +23,57 @@
     <link rel="stylesheet" th:href="@{/css/mangas.css}">
     <link rel="stylesheet" th:href="@{/css/botones.css}">
 
-
+    <style>
+        .espac {
+            margin-top: 4%;
+            margin-bottom: 4%;
+        }
+        /* Estilo para las estrellas doradas */
+        .star-rating {
+            color: gold;
+        }
+    </style>
 </head>
-
-<style>
-    .espac {
-        margin-top: 4%;
-        margin-bottom: 4%;
-    }
-</style>
 
 <body>
 
 <div th:replace="components/header :: mainHeader"></div>
 
 <main class="container espac">
-    <div class="p-5 mb-4 rounded text-dark bg-warning bg-opacity-25 shadow-sm">
+
+    <div class="p-5 mb-4 rounded text-dark bg-warning bg-opacity-25 shadow-sm d-flex align-items-center" id="hero-container">
         <div class="col-lg-6 px-0">
-            <h1 class="display-4 fst-italic text-dark">Explorando el mundo del anime</h1>
-            <p class="lead my-3">Descubre historias, personajes y aventuras que han marcado generaciones en el mundo
-                del anime y manga.</p>
-            <p class="lead mb-0"><a href="#" class="fw-bold text-dark text-decoration-underline">Seguir
-                leyendo...</a></p>
+            <h1 class="display-4 fst-italic text-dark" id="hero-title">Cargando...</h1>
+            <p class="lead my-3" id="hero-description">...</p>
+            <p class="lead mb-0">
+                <a href="#" id="hero-link" class="fw-bold text-dark text-decoration-underline">...</a>
+            </p>
+            <small class="text-muted" id="hero-meta">...</small>
+        </div>
+        <div class="col-lg-6 text-end">
+            <img id="hero-image" src="" alt="Imagen del anime" class="img-fluid rounded shadow-sm">
         </div>
     </div>
 
-    <div class="row mb-4 g-4">
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0 rounded-3 overflow-hidden h-100 bg-light">
-                <div class="row g-0">
-                    <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
-                        <strong class="text-warning mb-2">Shonen</strong>
-                        <h3 class="mb-2">Doraemon Plus</h3>
-                        <div class="text-muted mb-2">Mar 10</div>
-                        <p>Nobita y Doraemon enfrentan divertidos problemas diarios con inventos futuristas.</p>
-                        <a href="#" class="fw-semibold text-warning text-decoration-none">Seguir leyendo &rarr;</a>
-                    </div>
-                    <div class="col-md-4 d-flex align-items-center">
-                        <img th:src="@{/assets/media/images/mangas/Doraemon_Plus_04.jpg}" class="img-fluid rounded-end"
-                             alt="Doraemon">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0 rounded-3 overflow-hidden h-100 bg-light">
-                <div class="row g-0">
-                    <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
-                        <strong class="text-warning mb-2">Misterio</strong>
-                        <h3 class="mb-2">Teizuki Yuurei</h3>
-                        <div class="text-muted mb-2">Feb 28</div>
-                        <p>Misterios de fantasmas y espíritus en un mundo donde lo sobrenatural convive con humanos.
-                        </p>
-                        <a href="#" class="fw-semibold text-warning text-decoration-none">Seguir leyendo &rarr;</a>
-                    </div>
-                    <div class="col-md-4 d-flex align-items-center">
-                        <img th:src="@{/assets/media/images/mangas/2K Teizuki Yuurei Tsuki - 01 [NOT FULL].jpg}"
-                             class="img-fluid rounded-end" alt="Teizuki Yuurei">
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="row mb-4 g-4" id="mangas-container">
     </div>
 
     <div class="row g-5">
-        <div class="col-md-8">
+
+        <div class="col-md-8" id="posts-container">
             <h3 class="pb-3 mb-4 fst-italic border-bottom text-warning">Últimas entradas</h3>
-
-            <article class="blog-post mb-5">
-                <h2 class="display-5 mb-1 text-dark">Majin Tantei Nogami Neuro</h2>
-                <p class="blog-post-meta text-muted">Enero 15, 2024 por <a href="#"
-                                                                           class="text-warning text-decoration-none">Autor Anime</a></p>
-                <p>Un detective con poderes sobrenaturales resuelve casos extraños mientras disfruta de deliciosos
-                    misterios.</p>
-                <hr>
-                <p>Neuro combina ingenio y humor, mostrando un mundo donde lo imposible se vuelve cotidiano.</p>
-            </article>
-
-            <article class="blog-post mb-5">
-                <h2 class="display-5 mb-1 text-dark">Elfen Lied</h2>
-                <p class="blog-post-meta text-muted">Diciembre 10, 2023 por <a href="#"
-                                                                               class="text-warning text-decoration-none">Autor Manga</a></p>
-                <p>Historia dramática y emotiva que explora los dilemas éticos y humanos de los seres especiales
-                    llamados Diclonius.</p>
-                <blockquote class="blockquote bg-warning bg-opacity-10 p-3 rounded">
-                    <p>"Entre violencia y ternura, se revelan los secretos más profundos de la humanidad."</p>
-                </blockquote>
-                <p>Elfen Lied combina acción y tragedia con un mensaje profundo sobre la aceptación y la empatía.
-                </p>
-            </article>
-
-            <article class="blog-post mb-5">
-                <h2 class="display-5 mb-1 text-dark">Hunter x Hunter</h2>
-                <p class="blog-post-meta text-muted">Enero 20, 2024 por <a href="#"
-                                                                           class="text-warning text-decoration-none">Fan Anime</a></p>
-                <p>Gon Freecss emprende un viaje para convertirse en cazador y descubrir el paradero de su padre.
-                </p>
-                <ul>
-                    <li>Acción intensa y estrategia en cada enfrentamiento.</li>
-                    <li>Personajes memorables y desarrollo profundo.</li>
-                    <li>Mundos imaginativos y sorprendentes.</li>
-                </ul>
-            </article>
-
-            <nav class="blog-pagination mb-5" aria-label="Pagination">
-                <a class="btn btn-outline-warning rounded-pill me-2" href="#">Anteriores</a>
-                <a class="btn btn-outline-secondary rounded-pill disabled" aria-disabled="true">Nuevos</a>
-            </nav>
         </div>
 
         <div class="col-md-4">
             <div class="position-sticky" style="top: 2rem;">
-                <div class="p-4 mb-3 bg-warning bg-opacity-10 rounded">
-                    <h4 class="fst-italic text-dark">Acerca de</h4>
-                    <p class="mb-0">Explora reseñas de mangas, curiosidades de anime y recomendaciones para los fans
-                        más apasionados.</p>
+                <div class="p-4 mb-3 bg-warning bg-opacity-10 rounded" id="about-container">
+                    <h4 class="fst-italic text-dark">Cargando...</h4>
+                    <p class="mb-0">...</p>
                 </div>
 
                 <div class="mb-4">
                     <h4 class="fst-italic text-warning">Entradas recientes</h4>
-                    <ul class="list-unstyled">
-                        <li class="mb-3">
-                            <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
-                                <img th:src="@{/assets/media/images/mangas/Elfen Lied - 08a [THANKS].jpg}"
-                                     class="rounded" height="96" width="100" alt="Elfen Lied">
-                                <div>
-                                    <h6 class="mb-0 text-dark">Elfen Lied Vol. 8</h6>
-                                    <small class="text-muted">Feb 5, 2024</small>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="mb-3">
-                            <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
-                                <img th:src="@{/assets/media/images/mangas/HXH 02.jpg}" class="rounded" height="96"
-                                     width="100" alt="HXH">
-                                <div>
-                                    <h6 class="mb-0 text-dark">Hunter x Hunter Vol. 2</h6>
-                                    <small class="text-muted">Ene 20, 2024</small>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="mb-3">
-                            <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="#">
-                                <img th:src="@{/assets/media/images/mangas/Haruka_17_01.jpg}" class="rounded"
-                                     height="96" width="100" alt="Haruka">
-                                <div>
-                                    <h6 class="mb-0 text-dark">Haruka Vol. 1</h6>
-                                    <small class="text-muted">Ene 10, 2024</small>
-                                </div>
-                            </a>
-                        </li>
+                    <ul class="list-unstyled" id="recent-container">
                     </ul>
                 </div>
             </div>
@@ -182,216 +81,402 @@
     </div>
 </main>
 
-
-<footer class="footer">
-
-    <section class="py-4 py-md-5">
-        <div class="container overflow-hidden">
-            <div class="row">
-                <div class="col-12">
-                    <div class="container-fluid border border-dark rounded-3 shadow-sm">
-                        <div class="row">
-                            <div class="col-xs-12 col-lg-4">
-                                <div class="widget p-3 p-md-4 p-xxl-5">
-                                    <h4 class="widget-title mb-4">Contacto</h4>
-                                    <address class="mb-4">
-                                        <i class="fas fa-map-marker-alt me-2"></i> Av. Otaku 777, Chiclayo, Perú
-                                    </address>
-                                    <p class="mb-1">
-                                        <a class="link-dark" href="tel:+51999999999">
-                                            <i class="fas fa-phone-alt me-2"></i> +51 999 999 999
-                                        </a>
-                                    </p>
-                                    <p class="mb-0">
-                                        <a class="link-dark" href="mailto:contacto@mangastore.com">
-                                            <i class="fas fa-envelope me-2"></i> contacto@mangastore.com
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12 col-lg-4">
-                                <div class="widget p-3 p-md-4 p-xxl-5">
-                                    <h4 class="widget-title mb-4">Categorías</h4>
-                                    <ul class="list-unstyled m-0 p-0">
-                                        <li class="mb-2">
-                                            <a href="#" class="link-dark"><i class="fas fa-book me-2"></i>Mangas
-                                                Shonen</a>
-                                        </li>
-                                        <li class="mb-2">
-                                            <a href="#" class="link-dark"><i class="fas fa-heart me-2"></i>Mangas
-                                                Shojo</a>
-                                        </li>
-                                        <li class="mb-2">
-                                            <a href="#" class="link-dark"><i class="fas fa-dragon me-2"></i>Seinen &
-                                                Terror</a>
-                                        </li>
-                                        <li class="mb-2">
-                                            <a href="#" class="link-dark"><i class="fas fa-gamepad me-2"></i>Figuras
-                                                de colección</a>
-                                        </li>
-                                        <li class="mb-0">
-                                            <a href="#" class="link-dark"><i class="fas fa-image me-2"></i>Posters y
-                                                Merch</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12 col-lg-4">
-                                <div class="widget p-3 p-md-4 p-xxl-5">
-                                    <h4 class="widget-title mb-4">Horarios</h4>
-                                    <p class="mb-4">Atendemos con la mejor energía para los fanáticos del manga y
-                                        anime.</p>
-                                    <div>
-                                        <div class="row mb-1">
-                                            <div class="col-5 col-xl-4">
-                                                <span class="fw-bold">Lun - Vie:</span>
-                                            </div>
-                                            <div class="col-7 col-xl-8">
-                                                <span class="text-secondary">10am - 8pm</span>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-1">
-                                            <div class="col-5 col-xl-4">
-                                                <span class="fw-bold">Sáb:</span>
-                                            </div>
-                                            <div class="col-7 col-xl-8">
-                                                <span class="text-secondary">10am - 6pm</span>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-5 col-xl-4">
-                                                <span class="fw-bold">Dom:</span>
-                                            </div>
-                                            <div class="col-7 col-xl-8">
-                                                <span class="text-secondary">Cerrado</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="pb-4 pb-md-5">
-        <div class="container overflow-hidden">
-            <div class="row">
-                <div class="col">
-                    <div class="container-fluid border border-dark rounded-3 shadow-sm">
-                        <div class="row gy-4 gy-lg-0 p-3 p-md-4 p-xxl-5 align-items-md-center">
-                            <div class="col-xs-12 col-sm-6 col-lg-4 order-0 order-lg-0">
-                                <div class="footer-logo-wrapper text-center text-sm-start">
-                                    <img th:src="@{/assets/media/images/iconos/iconoOnePieceCHAD.png}" height="80px"
-                                         alt="Logo Manga Store" class="logo me-2">
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12 col-lg-4 order-2 order-lg-1">
-                                <div class="colophon-wrapper">
-                                    <div class="footer-copyright-wrapper text-center">
-                                        © 2024 MangaStore. Todos los derechos reservados.
-                                    </div>
-                                    <div class="credits text-secondary text-center mt-2 fs-8">
-                                        Desarrollado con pasión por <span class="text-primary">Otaku Devs</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12 col-sm-6 col-lg-4 order-1 order-lg-2">
-                                <div class="social-media-wrapper">
-                                    <ul
-                                            class="list-unstyled m-0 p-0 d-flex justify-content-center justify-content-sm-end">
-                                        <li class="me-3">
-                                            <a href="#" class="link-dark link-opacity-75-hover" title="Facebook">
-                                                <i class="fab fa-facebook-f fa-lg"></i>
-                                            </a>
-                                        </li>
-                                        <li class="me-3">
-                                            <a href="#" class="link-dark link-opacity-75-hover" title="YouTube">
-                                                <i class="fab fa-youtube fa-lg"></i>
-                                            </a>
-                                        </li>
-                                        <li class="me-3">
-                                            <a href="#" class="link-dark link-opacity-75-hover" title="Twitter">
-                                                <i class="fab fa-twitter fa-lg"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="link-dark link-opacity-75-hover" title="Instagram">
-                                                <i class="fab fa-instagram fa-lg"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFpRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
+<div th:replace="~{components/footer :: footerReplace}"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
-
-
-<script th:src="@{/js/movimiento.js}"></script>
+<script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="//cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+<script src="//cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-        $(document).ready(function () {
-            $('#tablaMangas').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/2.0.8/i18n/es-ES.json"
-                },
-                "responsive": true
-            });
+
+    const API_BASE_URL = "http://localhost:3008/api"; // API principal (MANGAS)
+    const API_IMAGES_BASE_URL = "http://localhost:3008";
+
+    const API_RATINGS_URL = 'http://localhost:3000/api/ratings'; // API de Ratings (GET)
+    const API_VOTE_URL = 'http://localhost:3000/api/vote';   // API de Votación (POST)
+    const RATING_INCREMENT = 0.1;
+
+    let API_3008_IS_AVAILABLE = true; // Estado para rastrear la conexión al API principal (3008)
+
+    // =========================================================================
+    // RENDERIZADOR DE ESTRELLAS
+    // =========================================================================
+
+    function renderStars(rating, isNew = false) {
+        let starsHtml = '';
+        const clampedRating = Math.min(5, Math.max(0, rating));
+        let currentRating = clampedRating;
+
+        for (let i = 1; i <= 5; i++) {
+            if (currentRating >= 1) {
+                starsHtml += '<i class="fa fa-star star-rating me-1"></i>';
+                currentRating -= 1;
+            } else if (currentRating >= 0.5) {
+                starsHtml += '<i class="fa fa-star-half-alt star-rating me-1"></i>';
+                currentRating = 0;
+            } else {
+                starsHtml += '<i class="fa fa-star-o text-secondary me-1"></i>';
+            }
+        }
+
+        starsHtml += `<span class="small text-muted ms-2 rating-value">(${rating.toFixed(1)})</span>`;
+        if (isNew) {
+             starsHtml += '<span class="small text-info ms-2">(Nuevo)</span>';
+        }
+        return starsHtml;
+    }
+
+    // =========================================================================
+    // FUNCIONES DE UTILIDAD (Error Handling y Fetch)
+    // =========================================================================
+
+    function showServiceError3008() {
+        Swal.fire({
+            title: '¡Servicio 3008 No Disponible!',
+            text: 'La API del servidor principal (puerto 3008) no responde. El contenido principal no cargará.',
+            icon: 'error',
+            confirmButtonText: 'Entendido',
+            allowOutsideClick: false,
+            allowEscapeKey: false
         });
-    </script>
+        API_3008_IS_AVAILABLE = false;
+    }
 
-<script>
-        // Seleccionamos todos los botones de agregar al carrito
-        const cartButtons = document.querySelectorAll(".card-link[data-bs-target='#offcanvasRight']");
+    function showServiceError3000() {
+        // Solo muestra el mensaje si el usuario interactúa (ej: intenta votar)
+        Swal.fire('Error de Conexión', 'El servicio de Ratings (puerto 3000) no está disponible. No se pueden registrar votos.', 'error');
+    }
 
-        cartButtons.forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                e.preventDefault(); // Evita abrir el offcanvas inmediatamente
+    async function fetchData(endpoint) {
+        try {
+            const response = await fetch(`${API_BASE_URL}${endpoint}`);
 
-                // Mostrar alerta con SweetAlert2
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Producto agregado!',
-                    text: 'Se ha agregado al carrito correctamente.',
-                    confirmButtonText: 'Ver carrito'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Abrir offcanvas manualmente
-                        const offcanvasEl = document.querySelector(btn.dataset.bsTarget);
-                        const bsOffcanvas = new bootstrap.Offcanvas(offcanvasEl);
-                        bsOffcanvas.show();
-                    }
-                });
-            });
+            if (!response.ok) {
+                console.warn(`Petición a ${endpoint} falló con estado: ${response.status}`);
+            }
+            return await response.json();
+
+        } catch (error) {
+            console.error("Error crítico de conexión con la API (3008):", error);
+            if (API_3008_IS_AVAILABLE) {
+                showServiceError3008();
+            }
+            return null;
+        }
+    }
+
+    // =========================================================================
+    // FUNCIONES DE ORDENAMIENTO Y RENDERING DE RATINGS
+    // =========================================================================
+
+    /**
+     * Ordena las tarjetas de mangas en el DOM según su rating.
+     * @param {Object} ratingsMap - Mapa de {idLibro: rating}.
+     */
+    function sortCards(ratingsMap) {
+        const container = document.getElementById('mangas-container');
+        if (!container) return;
+
+        // Seleccionamos las columnas, que son las tarjetas de manga.
+        const cardCols = Array.from(container.querySelectorAll('.col-md-6'));
+
+        const sortedCols = cardCols.sort((a, b) => {
+            const idA = parseInt(a.querySelector('.rating-container').getAttribute('data-libro-id'));
+            const idB = parseInt(b.querySelector('.rating-container').getAttribute('data-libro-id'));
+
+            // Usar rating 0 si no existe en el mapa
+            const ratingA = ratingsMap[idA] || 0;
+            const ratingB = ratingsMap[idB] || 0;
+
+            return ratingB - ratingA; // Orden descendente (mayor puntaje primero)
         });
 
-    </script>
+        // Reinsertar las columnas en el orden correcto
+        container.innerHTML = '';
+        sortedCols.forEach(col => {
+            container.appendChild(col);
+        });
+    }
+
+    async function loadRatingsAndRenderStars() {
+        let ratingsMap = {};
+        try {
+            const response = await fetch(API_RATINGS_URL);
+
+            if (!response.ok) {
+                console.warn(`Error al obtener ratings (puerto 3000): Estado ${response.status}`);
+                throw new Error("API Ratings no disponible.");
+            }
+
+            const ratings = await response.json();
+
+            // Mapear valoraciones para fácil acceso por ID
+            ratingsMap = ratings.reduce((map, item) => {
+                map[item.idLibro] = item.rating;
+                return map;
+            }, {});
+
+            // PASO 1: Ordenar las tarjetas según el rating antes de pintarlas
+            sortCards(ratingsMap);
+
+            const ratingContainers = document.querySelectorAll('#mangas-container .rating-container');
+
+            // PASO 2: Pintar las estrellas
+            ratingContainers.forEach(container => {
+                const libroId = parseInt(container.getAttribute('data-libro-id'));
+                const ratingValue = ratingsMap[libroId];
+
+                const starsDiv = container.querySelector('.rating-stars');
+
+                // Añadir el botón de votación si no está presente
+                let voteButton = container.querySelector('.vote-button');
+                if (!voteButton) {
+                    starsDiv.insertAdjacentHTML('afterend', `
+                        <button type="button" class="btn btn-sm btn-outline-primary mt-2 vote-button" data-libro-id="${libroId}">
+                            <i class="fa fa-heart me-1"></i> ¡Me Gusta!
+                        </button>
+                    `);
+                    // El listener se añade al contenedor padre ('mangas-container') al inicio
+                }
+
+                if (ratingValue !== undefined) {
+                    starsDiv.innerHTML = renderStars(ratingValue, false);
+                } else {
+                    starsDiv.innerHTML = renderStars(3.0, true); // Rating inicial de 3.0 visual
+                }
+            });
+
+        } catch (error) {
+            console.error('Error al obtener las valoraciones (Verifica Node.js en 3000):', error);
+
+            // Si falla el servicio 3000, mostramos error en las tarjetas y quitamos el botón de voto
+            document.querySelectorAll('#mangas-container .rating-stars').forEach(el => {
+                if (el.textContent.includes('Cargando')) {
+                    el.innerHTML = '<span class="small text-danger">Error de carga de ratings (3000)</span>';
+                }
+            });
+            document.querySelectorAll('.vote-button').forEach(btn => btn.remove());
+        }
+    }
+
+    // =========================================================================
+    // MANEJADOR DE EVENTO (VOTO)
+    // =========================================================================
+
+    async function handleVote(event) {
+        const button = event.target.closest('.vote-button');
+        if (!button) return;
+
+        const idLibro = parseInt(button.getAttribute('data-libro-id'));
+
+        button.disabled = true;
+        button.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i> Votando...';
+
+        try {
+            const response = await fetch(API_VOTE_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    idLibro: idLibro,
+                    ratingIncrement: RATING_INCREMENT
+                })
+            });
+
+            if (!response.ok) {
+                // Si la respuesta es mala, asumimos que el servicio falló o hubo un error interno
+                showServiceError3000();
+                throw new Error("Error en la votación del servidor 3000.");
+            }
+
+            const result = await response.json();
+
+            // Notificación de éxito
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: `¡Voto registrado! Nuevo rating: ${result.newRating.toFixed(1)}`,
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+            // Recargar y reordenar para reflejar el cambio
+            await loadRatingsAndRenderStars();
+
+        } catch (error) {
+            console.error('Error al enviar el voto:', error);
+        } finally {
+            // Re-habilitar botón y restaurar texto
+            button.disabled = false;
+            button.innerHTML = '<i class="fa fa-heart me-1"></i> ¡Me Gusta!';
+        }
+    }
+
+    // =========================================================================
+    // CARGA DE DATOS PRINCIPAL (MANGAS)
+    // =========================================================================
+
+    async function loadMangas() {
+        const mangas = await fetchData("/mangas");
+        const container = document.getElementById("mangas-container");
+
+        if (mangas && container) {
+            container.innerHTML = mangas.map(manga => {
+                let imageUrl = manga.image && manga.image.startsWith('http') ? manga.image : `${API_IMAGES_BASE_URL}${manga.image}`;
+                const mangaId = manga.id;
+
+                return `
+                    <div class="col-md-6">
+                        <div class="card shadow-sm border-0 rounded-3 overflow-hidden h-100 bg-light">
+                            <div class="row g-0">
+                                <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
+                                    <strong class="text-warning mb-2">${manga.category}</strong>
+                                    <h3 class="mb-2">${manga.title}</h3>
+
+                                    <div class="mb-2 rating-container" data-libro-id="${mangaId}">
+                                        <div class="rating-stars" id="stars-${mangaId}">
+                                            <span class="small text-muted">Cargando valoración...</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-muted mb-2">${manga.date}</div>
+                                    <p>${manga.description}</p>
+                                    <a href="${manga.link_url || '#'}" class="fw-semibold text-warning text-decoration-none">${manga.link_text || 'Seguir leyendo'} &rarr;</a>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-center">
+                                    <img src="${imageUrl}" class="img-fluid rounded-end" alt="${manga.title}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Llamar a la función de ratings DESPUÉS de que las tarjetas estén en el DOM
+            await loadRatingsAndRenderStars();
+
+            // Añadir el listener de votación (una sola vez)
+            const mangasContainer = document.getElementById('mangas-container');
+            if (mangasContainer && !mangasContainer.dataset.listenerAdded) {
+                mangasContainer.addEventListener('click', handleVote);
+                mangasContainer.dataset.listenerAdded = 'true'; // Prevenir que se añada doble listener
+            }
+        }
+    }
+
+    // =========================================================================
+    // OTRAS FUNCIONES DE CARGA (Sin cambios)
+    // =========================================================================
+    // Mantén aquí las funciones loadHero(), loadPosts(), loadAbout(), loadRecentPosts()
+    // Ya que no tienen interacción con el puerto 3000
+    // ...
+    async function loadHero() { /* ... Lógica de carga del Hero ... */
+        const data = await fetchData("/hero");
+        const container = document.getElementById("hero-container");
+
+        if (data && container) {
+            container.innerHTML = `
+                <div class="col-lg-6 px-0">
+                    <h1 class="display-4 fst-italic text-dark">${data.title || 'Título No Encontrado'}</h1>
+                    <p class="lead my-3">${data.description || 'Descripción no disponible.'}</p>
+                    <p class="lead mb-0">
+                        <a href="${data.link || '#'}" class="fw-bold text-dark text-decoration-underline">
+                            ${data.link_text || 'Seguir leyendo...'}
+                        </a>
+                    </p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <img id="hero-image" src="${API_IMAGES_BASE_URL}${data.image}" alt="Imagen del anime" class="img-fluid rounded shadow-sm">
+                </div>
+            `;
+        }
+    }
+
+    async function loadPosts() {
+        const posts = await fetchData("/posts");
+        const container = document.getElementById("posts-container");
+
+        if (posts && container) {
+            let htmlContent = `<h3 class="pb-3 mb-4 fst-italic border-bottom text-warning">Últimas entradas</h3>`;
+
+            posts.forEach(post => {
+                htmlContent += `
+                    <article class="blog-post mb-5">
+                        <h2 class="display-5 mb-1 text-dark">${post.title}</h2>
+                        <p class="blog-post-meta text-muted">${post.date} por <a href="#" class="text-warning text-decoration-none">${post.author}</a></p>
+                        <p>${post.paragraph1}</p>
+                        ${post.separator ? '<hr>' : ''}
+                        ${post.paragraph2 ? `<p>${post.paragraph2}</p>` : ''}
+                        ${post.quote ? `<blockquote class="blockquote bg-warning bg-opacity-10 p-3 rounded"><p>"${post.quote}"</p></blockquote>` : ''}
+                        ${post.list ? `<ul>${post.list.map(item => `<li>${item}</li>`).join('')}</ul>` : ''}
+                    </article>
+                `;
+            });
+
+            htmlContent += `
+                <nav class="blog-pagination mb-5" aria-label="Pagination">
+                    <a class="btn btn-outline-warning rounded-pill me-2" href="#">Anteriores</a>
+                    <a class="btn btn-outline-secondary rounded-pill disabled" aria-disabled="true">Nuevos</a>
+                </nav>
+            `;
+            container.innerHTML = htmlContent;
+        }
+    }
+
+    async function loadAbout() {
+        const data = await fetchData("/about");
+        const container = document.getElementById("about-container");
+
+        if (data && container) {
+            container.innerHTML = `
+                <h4 class="fst-italic text-dark">${data.title}</h4>
+                <p class="mb-0">${data.content}</p>
+            `;
+        }
+    }
+
+    async function loadRecentPosts() {
+        const recent = await fetchData("/recent");
+        const container = document.getElementById("recent-container");
+
+        if (recent && container) {
+            container.innerHTML = recent.map(item => {
+                let imageUrl;
+                if (item.image && item.image.startsWith('http')) {
+                    imageUrl = item.image;
+                } else {
+                    imageUrl = `${API_IMAGES_BASE_URL}${item.image}`;
+                }
+
+                return `
+                    <li class="mb-3">
+                        <a class="d-flex gap-3 align-items-start text-decoration-none border-top pt-2" href="${item.link_url || '#'}">
+                            <img src="${imageUrl}" class="rounded" height="96" width="100" alt="${item.title}">
+                            <div>
+                                <h6 class="mb-0 text-dark">${item.title}</h6>
+                                <small class="text-muted">${item.date}</small>
+                            </div>
+                        </a>
+                    </li>
+                `;
+            }).join('');
+        }
+    }
 
 
+    // =========================================================================
+    // INICIO DE CARGA AL CARGAR EL DOCUMENTO
+    // =========================================================================
+    document.addEventListener("DOMContentLoaded", () => {
+        loadHero();
+        loadMangas();
+        loadPosts();
+        loadAbout();
+        loadRecentPosts();
+    });
+</script>
 </body>
-
 </html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Mangas - Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/app.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/css/bodyTransparent.css}">
+    <link rel="stylesheet" th:href="@{/css/botonesAdmin.css}">
+
+    <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+        }
+
+        .table-transparent, .table-transparent th, .table-transparent td {
+            color: white !important; /* Asegura que el texto de la tabla sea blanco */
+        }
+        .table-transparent tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important; /* Efecto hover */
+        }
+    </style>
+</head>
+
+<body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
+<div id="app">
+    <div th:replace="~{components/header :: siderAdmin}"></div>
+
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <div class="page-heading">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-md-6 order-md-1 order-last">
+                        <h3>GESTIÓN DE MANGAS</h3>
+                    </div>
+                    <div class="col-12 col-md-6 order-md-2 order-first">
+                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Mangas</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="agregarMangaModal" tabindex="-1" aria-labelledby="agregarMangaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content modal-anime">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold" id="agregarMangaLabel">Agregar Nuevo Manga</h5>
+                            <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formAgregarManga" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Título</label>
+                                    <input type="text" class="form-control input-anime" id="title" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Categoría</label>
+                                    <input type="text" class="form-control input-anime" id="category" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Descripción</label>
+                                    <textarea class="form-control input-anime" id="description" rows="3" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="date" class="form-label">Fecha (Ej: May 12)</label>
+                                    <input type="text" class="form-control input-anime" id="date" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="link_text" class="form-label">Texto del Enlace</label>
+                                    <input type="text" class="form-control input-anime" id="link_text" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="link_url" class="form-label">URL del Enlace</label>
+                                    <input type="url" class="form-control input-anime" id="link_url" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">URL de la Imagen (o Subir Archivo)</label>
+                                    <input type="text" class="form-control input-anime" id="image_url" placeholder="Ej: /assets/manga-1.jpg">
+                                    <input type="file" class="form-control mt-2" id="image_file">
+                                    <small class="text-muted">Proporcione una URL O suba un archivo, no ambos.</small>
+                                </div>
+                                <button type="submit" class="btn btn-anime w-100 fw-bold">Agregar Manga</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="editarMangaModal" tabindex="-1" aria-labelledby="editarMangaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content modal-anime">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold" id="editarMangaLabel">Editar Manga</h5>
+                            <button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formEditarManga" method="post" enctype="multipart/form-data">
+                                <input type="hidden" id="edit_id" name="id">
+                                <div class="mb-3">
+                                    <label for="edit_title" class="form-label">Título</label>
+                                    <input type="text" class="form-control input-anime" id="edit_title" name="title" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit_category" class="form-label">Categoría</label>
+                                    <input type="text" class="form-control input-anime" id="edit_category" name="category" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit_description" class="form-label">Descripción</label>
+                                    <textarea class="form-control input-anime" id="edit_description" name="description" rows="3" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit_date" class="form-label">Fecha (Ej: May 12)</label>
+                                    <input type="text" class="form-control input-anime" id="edit_date" name="date" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit_link_text" class="form-label">Texto del Enlace</label>
+                                    <input type="text" class="form-control input-anime" id="edit_link_text" name="link_text" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit_link_url" class="form-label">URL del Enlace</label>
+                                    <input type="url" class="form-control input-anime" id="edit_link_url" name="link_url" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit_image_url" class="form-label">URL de la Imagen</label>
+                                    <input type="text" class="form-control input-anime" id="edit_image_url" name="image" placeholder="Ej: /assets/manga-1.jpg">
+                                    <small class="text-muted">Si cambias la URL, se actualizará.</small>
+                                </div>
+                                <button type="submit" class="btn btn-anime w-100 fw-bold">Guardar Cambios</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="section mt-3">
+                <div class="row" id="table-head">
+                    <div class="col-12">
+                        <div class="card bg-transparent border-0">
+                            <div class="card-header bg-transparent border-0">
+                                <h4 class="card-title text-white text-center">Lista de Mangas</h4>
+                            </div>
+
+                            <div class="d-flex justify-content-end mb-3">
+                                <button type="button" class="botone" data-bs-toggle="modal" data-bs-target="#agregarMangaModal">
+                                    <i class="fas fa-plus"></i> Agregar Manga
+                                </button>
+                            </div>
+
+                            <div class="card-content">
+                                <div class="table-responsive">
+                                    <table id="mangasTable" class="table table-transparent table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>TÍTULO</th>
+                                            <th>CATEGORÍA</th>
+                                            <th>DESCRIPCIÓN</th>
+                                            <th>IMAGEN</th>
+                                            <th>ACCIONES</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <div class="footer clearfix mb-0 text-muted">
+                <div class="float-start">
+                    <p>2021 &copy; Mazer</p>
+                </div>
+                <div class="float-end">
+                    <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+
+<script>
+        const API_BASE_URL = "http://localhost:3008/api";
+        const API_IMAGES_BASE_URL = "http://localhost:3008";
+        let mangasTable; // Variable global para la instancia de DataTables
+
+        // Función para cargar los datos en la tabla
+        async function loadMangasTable() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/mangas`);
+                const mangas = await response.json();
+
+                // Si DataTables ya está inicializada, la destruimos
+                if ($.fn.DataTable.isDataTable('#mangasTable')) {
+                    mangasTable.destroy();
+                }
+
+                // Llenar el cuerpo de la tabla
+                const tableBody = $('#mangasTable tbody');
+                tableBody.empty(); // Limpiar filas existentes
+
+                mangas.forEach((manga, index) => {
+                    // Agregamos un ID ficticio para usarlo en la gestión
+                    const mangaId = index + 1;
+                    const imageUrl = manga.image.startsWith('http') ? manga.image : `${API_IMAGES_BASE_URL}${manga.image}`;
+
+                    const row = `
+                        <tr data-id="${mangaId}"
+                            data-title="${manga.title}"
+                            data-category="${manga.category}"
+                            data-description="${manga.description}"
+                            data-date="${manga.date}"
+                            data-link_text="${manga.link_text}"
+                            data-link_url="${manga.link_url}"
+                            data-image="${manga.image}">
+                            <td>${mangaId}</td>
+                            <td>${manga.title}</td>
+                            <td>${manga.category}</td>
+                            <td>${manga.description.substring(0, 50)}...</td>
+                            <td><img src="${imageUrl}" alt="${manga.title}" style="height: 50px; width: 50px; object-fit: cover; border-radius: 5px;"></td>
+                            <td>
+                                <button class="btn btn-sm btn-warning btn-action edit-btn">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-action delete-btn">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.append(row);
+                });
+
+                // Inicializar DataTables
+                mangasTable = $('#mangasTable').DataTable({
+                    dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
+                    buttons: [
+                        { extend: 'excelHtml5', text: '<i class="fas fa-file-excel"></i> Excel', className: 'btn buttons-excel' },
+                        { extend: 'pdfHtml5', text: '<i class="fas fa-file-pdf"></i> PDF', className: 'btn buttons-pdf' },
+                        { extend: 'print', text: '<i class="fas fa-print"></i> Imprimir', className: 'btn buttons-print' }
+                    ],
+                    order: [ [0, "asc"] ],
+                    language: {
+                        search: "Buscar:",
+                        lengthMenu: "Mostrar _MENU_ registros",
+                        info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        paginate: { previous: "⬅", next: "➡" }
+                    }
+                });
+
+                // Re-habilitar los listeners de edición/eliminación después de inicializar la tabla
+                attachEditDeleteListeners();
+
+            } catch (error) {
+                console.error("Error al cargar los mangas:", error);
+                Swal.fire('Error', 'No se pudieron cargar los datos de los mangas desde la API.', 'error');
+            }
+        }
+
+        // Función para adjuntar listeners a los botones de Editar/Eliminar
+        function attachEditDeleteListeners() {
+            // Listener para el botón de Edición
+            $('#mangasTable').off('click', '.edit-btn').on('click', '.edit-btn', function() {
+                const row = $(this).closest('tr');
+                const data = row.data();
+
+                // Llenar el modal de edición
+                $('#edit_id').val(data.id);
+                $('#edit_title').val(data.title);
+                $('#edit_category').val(data.category);
+                $('#edit_description').val(data.description);
+                $('#edit_date').val(data.date);
+                $('#edit_link_text').val(data.link_text);
+                $('#edit_link_url').val(data.link_url);
+                $('#edit_image_url').val(data.image);
+
+                // Mostrar el modal
+                const editarModal = new bootstrap.Modal(document.getElementById('editarMangaModal'));
+                editarModal.show();
+            });
+
+            // Listener para el botón de Eliminar
+            $('#mangasTable').off('click', '.delete-btn').on('click', '.delete-btn', function() {
+                const row = $(this).closest('tr');
+                const mangaId = row.data('id');
+                const mangaTitle = row.data('title');
+
+                Swal.fire({
+                    title: `¿Estás seguro de eliminar "${mangaTitle}"?`,
+                    text: "Esta acción no se puede revertir.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ffc107',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Aquí llamarías a tu API de backend para la eliminación
+                        console.log(`Eliminar manga con ID: ${mangaId}`);
+                        // Simulación de eliminación exitosa
+                        Swal.fire('¡Eliminado!', `El manga "${mangaTitle}" ha sido eliminado.`, 'success');
+                        loadMangasTable(); // Recargar la tabla
+                    }
+                });
+            });
+        }
+
+        // Cargar la tabla al cargar la página
+        $(document).ready(function () {
+            loadMangasTable();
+        });
+
+        // Simulación de guardar/editar (deberías integrarlo con tu backend real)
+        $('#formAgregarManga').on('submit', function(e) {
+            e.preventDefault();
+            Swal.fire('¡Manga Agregado!', 'Esto es una simulación. Debes implementar el endpoint POST en tu API.', 'success');
+            $('#agregarMangaModal').modal('hide');
+            // Aquí debes llamar a loadMangasTable() después de la inserción real
+        });
+
+        $('#formEditarManga').on('submit', function(e) {
+            e.preventDefault();
+            Swal.fire('¡Cambios Guardados!', 'Esto es una simulación. Debes implementar el endpoint PUT en tu API.', 'success');
+            $('#editarMangaModal').modal('hide');
+            // Aquí debes llamar a loadMangasTable() después de la actualización real
+        });
+    </script>
+</body>
+
+</html>

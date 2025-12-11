@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Elfen Lied Vol. 8",
+    "date": "Feb 5, 2024",
+    "image": "/assets/media/images/mangas/elfen-lied.jpg"
+  },
+  {
+    "title": "Hunter x Hunter Vol. 2",
+    "date": "Ene 20, 2024",
+    "image": "/assets/media/images/mangas/hunter.jpg"
+  },
+  {
+    "title": "One Piece Vol. 105",
+    "date": "Mar 15, 2024",
+    "image": "/assets/media/images/mangas/luffy.jpg"
+  },
+  {
+    "title": "Naruto Vol. 12",
+    "date": "Feb 28, 2024",
+    "image": "/assets/media/images/mangas/naruto.jpg"
+  },
+  {
+    "title": "Bleach Vol. 7",
+    "date": "Ene 10, 2024",
+    "image": "/assets/media/images/mangas/bleach.jpg"
+  },
+  {
+    "title": "Attack on Titan Vol. 20",
+    "date": "Mar 1, 2024",
+    "image": "/assets/media/images/mangas/snk.jpg"
+  }
+]

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Posts - Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/assets/css/app.css}">
+  <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
+  <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/bodyTransparent.css}">
+  <link rel="stylesheet" th:href="@{/css/botonesAdmin.css}">
+  <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+  <style>
+        body {
+            /* ... (Estilos de body aquí) ... */
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+        }
+        .table-transparent, .table-transparent th, .table-transparent td { color: white !important; }
+        .table-transparent tbody tr:hover { background-color: rgba(255, 255, 255, 0.1) !important; }
+    </style>
+</head>
+
+<body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
+<div id="app">
+  <div th:replace="~{components/header :: siderAdmin}"></div>
+  <div id="main">
+    <header class="mb-3"><a href="#" class="burger-btn d-block d-xl-none"><i class="bi bi-justify fs-3"></i></a></header>
+    <div class="page-heading">
+      <div class="page-title"><div class="row"><div class="col-12"><h3>GESTIÓN DE ENTRADAS (POSTS)</h3></div></div></div>
+
+      <div class="modal fade" id="agregarPostModal" tabindex="-1" aria-labelledby="agregarPostLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content modal-anime">
+            <div class="modal-header border-0"><h5 class="modal-title fw-bold">Agregar Nuevo Post</h5><button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+            <div class="modal-body">
+              <form id="formAgregarPost" method="post">
+                <div class="mb-3"><label for="post_title" class="form-label">Título</label><input type="text" class="form-control input-anime" id="post_title" required></div>
+                <div class="mb-3"><label for="post_author" class="form-label">Autor</label><input type="text" class="form-control input-anime" id="post_author" required></div>
+                <div class="mb-3"><label for="post_date" class="form-label">Fecha (Ej: Dic 11)</label><input type="text" class="form-control input-anime" id="post_date" required></div>
+                <div class="mb-3"><label for="post_p1" class="form-label">Párrafo 1</label><textarea class="form-control input-anime" id="post_p1" rows="3" required></textarea></div>
+                <div class="mb-3"><label for="post_p2" class="form-label">Párrafo 2 (Opcional)</label><textarea class="form-control input-anime" id="post_p2" rows="3"></textarea></div>
+                <div class="mb-3"><label for="post_quote" class="form-label">Cita (Opcional)</label><textarea class="form-control input-anime" id="post_quote" rows="2"></textarea></div>
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="post_separator" checked>
+                  <label class="form-check-label" for="post_separator">Mostrar separador (línea horizontal)</label>
+                </div>
+                <div class="mb-3">
+                  <label for="post_list" class="form-label">Lista (Opcional, un ítem por línea)</label>
+                  <textarea class="form-control input-anime" id="post_list" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-anime w-100 fw-bold">Agregar Post</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="editarPostModal" tabindex="-1" aria-labelledby="editarPostLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content modal-anime">
+            <div class="modal-header border-0"><h5 class="modal-title fw-bold">Editar Post</h5><button type="button" class="btn-close btn-close-yellow" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+            <div class="modal-body">
+              <form id="formEditarPost" method="post">
+                <input type="hidden" id="edit_post_id" name="id">
+                <div class="mb-3"><label for="edit_post_title" class="form-label">Título</label><input type="text" class="form-control input-anime" id="edit_post_title" required></div>
+                <div class="mb-3"><label for="edit_post_author" class="form-label">Autor</label><input type="text" class="form-control input-anime" id="edit_post_author" required></div>
+                <div class="mb-3"><label for="edit_post_date" class="form-label">Fecha (Ej: Dic 11)</label><input type="text" class="form-control input-anime" id="edit_post_date" required></div>
+                <div class="mb-3"><label for="edit_post_p1" class="form-label">Párrafo 1</label><textarea class="form-control input-anime" id="edit_post_p1" rows="3" required></textarea></div>
+                <div class="mb-3"><label for="edit_post_p2" class="form-label">Párrafo 2 (Opcional)</label><textarea class="form-control input-anime" id="edit_post_p2" rows="3"></textarea></div>
+                <div class="mb-3"><label for="edit_post_quote" class="form-label">Cita (Opcional)</label><textarea class="form-control input-anime" id="edit_post_quote" rows="2"></textarea></div>
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="edit_post_separator">
+                  <label class="form-check-label" for="edit_post_separator">Mostrar separador (línea horizontal)</label>
+                </div>
+                <div class="mb-3">
+                  <label for="edit_post_list" class="form-label">Lista (Opcional, un ítem por línea)</label>
+                  <textarea class="form-control input-anime" id="edit_post_list" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-anime w-100 fw-bold">Guardar Cambios</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="section mt-3">
+        <div class="row" id="table-head">
+          <div class="col-12">
+            <div class="card bg-transparent border-0">
+              <div class="card-header bg-transparent border-0"><h4 class="card-title text-white text-center">Lista de Posts</h4></div>
+
+              <div class="d-flex justify-content-end mb-3">
+                <button type="button" class="botone" data-bs-toggle="modal" data-bs-target="#agregarPostModal">
+                  <i class="fas fa-plus"></i> Agregar Post
+                </button>
+              </div>
+
+              <div class="card-content">
+                <div class="table-responsive">
+                  <table id="postsTable" class="table table-transparent table-striped">
+                    <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>TÍTULO</th>
+                      <th>AUTOR</th>
+                      <th>FECHA</th>
+                      <th>PÁRRAFOS</th>
+                      <th>ACCIONES</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer></footer>
+  </div>
+</div>
+
+<script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+        const API_BASE_URL = "http://localhost:3008/api";
+        let postsTable;
+
+        async function loadPostsTable() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/posts`);
+                const posts = await response.json();
+
+                if ($.fn.DataTable.isDataTable('#postsTable')) { postsTable.destroy(); }
+                const tableBody = $('#postsTable tbody');
+                tableBody.empty();
+
+                posts.forEach(post => {
+                    // Convertir la lista (array) a string para el atributo data
+                    const listString = Array.isArray(post.list) ? post.list.join('\n') : '';
+
+                    const row = `
+                        <tr data-id="${post.id}"
+                            data-title="${post.title}"
+                            data-author="${post.author}"
+                            data-date="${post.date}"
+                            data-p1="${post.paragraph1}"
+                            data-p2="${post.paragraph2 || ''}"
+                            data-quote="${post.quote || ''}"
+                            data-separator="${post.separator ? 'true' : 'false'}"
+                            data-list="${listString.replace(/"/g, '&quot;')}">
+                            <td>${post.id}</td>
+                            <td>${post.title.substring(0, 30)}...</td>
+                            <td>${post.author}</td>
+                            <td>${post.date}</td>
+                            <td>${post.paragraph1.substring(0, 40)}...</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning btn-action edit-btn"><i class="fas fa-edit"></i> Editar</button>
+                                <button class="btn btn-sm btn-danger btn-action delete-btn"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.append(row);
+                });
+
+                postsTable = $('#postsTable').DataTable({ /* ... (DataTables config) ... */ });
+                attachEditDeleteListeners();
+
+            } catch (error) {
+                console.error("Error al cargar los posts:", error);
+                Swal.fire('Error', 'No se pudieron cargar los datos de los posts.', 'error');
+            }
+        }
+
+        function attachEditDeleteListeners() {
+            // Edición
+            $('#postsTable').off('click', '.edit-btn').on('click', '.edit-btn', function() {
+                const row = $(this).closest('tr');
+                const data = row.data();
+
+                $('#edit_post_id').val(data.id);
+                $('#edit_post_title').val(data.title);
+                $('#edit_post_author').val(data.author);
+                $('#edit_post_date').val(data.date);
+                $('#edit_post_p1').val(data.p1);
+                $('#edit_post_p2').val(data.p2);
+                $('#edit_post_quote').val(data.quote);
+                $('#edit_post_separator').prop('checked', data.separator === 'true');
+                $('#edit_post_list').val(data.list.replace(/&quot;/g, '"'));
+
+                const editarModal = new bootstrap.Modal(document.getElementById('editarPostModal'));
+                editarModal.show();
+            });
+
+            // Eliminación
+            $('#postsTable').off('click', '.delete-btn').on('click', '.delete-btn', function() {
+                const row = $(this).closest('tr');
+                const postId = row.data('id');
+                const postTitle = row.data('title');
+
+                Swal.fire({
+                    title: `¿Estás seguro de eliminar "${postTitle}"?`,
+                    text: "Esta acción no se puede revertir.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, eliminar',
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            const response = await fetch(`${API_BASE_URL}/posts/${postId}`, { method: 'DELETE' });
+
+                            if (response.ok) {
+                                Swal.fire('¡Eliminado!', `El post "${postTitle}" ha sido eliminado.`, 'success');
+                                loadPostsTable();
+                            } else {
+                                const error = await response.json();
+                                Swal.fire('Error', error.message || 'Error al eliminar el post.', 'error');
+                            }
+                        } catch (e) {
+                            Swal.fire('Error de Conexión', 'No se pudo conectar con la API para eliminar.', 'error');
+                        }
+                    }
+                });
+            });
+        }
+
+        // Simulación/Implementación de Guardar
+        async function handleFormSubmission(e, endpoint, isEdit = false) {
+            e.preventDefault();
+
+            const form = $(e.target);
+            const data = {
+                title: form.find('#' + (isEdit ? 'edit_post_title' : 'post_title')).val(),
+                author: form.find('#' + (isEdit ? 'edit_post_author' : 'post_author')).val(),
+                date: form.find('#' + (isEdit ? 'edit_post_date' : 'post_date')).val(),
+                paragraph1: form.find('#' + (isEdit ? 'edit_post_p1' : 'post_p1')).val(),
+                paragraph2: form.find('#' + (isEdit ? 'edit_post_p2' : 'post_p2')).val() || null,
+                quote: form.find('#' + (isEdit ? 'edit_post_quote' : 'post_quote')).val() || null,
+                separator: form.find('#' + (isEdit ? 'edit_post_separator' : 'post_separator')).is(':checked'),
+                // Convertir la lista de texto a array de strings
+                list: form.find('#' + (isEdit ? 'edit_post_list' : 'post_list')).val().split('\n').filter(item => item.trim() !== '')
+            };
+
+            let url = `${API_BASE_URL}/${endpoint}`;
+            let method = 'POST';
+
+            if (isEdit) {
+                const id = form.find('#edit_post_id').val();
+                url = `${API_BASE_URL}/${endpoint}/${id}`;
+                method = 'PUT';
+                data.id = parseInt(id); // Asegurar que el ID esté en los datos de edición
+            }
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    Swal.fire('¡Éxito!', `Post ${isEdit ? 'actualizado' : 'agregado'} correctamente.`, 'success');
+                    if (isEdit) { $('#editarPostModal').modal('hide'); } else { $('#agregarPostModal').modal('hide'); }
+                    loadPostsTable(); // Recargar la tabla
+                } else {
+                    const error = await response.json();
+                    Swal.fire('Error', error.message || `Error al ${isEdit ? 'actualizar' : 'agregar'} el post.`, 'error');
+                }
+            } catch (error) {
+                Swal.fire('Error de Conexión', 'No se pudo conectar con la API para guardar los cambios.', 'error');
+            }
+        }
+
+        $('#formAgregarPost').on('submit', (e) => handleFormSubmission(e, 'posts', false));
+        $('#formEditarPost').on('submit', (e) => handleFormSubmission(e, 'posts', true));
+
+
+        $(document).ready(function () {
+            loadPostsTable();
+        });
+    </script>
+</body>
+</html>

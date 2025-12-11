@@ -20,8 +20,8 @@
     <link rel="stylesheet" th:href="@{/css/apiContainer.css}">
     <link rel="stylesheet" th:href="@{/css/api.css}">
     <style>
+        /* Define el color dorado para las estrellas que lo tengan */
         .star-rating { color: gold; }
-        /* Estilo para simular el desplazamiento vertical en las tarjetas - Se recomienda JS/CSS para un carrusel vertical real */
         .card-carousel-item {
             display: flex;
             justify-content: center;
@@ -84,8 +84,35 @@
 
 <div th:replace="~{components/header :: mainHeader}"></div>
 
-<div class="slider"> <div class="list"> <div class="item"> <img th:src="@{/media/images/slider/1382261.png}" alt=""> <div class="content"> <div class="title">El alpinista</div> <div class="type">Accion</div> <div class="description"> One Piece es el manga más vendido de la revista Weekly Shōnen Jump (la más importante, reconocida y vendida del medio), de la Editorial Shueisha, y de toda la historia de Japón </div> <div class="button"> <button onclick="window.location.href='../store/libro.html'">VER MÁS</button> </div> </div> </div> <div class="item"> <img th:src="@{/media/images/slider/1167472.jpg}" alt=""> <div class="content"> <div class="title">One Piece</div> <div class="type">Aventura</div> <div class="description"> One Piece es el manga más vendido de la revista Weekly Shōnen Jump (la más importante, reconocida y vendida del medio), de la Editorial Shueisha, y de toda la historia de Japón </div> <div class="button"> <button onclick="window.location.href='../store/libro.html'">VER MÁS</button> </div> </div> </div> <div class="item"> <img th:src="@{/media/images/slider/1008869.png}" alt=""> <div class="content"> <div class="title">ONE PIECE</div> <div class="type">PLANT</div> <div class="description"> One Piece es el manga más vendido de la revista Weekly Shōnen Jump (la más importante, reconocida y vendida del medio), de la Editorial Shueisha, y de toda la historia de Japón </div> <div class="button"> <button onclick="window.location.href='../store/libro.html'">VER MÁS</button> </div> </div> </div> <div class="item"> <img th:src="@{/media/images/slider/657917.png}" alt=""> <div class="content"> <div class="title">ONE PIECE</div> <div class="type">NATURE</div> <div class="description"> One Piece es el manga más vendido de la revista Weekly Shōnen Jump (la más importante, reconocida y vendida del medio), de la Editorial Shueisha, y de toda la historia de Japón </div> <div class="button"> <button onclick="window.location.href='../store/libro.html'">VER MÁS</button> </div> </div> </div> </div> <div class="thumbnail"> <div class="item"> <img th:src="@{/media/images/sliderTomo/THE-CLIMBER-4.jpg}" alt=""> </div> <div class="item"> <img th:src="@{/media/images/sliderTomo/tomoMnagaPortada.webp}" alt=""> </div> <div class="item"> <img th:src="@{/media/images/sliderTomo/tomoNazoNaKanojo.jpg}" alt=""> </div> <div class="item"> <img th:src="@{/media/images/sliderTomo/stGatePortada.webp}" alt=""> </div> </div> <div class="nextPrevArrows"> <button class="prev"> < </button> <button class="next"> > </button> </div> </div>
+<div class="slider">
+    <div class="list">
+        <div class="item" th:each="r : ${recomendaciones}">
+            <img th:src="@{'/media/images/slider/' + ${r.imageUrl}}" alt="">
 
+            <div class="content">
+                <div class="title" th:text="${r.title}"></div>
+                <div class="type" th:text="${r.type}"></div>
+                <div class="description" th:text="${r.description}"></div>
+
+                <div class="button">
+                    <button type="button">VER MÁS</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="thumbnail">
+        <div class="item" th:each="r : ${recomendaciones}">
+            <img th:src="@{'/media/images/sliderTomo/' + ${r.thumbnailUrl}}" alt="">
+        </div>
+    </div>
+
+    <div class="nextPrevArrows">
+        <button class="prev"> < </button>
+        <button class="next"> > </button>
+    </div>
+</div>
 
 <div class="container my-5">
 
@@ -102,13 +129,10 @@
 
                 <div class="card-body text-center p-2 pt-3">
                     <h5 class="card-title fw-semibold mb-1 fs-6 text-truncate" th:text="${libro.titulo}">Título del Libro</h5>
-
                     <p class="card-text text-muted small mb-2">Autor X</p>
-
                     <div class="d-flex justify-content-center align-items-center mb-3">
                         <span class="fw-bold fs-5 text-dark">S/ <span th:text="${#numbers.formatDecimal(libro.precio, 1, 2)}">25.00</span></span>
                     </div>
-
                 </div>
 
                 <div class="card-footer bg-white border-0 p-3 pt-0">
@@ -127,8 +151,8 @@
     <h2 class="text-center mt-5 mb-4 fw-bold text-primary"> Recomendados por la Comunidad</h2>
     <p class="text-center text-muted mb-5">Descubre los títulos con las mejores reseñas y puntuaciones.</p>
 
-    <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-4 mb-5">
-        <div class="col" th:each="libro : ${libros}">
+    <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-4 mb-5" id="community-ratings-section">
+        <div class="col book-card-col" th:each="libro : ${libros}" th:id="'book-col-' + ${libro.idLibro}" >
             <div class="card h-100 shadow-sm border rounded-3 card-hover-shadow">
 
                 <a th:href="@{/tienda/libros/{idLibro}(idLibro=${libro.idLibro})}" class="d-block">
@@ -141,15 +165,11 @@
                 <div class="card-body text-center p-2 pt-3">
                     <h5 class="card-title fw-semibold mb-1 fs-6 text-truncate" th:text="${libro.titulo}">Título del Libro</h5>
 
-                    <div class="mb-2">
-                        <i class="fa fa-star star-rating"></i>
-                        <i class="fa fa-star star-rating"></i>
-                        <i class="fa fa-star star-rating"></i>
-                        <i class="fa fa-star star-rating"></i>
-                        <i class="fa fa-star-half-alt star-rating"></i>
-                        <span class="small text-muted">(4.5)</span>
+                    <div class="mb-2 rating-container" th:data-libro-id="${libro.idLibro}">
+                        <div class="rating-stars" th:id="'stars-' + ${libro.idLibro}">
+                            <span class="small text-muted">Cargando valoración...</span>
+                        </div>
                     </div>
-
                     <div class="d-flex justify-content-center align-items-center mb-3">
                         <span class="fw-bold fs-5 text-dark">S/ <span th:text="${#numbers.formatDecimal(libro.precio, 1, 2)}">25.00</span></span>
                     </div>
@@ -160,8 +180,8 @@
                     <div class="d-grid">
                         <button
                                 type="button"
-                                class="btn btn-outline-primary btn-sm fw-bold"
-                                th:onclick="'window.location.href=\'' + @{/carrito/agregar/{idLibro}(idLibro=${libro.idLibro})} + '\';'">
+                                class="btn btn-outline-primary btn-sm fw-bold vote-button"
+                                th:data-libro-id="${libro.idLibro}">
                             <i class="fa fa-heart me-1"></i> Me Gusta
                         </button>
                     </div>
@@ -169,7 +189,6 @@
             </div>
         </div>
     </div>
-
     <hr>
     <div class="my-5">
         <h2 class="text-center mb-4 fw-bold text-danger"> ¡Últimas Novedades Destacadas!</h2>
@@ -250,7 +269,6 @@
 
 <div class="container my-5">
     <hr>
-
     <section class="py-5">
         <div class="text-center mb-5">
             <h2 class="display-5 fw-bolder mb-2 text-dark"> El Rincón del Otaku: **Anime & Manga al Día**</h2>
@@ -258,7 +276,6 @@
         </div>
 
         <div class="row g-4 align-items-stretch">
-
             <div class="col-lg-6">
                 <div class="card h-100 border-0 shadow-lg p-3 bg-light-subtle rounded-4 featured-manga-card">
                     <div class="row g-0 h-100">
@@ -361,6 +378,201 @@
 <script th:src="@{/js/movimiento.js}"></script>
 <script th:src="@{/js/canva.js}"></script>
 
+<script>
+    // =========================================================================
+    // CONFIGURACIÓN DE ENDPOINTS Y CONSTANTES
+    // =========================================================================
+    const API_RATINGS_URL = 'http://localhost:3000/api/ratings';
+    const API_VOTE_URL = 'http://localhost:3000/api/vote';
+    const RATING_INCREMENT = 0.1; // Valor que suma cada voto al dar "Me Gusta"
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // =========================================================================
+        // 1. FUNCIONES DE VISTAS (RENDERIZAR ESTRELLAS)
+        // =========================================================================
+
+        function renderStars(rating) {
+            let starsHtml = '';
+            // Asegura que el rating esté entre 0 y 5
+            const clampedRating = Math.min(5, Math.max(0, rating));
+            let currentRating = clampedRating;
+
+            for (let i = 1; i <= 5; i++) {
+                if (currentRating >= 1) {
+                    // Estrella completa
+                    starsHtml += '<i class="fa fa-star star-rating me-1"></i>';
+                    currentRating -= 1;
+                } else if (currentRating >= 0.5) {
+                    // Media estrella
+                    starsHtml += '<i class="fa fa-star-half-alt star-rating me-1"></i>';
+                    currentRating = 0;
+                } else {
+                    // Estrella vacía
+                    starsHtml += '<i class="fa fa-star-o text-secondary me-1"></i>';
+                }
+            }
+
+            // Añadir el valor numérico al final con la clase 'rating-value' para futuras referencias
+            starsHtml += `<span class="small text-muted ms-2 rating-value">(${rating.toFixed(1)})</span>`;
+            return starsHtml;
+        }
+
+        // =========================================================================
+        // 2. FUNCIÓN DE ORDENAMIENTO DE TARJETAS
+        // =========================================================================
+
+        /**
+         * Reordena las columnas de la sección de ratings en el DOM
+         * según la puntuación más alta.
+         * @param {Object} ratingsMap - Mapa de {idLibro: rating}.
+         */
+        function sortAndRenderCards(ratingsMap) {
+            const container = document.getElementById('community-ratings-section');
+            if (!container) return;
+
+            // Obtener todas las columnas de libros
+            const cardCols = Array.from(container.querySelectorAll('.book-card-col'));
+
+            // Ordenar de forma descendente (mayor puntaje primero)
+            const sortedCols = cardCols.sort((a, b) => {
+                // Leer el ID del data-atributo del contenedor de ratings dentro de la columna
+                const idA = parseInt(a.querySelector('.rating-container').getAttribute('data-libro-id'));
+                const idB = parseInt(b.querySelector('.rating-container').getAttribute('data-libro-id'));
+
+                // Si no hay rating, asumimos 0 para que no afecte el orden.
+                const ratingA = ratingsMap[idA] || 0;
+                const ratingB = ratingsMap[idB] || 0;
+
+                return ratingB - ratingA; // Orden descendente (B - A)
+            });
+
+            // Reinsertar las columnas en el orden correcto
+            container.innerHTML = ''; // Limpia el contenedor
+            sortedCols.forEach(col => {
+                container.appendChild(col); // Agrega los elementos ya ordenados
+            });
+        }
+
+        // =========================================================================
+        // 3. FUNCIÓN DE CONSUMO DE RATINGS (Carga inicial y re-renderizado)
+        // =========================================================================
+
+        async function loadAndRenderRatings() {
+            try {
+                const response = await fetch(API_RATINGS_URL);
+                if (!response.ok) {
+                    console.error(`Error HTTP al obtener ratings: ${response.status}`);
+                    throw new Error("API Ratings no disponible.");
+                }
+
+                const ratings = await response.json();
+
+                const ratingsMap = ratings.reduce((map, item) => {
+                    map[item.idLibro] = item.rating;
+                    return map;
+                }, {});
+
+                // PASO CLAVE: Ordenar las tarjetas en el DOM antes de renderizar
+                sortAndRenderCards(ratingsMap);
+
+                // Dibujar las estrellas y puntajes
+                const ratingContainers = document.querySelectorAll('#community-ratings-section .rating-container');
+
+                ratingContainers.forEach(container => {
+                    const libroId = parseInt(container.getAttribute('data-libro-id'));
+                    const ratingValue = ratingsMap[libroId];
+                    const starsDiv = container.querySelector('.rating-stars');
+
+                    if (ratingValue !== undefined) {
+                        starsDiv.innerHTML = renderStars(ratingValue);
+                    } else {
+                        // Si el libro no tiene rating, lo inicializamos visualmente con 3.0 (o el valor que decidas)
+                        starsDiv.innerHTML = renderStars(3.0) + '<span class="small text-info ms-2">(Nuevo, 3.0 base)</span>';
+                    }
+                });
+
+            } catch (error) {
+                console.error('Fallo al cargar las valoraciones (Verifica Node.js en 3000):', error);
+                document.querySelectorAll('#community-ratings-section .rating-stars').forEach(el => {
+                    if (el.textContent.includes('Cargando')) {
+                        el.innerHTML = '<span class="small text-danger">Error API (3000)</span>';
+                    }
+                });
+            }
+        }
+
+        // =========================================================================
+        // 4. MANEJADOR DE EVENTO (VOTO)
+        // =========================================================================
+
+        async function handleVote(event) {
+            const button = event.target.closest('.vote-button');
+            if (!button) return;
+
+            const idLibro = parseInt(button.getAttribute('data-libro-id'));
+
+            // Deshabilitar el botón temporalmente
+            button.disabled = true;
+            button.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i> Votando...';
+
+            try {
+                const response = await fetch(API_VOTE_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        idLibro: idLibro,
+                        ratingIncrement: RATING_INCREMENT
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Error en la votación del servidor.");
+                }
+
+                const result = await response.json();
+
+                // Notificación de éxito
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: `¡Voto registrado! Nuevo rating: ${result.newRating.toFixed(1)}`,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                // Recargar y reordenar las calificaciones para reflejar el cambio inmediatamente
+                await loadAndRenderRatings();
+
+            } catch (error) {
+                console.error('Error al enviar el voto:', error);
+                 Swal.fire('Error', 'No se pudo registrar el voto. ¿El servidor de ratings (3000) está activo?', 'error');
+            } finally {
+                // Habilitar botón y restaurar texto
+                button.disabled = false;
+                button.innerHTML = '<i class="fa fa-heart me-1"></i> Me Gusta';
+            }
+        }
+
+
+        // =========================================================================
+        // 5. INICIALIZACIÓN
+        // =========================================================================
+
+        // Carga inicial y ordenamiento de la sección de ratings
+        loadAndRenderRatings();
+
+        // Agregar listener de eventos al contenedor padre para manejar los botones 'Me Gusta'
+        const ratingsSection = document.getElementById('community-ratings-section');
+        if (ratingsSection) {
+            ratingsSection.addEventListener('click', handleVote);
+        }
+
+    });
+</script>
 </body>
 
 </html>

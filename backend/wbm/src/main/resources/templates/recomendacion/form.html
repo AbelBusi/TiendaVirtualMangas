@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendación | Admin</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/app.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/css/bodyTransparent.css}">
+    <link rel="stylesheet" th:href="@{/css/botonesAdmin.css}">
+    <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+
+    <style>
+        .panel-box {
+            background: rgba(255,255,255,.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,.25);
+            color: #fff;
+        }
+        .panel-title { font-weight: 700; font-size: 1.4rem; margin-bottom: 15px; }
+        .thumb-preview {
+            max-width: 200px;
+            border-radius: 12px;
+            border: 2px solid #1d1d1d;
+            margin-top: 10px;
+        }
+        label { font-weight: 600; font-size: 0.9rem; color: #eee; }
+        input, textarea {
+            background: rgba(255,255,255,0.1) !important;
+            color: #fff !important;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+
+<body th:style="|background-image: url('@{/media/images/iconos/fondoBpdy.jpg}')|">
+<div th:replace="~{components/header :: siderAdmin}"></div>
+
+<div class="container py-4">
+    <div class="panel-box">
+
+        <div class="panel-title" th:text="${recomendacion.id == null ? 'Nueva Recomendación' : 'Editar Recomendación'}"></div>
+
+        <form th:action="@{/administrador/recomendaciones/guardar}" th:object="${recomendacion}" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="mb-3">
+                <label>Título</label>
+                <input type="text" class="form-control" th:field="*{title}" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Tipo / Género</label>
+                <input type="text" class="form-control" th:field="*{type}" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Descripción</label>
+                <textarea class="form-control" rows="4" th:field="*{description}" required></textarea>
+            </div>
+
+            <!-- Imagen principal -->
+            <div class="mb-3">
+                <label>Imagen principal (Slider)</label>
+                <input type="file" class="form-control" name="imagenSliderFile" accept="image/*">
+
+                <div th:if="${recomendacion.imageUrl}">
+                    <img th:src="@{/uploads/images/slider/{img}(img=${recomendacion.imageUrl})}" class="thumb-preview">
+                </div>
+            </div>
+
+            <!-- Thumbnail -->
+            <div class="mb-3">
+                <label>Imagen Thumbnail</label>
+                <input type="file" class="form-control" name="imagenThumbnailFile" accept="image/*">
+
+                <div th:if="${recomendacion.thumbnailUrl}">
+                    <img th:src="@{/uploads/images/sliderTomo/{img}(img=${recomendacion.thumbnailUrl})}" class="thumb-preview">
+                </div>
+            </div>
+
+            <!-- Botón URL -->
+            <div class="mb-3">
+                <label>Botón URL</label>
+                <input type="text" class="form-control" th:field="*{buttonUrl}" required>
+            </div>
+
+            <button class="btn btn-primary me-2" type="submit">
+                <i class="bi bi-save"></i> Guardar
+            </button>
+
+            <a th:href="@{/administrador/recomendaciones}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    // Preview instantánea opcional
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', () => {
+            const img = input.nextElementSibling?.querySelector("img");
+            if (img && input.files.length > 0) {
+                img.src = URL.createObjectURL(input.files[0]);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

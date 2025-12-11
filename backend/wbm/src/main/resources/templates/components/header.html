@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 </head>
@@ -31,94 +30,82 @@
 </style>
 <body>
 <header th:fragment="mainHeader"> <nav class="navbar navbar-expand-lg navbar-dark"> <div class="container-fluid">
-            <!-- Logo -->
-            <a class="navbar-brand d-flex align-items-center" th:href="@{/inicio}">
-                <img th:src="@{/media/images/iconos/iconoOnePieceCHAD.png}" alt="Logo" class="logo me-2" style="height: 40px;">
-                <span class="fw-bold text-light tituloHeader">WEbStorm</span>
-            </a>
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" th:href="@{/inicio}">
+        <img th:src="@{/media/images/iconos/iconoOnePieceCHAD.png}" alt="Logo" class="logo me-2" style="height: 40px;">
+        <span class="fw-bold text-light tituloHeader">WEbStorm</span>
+    </a>
 
-            <!-- Botón hamburguesa -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <!-- Botón hamburguesa -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <!-- Menú -->
-            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-                <ul class="navbar-nav mb-2 mb-lg-0 text-center align-items-center">
+    <!-- Menú -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+        <ul class="navbar-nav mb-2 mb-lg-0 text-center align-items-center">
 
-                    <li class="nav-item mx-2">
-                        <a class="nav-link text-light" th:href="@{/tienda/mostrarCarrito}">
-                            <i class="fas fa-book"></i> Carrito
-                        </a>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-light" th:href="@{/tienda/mostrarCarrito}">
+                    <i class="fas fa-book"></i> Carrito
+                </a>
+            </li>
+
+            <li class="nav-item mx-2">
+                <a class="nav-link active text-light" th:href="@{/tienda}">
+                    <i class="fas fa-book"></i> Mangas
+                </a>
+            </li>
+
+            <li class="nav-item mx-2">
+                <a class="nav-link text-light" th:href="@{/revista}">
+                    <i class="fas fa-newspaper"></i> Revistas
+                </a>
+            </li>
+
+            <li class="nav-item mx-2">
+                <a class="nav-link text-light" th:href="@{/contactanos}">
+                    <i class="fas fa-envelope"></i> Contacto
+                </a>
+            </li>
+
+            <!-- Si NO está logueado -->
+            <li class="nav-item mx-2" th:if="${sesion == null}">
+                <a class="nav-link text-light" th:href="@{/ingresar}">
+                    <i class="fas fa-user"></i> Iniciar Sesión
+                </a>
+            </li>
+
+            <!-- Si está logueado -->
+            <li class="nav-item dropdown mx-2" th:if="${sesion != null}">
+                <a class="nav-link dropdown-toggle text-light d-flex align-items-center" href="#" id="userDropdown" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="bg-light text-dark rounded-circle d-flex justify-content-center align-items-center"
+                         style="width: 35px; height: 35px;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="ms-2" th:text="${sesion.nombre}">Usuario</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                    <li>
+                        <h6 class="dropdown-header text-muted mb-0">
+                            Rol: <span th:text="${sesion.perfiles[0].rol.nombre}">Rol</span>
+                        </h6>
                     </li>
-
-                    <li class="nav-item mx-2">
-                        <a class="nav-link active text-light" th:href="@{/tienda}">
-                            <i class="fas fa-book"></i> Mangas
-                        </a>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" th:href="@{/usuario/miscompras}"><i class="fas fa-user-cog me-2"></i> Mis compras</a></li>
+                    <li><a class="dropdown-item" th:href="@{/tienda/mostrarCarrito}"><i class="fas fa-cog me-2"></i> Carrito</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" th:href="@{/inicio/cerrarSesion}">
+                        <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión</a>
                     </li>
-
-                    <li class="nav-item mx-2">
-                        <a class="nav-link text-light" th:href="@{/revista}">
-                            <i class="fas fa-newspaper"></i> Revistas
-                        </a>
-                    </li>
-
-                    <li class="nav-item mx-2">
-                        <a class="nav-link text-light" href="#">
-                            <i class="fas fa-book-open"></i> Historietas
-                        </a>
-                    </li>
-
-                    <li class="nav-item mx-2">
-                        <a class="nav-link text-light" href="#">
-                            <i class="fas fa-concierge-bell"></i> Servicios
-                        </a>
-                    </li>
-
-                    <li class="nav-item mx-2">
-                        <a class="nav-link text-light" th:href="@{/contactanos}">
-                            <i class="fas fa-envelope"></i> Contacto
-                        </a>
-                    </li>
-
-                    <!-- Si NO está logueado -->
-                    <li class="nav-item mx-2" th:if="${sesion == null}">
-                        <a class="nav-link text-light" th:href="@{/ingresar}">
-                            <i class="fas fa-user"></i> Iniciar Sesión
-                        </a>
-                    </li>
-
-                    <!-- Si está logueado -->
-                    <li class="nav-item dropdown mx-2" th:if="${sesion != null}">
-                        <a class="nav-link dropdown-toggle text-light d-flex align-items-center" href="#" id="userDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="bg-light text-dark rounded-circle d-flex justify-content-center align-items-center"
-                                 style="width: 35px; height: 35px;">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <span class="ms-2" th:text="${sesion.nombre}">Usuario</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
-                            <li>
-                                <h6 class="dropdown-header text-muted mb-0">
-                                    Rol: <span th:text="${sesion.perfiles[0].rol.nombre}">Rol</span>
-                                </h6>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" th:href="@{/usuario/miscompras}"><i class="fas fa-user-cog me-2"></i> Mis compras</a></li>
-                            <li><a class="dropdown-item" th:href="@{/tienda/mostrarCarrito}"><i class="fas fa-cog me-2"></i> Carrito</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" th:href="@{/inicio/cerrarSesion}">
-                                <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión</a>
-                            </li>
-                        </ul>
-                    </li>
-
                 </ul>
-            </div>
-        </div></nav>
+            </li>
+
+        </ul>
+    </div>
+</div></nav>
 </header>
 
 <div  th:fragment="siderAdmin">
@@ -230,7 +217,6 @@
                         </ul>
                     </li>
 
-
                     <li class="sidebar-item  has-sub">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-collection-fill"></i>
@@ -252,17 +238,49 @@
                         </ul>
                     </li>
 
-                    <li class="sidebar-title">Personalizar</li>
+                    <li class="sidebar-title">Servicios</li>
 
                     <li class="sidebar-item  has-sub">
                         <a href="#" class='sidebar-link'>
-                            <i class="bi bi-hexagon-fill"></i>
-                            <span>Gestionar Mi WEB</span>
+                            <i class="bi bi-collection-fill"></i>
+                            <span>Revista</span>
                         </a>
                         <ul class="submenu ">
                             <li class="submenu-item ">
-                                <a href="form-element-input.html">Cambiar titulo</a>
+                                <a th:href="@{/administrador/revista}">Mangas</a>
                             </li>
+                            <li class="submenu-item ">
+                                <a th:href="@{/administrador/revista/hero}">Cabecera</a>
+                            </li>
+                            <li class="submenu-item ">
+                                <a th:href="@{/administrador/revista/about}">About</a>
+                            </li>
+                            <li class="submenu-item ">
+                                <a th:href="@{/administrador/revista/posts}">Noticias</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-title">Personalizar</li>
+
+                    <li class="sidebar-item has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-gear-fill"></i> <span>Gestionar Mi WEB</span>
+                        </a>
+                        <ul class="submenu">
+
+                            <li class="submenu-item">
+                                <a th:href="@{/administrador/recomendaciones}">
+                                    Estilo y Carrusel
+                                </a>
+                            </li>
+
+                            <li class="submenu-item">
+                                <a th:href="@{/administrador/recomendaciones/nuevo}">
+                                    Cambiar Pie de Página
+                                </a>
+                            </li>
+
                         </ul>
                     </li>
 

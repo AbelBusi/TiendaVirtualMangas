@@ -1,0 +1,34 @@
+[
+  {
+    "idLibro": 1,
+    "rating": 5
+  },
+  {
+    "idLibro": 2,
+    "rating": 4.5
+  },
+  {
+    "idLibro": 3,
+    "rating": 3
+  },
+  {
+    "idLibro": 4,
+    "rating": 3.1
+  },
+  {
+    "idLibro": 5,
+    "rating": 5
+  },
+  {
+    "idLibro": 6,
+    "rating": 1
+  },
+  {
+    "idLibro": 7,
+    "rating": 4
+  },
+  {
+    "idLibro": 8,
+    "rating": 3.5
+  }
+]

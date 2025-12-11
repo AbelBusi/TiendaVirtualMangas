@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "category": "Shonen",
+    "title": "Doraemon Plus",
+    "date": "Mar 10",
+    "description": "Nobita y Doraemon enfrentan problemas diarios...",
+    "image": "/assets/media/images/mangas/doraemon.png"
+  },
+  {
+    "id": 2,
+    "category": "Misterio",
+    "title": "Teizuki Yuurei",
+    "date": "Feb 28",
+    "description": "Misterios de fantasmas y espíritus...",
+    "image": "/assets/media/images/mangas/Teizuki.jpg"
+  },
+  {
+    "id": 3,
+    "category": "Shonen",
+    "title": "One Piece Vol. 105",
+    "date": "Mar 15",
+    "description": "Luffy y su tripulación continúan su aventura en el Nuevo Mundo...",
+    "image": "/assets/media/images/mangas/op.jpg"
+  },
+  {
+    "id": 4,
+    "category": "Shonen",
+    "title": "Naruto Vol. 12",
+    "date": "Feb 28",
+    "description": "Naruto se enfrenta a nuevos desafíos en su camino ninja...",
+    "image": "/assets/media/images/mangas/naruto.jpg"
+  },
+  {
+    "id": 5,
+    "category": "Seinen",
+    "title": "Berserk Vol. 14",
+    "date": "Mar 5",
+    "description": "Guts continúa su sangrienta lucha contra las fuerzas oscuras...",
+    "image": "/assets/media/images/mangas/bersek.jpg"
+  },
+  {
+    "id": 6,
+    "category": "Misterio",
+    "title": "Another Vol. 6",
+    "date": "Feb 20",
+    "description": "Un misterio aterrador acecha a los estudiantes de la clase 3-3...",
+    "image": "/assets/media/images/mangas/another.jpg"
+  }
+]

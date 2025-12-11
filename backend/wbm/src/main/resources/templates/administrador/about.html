@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de About - Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/assets/css/app.css}">
+  <link rel="stylesheet" th:href="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
+  <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/bodyTransparent.css}">
+  <link rel="stylesheet" th:href="@{/css/botonesAdmin.css}">
+  <link rel="shortcut icon" th:href="@{/media/images/iconos/iconoOnePieceCHAD.png}" />
+  <style>
+        body {
+            /* ... (Estilos de body aquí) ... */
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body th:style="'background-image: url(' + @{/media/images/iconos/fondoBpdy.jpg} + ')'">
+<div id="app">
+  <div th:replace="~{components/header :: siderAdmin}"></div>
+
+  <div id="main">
+    <header class="mb-3">
+      <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+      </a>
+    </header>
+
+    <div class="page-heading">
+      <div class="page-title">
+        <div class="row">
+          <div class="col-12">
+            <h3>GESTIÓN DE SECCIÓN "ACERCA DE"</h3>
+          </div>
+        </div>
+      </div>
+
+      <section class="section mt-3">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card bg-transparent border-warning">
+              <div class="card-header">
+                <h4 class="card-title text-white">Editar Contenido de "Acerca de"</h4>
+              </div>
+              <div class="card-content">
+                <div class="card-body">
+                  <form id="formAboutEdit" class="form">
+                    <div class="row">
+                      <div class="col-12 mb-3">
+                        <label for="about_title" class="form-label text-white">Título de la Sección</label>
+                        <input type="text" id="about_title" class="form-control input-anime" name="title" required>
+                      </div>
+                      <div class="col-12 mb-3">
+                        <label for="about_content" class="form-label text-white">Contenido (Párrafo)</label>
+                        <textarea id="about_content" class="form-control input-anime" name="content" rows="5" required></textarea>
+                      </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-end">
+                      <button type="submit" class="btn btn-anime w-100 fw-bold">Guardar Cambios</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+    </footer>
+  </div>
+</div>
+
+<script th:src="@{/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+        const API_BASE_URL = "http://localhost:3008/api";
+
+        // 1. Cargar los datos actuales
+        async function loadAboutData() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/about`);
+                const data = await response.json();
+
+                if (data) {
+                    $('#about_title').val(data.title);
+                    $('#about_content').val(data.content);
+                }
+            } catch (error) {
+                console.error("Error al cargar datos de About:", error);
+                Swal.fire('Error de Carga', 'No se pudieron obtener los datos actuales de About.', 'error');
+            }
+        }
+
+        // 2. Manejar el envío del formulario (PUT)
+        $('#formAboutEdit').on('submit', async function(e) {
+            e.preventDefault();
+
+            const updatedData = {
+                title: $('#about_title').val(),
+                content: $('#about_content').val(),
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/about`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData)
+                });
+
+                if (response.ok) {
+                    Swal.fire('¡Éxito!', 'La sección "Acerca de" ha sido actualizada correctamente.', 'success');
+                } else {
+                    const error = await response.json();
+                    Swal.fire('Error', error.message || 'Error al actualizar About.', 'error');
+                }
+            } catch (error) {
+                console.error("Error de conexión al guardar:", error);
+                Swal.fire('Error de Conexión', 'No se pudo conectar con la API para guardar los cambios.', 'error');
+            }
+        });
+
+        // Cargar datos al iniciar
+        $(document).ready(function () {
+            loadAboutData();
+        });
+    </script>
+</body>
+</html>
